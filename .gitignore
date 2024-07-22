@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,swift,xcode,cocoapods
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,swift,xcode,cocoapods
+# Created by https://www.toptal.com/developers/gitignore/api/swift,xcode,macos,cocoapods
+# Edit at https://www.toptal.com/developers/gitignore?templates=swift,xcode,macos,cocoapods
 
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
@@ -131,7 +131,6 @@ iOSInjectionProject/
 ## Xcode 8 and earlier
 
 ### Xcode Patch ###
-*.xcuserstate
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
@@ -139,5 +138,7 @@ iOSInjectionProject/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+# Add *.xcconfig to ignore list
+*.xcconfig
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,swift,xcode,cocoapods
+# End of https://www.toptal.com/developers/gitignore/api/swift,xcode,macos,cocoapods
