@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B0715FE2C4E051A00B1605D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FD2C4E051A00B1605D /* AppDelegate.swift */; };
 		6B0716002C4E051A00B1605D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */; };
-		6B0716022C4E051A00B1605D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716012C4E051A00B1605D /* MapViewController.swift */; };
+		6B0716022C4E051A00B1605D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716012C4E051A00B1605D /* ViewController.swift */; };
 		6B0716082C4E051A00B1605D /* KickboardApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716062C4E051A00B1605D /* KickboardApp.xcdatamodeld */; };
 		6B07160A2C4E051C00B1605D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B0716092C4E051C00B1605D /* Assets.xcassets */; };
 		6B07160D2C4E051C00B1605D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6B07160C2C4E051C00B1605D /* Base */; };
@@ -26,14 +26,13 @@
 		E721831E2C4E3BB20050A6F0 /* Users+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183182C4E3BB20050A6F0 /* Users+CoreDataProperties.swift */; };
 		E721831F2C4E3BB20050A6F0 /* RideData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */; };
 		E72183202C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */; };
-		E72183242C4E3D140050A6F0 /* model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183232C4E3D140050A6F0 /* model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6B0715FA2C4E051A00B1605D /* KickboardApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickboardApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B0715FD2C4E051A00B1605D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6B0716012C4E051A00B1605D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		6B0716012C4E051A00B1605D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6B0716072C4E051A00B1605D /* KickboardApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KickboardApp.xcdatamodel; sourceTree = "<group>"; };
 		6B0716092C4E051C00B1605D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B07160C2C4E051C00B1605D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,7 +49,6 @@
 		E72183182C4E3BB20050A6F0 /* Users+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideData+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		E72183232C4E3D140050A6F0 /* model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +104,6 @@
 				E72183182C4E3BB20050A6F0 /* Users+CoreDataProperties.swift */,
 				E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */,
 				E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */,
-				E72183232C4E3D140050A6F0 /* model.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -123,7 +120,7 @@
 		6B0716192C4E05B100B1605D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6B0716012C4E051A00B1605D /* MapViewController.swift */,
+				6B0716012C4E051A00B1605D /* ViewController.swift */,
 				E72182FB2C4E33100050A6F0 /* LoginViewController.swift */,
 				E72182FD2C4E33600050A6F0 /* SignUpViewController.swift */,
 				E72182FF2C4E336F0050A6F0 /* ReturnViewController.swift */,
@@ -208,7 +205,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E72183242C4E3D140050A6F0 /* model.swift in Sources */,
 				E72182FE2C4E33600050A6F0 /* SignUpViewController.swift in Sources */,
 				6B0716082C4E051A00B1605D /* KickboardApp.xcdatamodeld in Sources */,
 				E721831B2C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift in Sources */,
@@ -218,7 +214,7 @@
 				E721831F2C4E3BB20050A6F0 /* RideData+CoreDataClass.swift in Sources */,
 				E72183202C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift in Sources */,
 				E72183082C4E33B30050A6F0 /* MyPageTableView.swift in Sources */,
-				6B0716022C4E051A00B1605D /* MapViewController.swift in Sources */,
+				6B0716022C4E051A00B1605D /* ViewController.swift in Sources */,
 				6B0715FE2C4E051A00B1605D /* AppDelegate.swift in Sources */,
 				E72183002C4E336F0050A6F0 /* ReturnViewController.swift in Sources */,
 				E72183062C4E339C0050A6F0 /* MyPageTableViewCell.swift in Sources */,
