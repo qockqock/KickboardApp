@@ -14,8 +14,6 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="kickboardId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="userId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="kickboards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Kickboards"/>
-        <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Users"/>
     </entity>
     <entity name="Users" representedClassName="Users" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
