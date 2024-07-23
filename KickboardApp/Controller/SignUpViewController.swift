@@ -7,11 +7,19 @@
 
 import UIKit
 import SnapKit
+import CoreData
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     private let signUpView = SignUpView()
+    //코어데이터에 저장하기 위한 필수 구현
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // MARK: - 뷰디드로드
+    
+    func printAllUsers() { CoreDataManager.shared.read(entityType: Users.self) {
+        user in
+        if let id = user.id, let nickname = user.nickname, let email = user.email, let password = user.password, let date = user.date, let image = user.image { print("User ID: \(id), Nickname: \(nickname), Email: \(email), Password: \(password), Date: \(date), Image: \(image)") } } }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view = signUpView
@@ -20,6 +28,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         signUpView.membershipJoinButton.addTarget(self, action: #selector(membershipJoinButtonTap), for: .touchDown)
         signUpView.userPassWordText.delegate = self
         signUpView.userPassWordCheckText.delegate = self
+        printAllUsers()
     }
     
     // MARK: - 유저의 이메일을 확인하는란
@@ -68,16 +77,71 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: - 회원가입 얼럿
     @objc private func membershipJoinButtonTap() {
         print("회원가입 버튼이 클릭 되었습니다.")
-        let membershipAlert = UIAlertController(title: "회원가입 완료", message: "킥킥킥 서비스에 회원가입을 해주셔서 감사합니다 많은 이용 부탁드립니다🎉.", preferredStyle: .alert)
-        print("회원가입 얼럿창이 열렸습니다.")
+        guard let userId = signUpView.userIdText.text, !userId.isEmpty else {
+            self.textFieldCheck(textField: signUpView.userIdText, type: "아이디")
+            return
+        }
         
-        membershipAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-            print("확인 버튼이 클릭되었습니다")
-        })
+        guard let password = signUpView.userPassWordText.text, !password.isEmpty else {
+            self.textFieldCheck(textField: signUpView.userPassWordText, type: "비밀번호")
+            return
+        }
         
-        self.present(membershipAlert, animated: true, completion: nil)
+        guard let passwordCheck = signUpView.userPassWordCheckText.text, !passwordCheck.isEmpty else {
+            self.textFieldCheck(textField: signUpView.userPassWordCheckText, type: "비밀번호 확인")
+            return
+        }
+        
+        guard let nickname = signUpView.userNickNameText.text, !nickname.isEmpty else {
+            self.textFieldCheck(textField: signUpView.userNickNameText, type: "닉네임")
+            return
+        }
+        
+        if userId.count < 8 {
+            self.membershipshowAlert(title: "아이디 오류", message: "이메일 형식이 잘못되었거나 또는 아이디는 최소 8자 이상이어야 합니다.")
+            return
+        }
+        
+        if !self.passwordCheck(password) {
+            self.membershipshowAlert(title: "비밀번호 오류", message: "비밀번호는 최소 8자 이상이며, 하나 이상의 문자, 숫자, 특수문자가 포함되어야 합니다.")
+            return
+        }
+        
+        if password != passwordCheck {
+            self.membershipshowAlert(title: "비밀번호 확인 오류", message: "비밀번호와 비밀번호 확인이 일치하지 않습니다.")
+            return
+        }
+        
+        if nickname.count < 2 {
+            self.membershipshowAlert(title: "닉네임 오류", message: "닉네임은 최소 2자 이상이어야 합니다.")
+            return
+        }
+        
+        // Core Data에 사용자 정보 저장
+        let user = Users(context: context)
+        user.id = UUID()
+        user.email = userId
+        user.nickname = nickname
+        user.password = password
+        user.image = "asdf"
+        user.date = Date()
+        
+        do {
+            try context.save()
+            
+            let membershipAlert = UIAlertController(title: "회원가입 완료", message: "킥킥킥 서비스에 회원가입을 해주셔서 감사합니다 많은 이용 부탁드립니다🎉.", preferredStyle: .alert)
+            print("회원가입 얼럿창이 열렸습니다.")
+            
+            membershipAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+                print("확인 버튼이 클릭되었습니다")
+            })
+            
+            self.present(membershipAlert, animated: true, completion: nil)
+            // 회원가입 실패시
+        } catch {
+            self.membershipshowAlert(title: "회원가입 실패", message: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.")
+        }
     }
-    
     // MARK: - 비밀번호 텍스트필드
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == signUpView.userPassWordText || textField == signUpView.userPassWordCheckText {
@@ -122,11 +186,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // MARK: - 닉네임 텍스트 필드
-    private func userNickNameTextFiled() {
-        if signUpView.userNickNameText.text == nil || signUpView.userNickNameText.text == "" {
-            let nickNameAlert = UIAlertController(title: "닉네임을 입력해주세요", message: "닉네임이 비어있습니다 자신만의 특별한 닉네임을 선정해주세요.", preferredStyle: .alert)
-            print("닉네임 얼럿창이 열렸습니다.")
+    // MARK: - UItextField가 값이 없을때 날리는 얼럿통합창
+    private func textFieldCheck(textField: UITextField, type: String) {
+        if textField.text == nil || textField.text == "" {
+            let nickNameAlert = UIAlertController(title: "\(type)을 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
+            print("얼럿창이 열렸습니다.")
             
             nickNameAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
                 print("확인 버튼이 클릭되었습니다")
@@ -136,4 +200,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // MARK: - 회원가입의 제약조건에 실패했을 경우
+    private func membershipshowAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
