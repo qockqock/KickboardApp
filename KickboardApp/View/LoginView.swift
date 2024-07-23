@@ -62,14 +62,13 @@ class LoginView: UIView {
     }()
     
     // UILabel 생성
-    private let loginButton: UIButton = {
+    let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그인", for: .normal)
         button.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
         button.setTitleColor(.systemGray, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.layer.cornerRadius = 25
-//        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         return button
     }()
