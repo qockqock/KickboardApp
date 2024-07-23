@@ -6,3 +6,29 @@
 //
 
 import Foundation
+
+
+// 킥보드 위치, 배터리정보 난수생성 데이터 500개, appdelegate에서 사용 - sh
+// 사용시 앱을 실행할 때마다 500개씩 생성되므로 주의 - sh
+class DataGenerator {
+    let coreDataManager = CoreDataManager.shared
+    
+    func CreateRandomData() {
+        for _ in 0..<500 {
+            let randomLatitude = Double.random(in: 33...38)
+            let randomLongitude = Double.random(in: 124...132)
+            let randomBattery = Double.random(in: 10...99)
+            let isAvailable = true
+            
+            let values: [String: Any] = [
+                "id": UUID(),
+                "latitude": randomLatitude,
+                "longitude": randomLongitude,
+                "isavailable": isAvailable,
+                "batteryLevel": randomBattery
+            ]
+            
+            coreDataManager.create(entityType: Kickboards.self, values: values)
+        }
+    }
+}

@@ -31,6 +31,7 @@
 		E72183202C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */; };
 		E72183262C4E5EA10050A6F0 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */; };
 		E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E721834F2C4F77080050A6F0 /* MainTabbarController.swift */; };
+		E7A692062C4F9E4D005DB1F0 /* DataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A692052C4F9E4D005DB1F0 /* DataGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E721834F2C4F77080050A6F0 /* MainTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
+		E7A692052C4F9E4D005DB1F0 /* DataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				6B0716172C4E058800B1605D /* Model */,
 				6B0716182C4E05AA00B1605D /* View */,
 				6B0716192C4E05B100B1605D /* Controller */,
+				E7A692042C4F9E2F005DB1F0 /* Data */,
 				43C880BE2C4E7BE300985151 /* Font */,
 				6B0716092C4E051C00B1605D /* Assets.xcassets */,
 				6B07160B2C4E051C00B1605D /* LaunchScreen.storyboard */,
@@ -124,7 +127,6 @@
 				E72183182C4E3BB20050A6F0 /* Users+CoreDataProperties.swift */,
 				E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */,
 				E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */,
-				E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -149,6 +151,15 @@
 				E72183012C4E337B0050A6F0 /* MyPageViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		E7A692042C4F9E2F005DB1F0 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */,
+				E7A692052C4F9E4D005DB1F0 /* DataGenerator.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +252,7 @@
 				E721831C2C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift in Sources */,
 				E721831D2C4E3BB20050A6F0 /* Users+CoreDataClass.swift in Sources */,
 				E721831E2C4E3BB20050A6F0 /* Users+CoreDataProperties.swift in Sources */,
+				E7A692062C4F9E4D005DB1F0 /* DataGenerator.swift in Sources */,
 				E721831F2C4E3BB20050A6F0 /* RideData+CoreDataClass.swift in Sources */,
 				E72183202C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift in Sources */,
 				6B0716022C4E051A00B1605D /* MapViewController.swift in Sources */,

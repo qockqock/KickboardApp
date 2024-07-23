@@ -15,8 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         SDKInitializer.InitSDK(appKey: "30ba3e69544febc86573af976543a2a7")
+        
         // Tabbar 배경색 전역적으로 설정
         UITabBar.appearance().backgroundColor = .white
+        
+        // Kickboards 난수데이터 500개 생성 - 필요시에만 주석 해제하여 사용
+//        let dataGenerator = DataGenerator()
+//        dataGenerator.CreateRandomData()
+        
         return true
     }
 
