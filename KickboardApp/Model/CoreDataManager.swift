@@ -15,6 +15,7 @@ class CoreDataManager {
     private init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
+        self.context = self.container.viewContext
     }
     
     /// 데이터 저장 함수 - sh
@@ -91,6 +92,21 @@ class CoreDataManager {
             print("문맥 삭제 성공")
         } catch {
             print("문맥 삭제 실패")
+        }
+    }
+    
+    /// CoreData Container 초기화 메서드 - sh
+    func deleteAll<T:NSManagedObject>(entityType: T.Type) {
+        let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityType))
+        do {
+            let results = try self.context.fetch(fetchRequest)
+            for result in results {
+                self.context.delete(result)
+            }
+            saveContext()
+            print("모든 엔티티 삭제 성공")
+        } catch {
+            print("모든 엔티티 삭제 실패")
         }
     }
 }
