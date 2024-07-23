@@ -29,6 +29,7 @@
 		E721831F2C4E3BB20050A6F0 /* RideData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */; };
 		E72183202C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */; };
 		E72183262C4E5EA10050A6F0 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */; };
+		E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E721834F2C4F77080050A6F0 /* MainTabbarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RideData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E721834F2C4F77080050A6F0 /* MainTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		6B0716192C4E05B100B1605D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E721834F2C4F77080050A6F0 /* MainTabbarController.swift */,
 				6B0716012C4E051A00B1605D /* ViewController.swift */,
 				E72182FB2C4E33100050A6F0 /* LoginViewController.swift */,
 				E72182FD2C4E33600050A6F0 /* SignUpViewController.swift */,
@@ -230,6 +233,7 @@
 				E721831B2C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift in Sources */,
 				E72183262C4E5EA10050A6F0 /* CoreDataManager.swift in Sources */,
 				43C880BB2C4E46DC00985151 /* LoginView.swift in Sources */,
+				E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */,
 				E721831C2C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift in Sources */,
 				E721831D2C4E3BB20050A6F0 /* Users+CoreDataClass.swift in Sources */,
 				E721831E2C4E3BB20050A6F0 /* Users+CoreDataProperties.swift in Sources */,
