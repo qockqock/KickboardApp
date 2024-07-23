@@ -18,6 +18,8 @@ public class Users: NSManagedObject {
             static let email = "email"
             static let nickname = "nickname"
             static let password = "password"
+            static let image = "image"
+            static let date = "date"
             static let rideData = "rideData"
         }
 }

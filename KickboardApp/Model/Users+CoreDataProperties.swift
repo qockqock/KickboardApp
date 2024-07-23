@@ -20,6 +20,8 @@ extension Users {
     @NSManaged public var nickname: String?
     @NSManaged public var email: String?
     @NSManaged public var password: String?
+    @NSManaged public var date: Date?
+    @NSManaged public var image: String?
     @NSManaged public var ridedata: RideData?
 
 }

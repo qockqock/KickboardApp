@@ -19,8 +19,10 @@
         <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Users" inverseName="ridedata" inverseEntity="Users"/>
     </entity>
     <entity name="Users" representedClassName="Users" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="nickname" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <relationship name="ridedata" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RideData" inverseName="users" inverseEntity="RideData"/>
