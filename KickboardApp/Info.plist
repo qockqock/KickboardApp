@@ -4,6 +4,10 @@
 <dict>
 	<key>KAKAO_APP_KEY</key>
 	<string>30ba3e69544febc86573af976543a2a7</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BagelFatOne-Regular.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

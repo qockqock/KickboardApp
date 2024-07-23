@@ -6,7 +6,6 @@
         <attribute name="isavailable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="ridedata" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RideData" inverseName="kickboards" inverseEntity="RideData"/>
     </entity>
     <entity name="RideData" representedClassName="RideData" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -15,14 +14,15 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="kickboardId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="userId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="kickboards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Kickboards" inverseName="ridedata" inverseEntity="Kickboards"/>
-        <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Users" inverseName="ridedata" inverseEntity="Users"/>
+        <relationship name="kickboards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Kickboards"/>
+        <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Users"/>
     </entity>
     <entity name="Users" representedClassName="Users" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="nickname" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
-        <relationship name="ridedata" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RideData" inverseName="users" inverseEntity="RideData"/>
     </entity>
 </model>

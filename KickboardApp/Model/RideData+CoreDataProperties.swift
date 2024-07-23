@@ -11,20 +11,15 @@ import CoreData
 
 
 extension RideData {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<RideData> {
         return NSFetchRequest<RideData>(entityName: "RideData")
     }
-
     @NSManaged public var id: UUID?
     @NSManaged public var userId: UUID?
     @NSManaged public var kickboardId: UUID?
     @NSManaged public var distance: String?
     @NSManaged public var date: Date?
     @NSManaged public var fee: Double
-    @NSManaged public var users: Users?
-    @NSManaged public var kickboards: Kickboards?
-
 }
 
 extension RideData : Identifiable {

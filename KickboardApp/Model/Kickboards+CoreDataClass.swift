@@ -19,6 +19,5 @@ public class Kickboards: NSManagedObject {
         static let longitude = "longitude"
         static let isAvailable = "isAvailable"
         static let batteryLevel = "batteryLevel"
-        static let rideData = "rideData"
     }
 }
