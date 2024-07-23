@@ -47,14 +47,14 @@ class ReturnView: UIView {
     private lazy var promotionButton = middleLabel("프로모션")
     
     // Detail 버튼 생성
-    private lazy var paymentMethodDetailButton: UIButton = {
+    public lazy var paymentMethodDetailButton: UIButton = {
         let button = UIButton()
         button.setTitle("Detail  >", for: .normal)
         button.setTitleColor(.systemGray4, for: .normal)
         return button
     }()
     
-    private lazy var promotionDetailButton: UIButton = {
+    public lazy var promotionDetailButton: UIButton = {
         let button = UIButton()
         button.setTitle("Detail  >", for: .normal)
         button.setTitleColor(.systemGray4, for: .normal)
@@ -62,7 +62,7 @@ class ReturnView: UIView {
     }()
     
     // MARK: - 결제하기 버튼 관련 - DS
-    private lazy var payButton: UIButton = {
+    public lazy var payButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제하기", for: .normal)
         button.backgroundColor = .purple
