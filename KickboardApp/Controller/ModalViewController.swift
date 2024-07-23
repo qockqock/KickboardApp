@@ -19,7 +19,7 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        configureUI()
         payHalfModalView.delegate = self
     }
     
@@ -28,10 +28,11 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
         payHalfModalView.delegate = nil
     }
 
-    private func setupView() {
+    private func configureUI() {
         view.backgroundColor = UIColor.white
         
         view.addSubview(payHalfModalView)
+        
         payHalfModalView.snp.makeConstraints {
             $0.centerX.equalTo(view)
             $0.centerY.equalTo(view)
@@ -52,5 +53,35 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
     func paymentMethodSelected(_ method: String) {
         // 선택된 결제 수단 처리
         print("Selected payment method: \(method)")
+    }
+}
+
+class PromotionHalfModalViewController: UIViewController {
+    
+    private let promotionHalfModalView = PromotionHalfModalView()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .white
+        view.addSubview(promotionHalfModalView)
+        
+        promotionHalfModalView.snp.makeConstraints {
+            $0.center.equalTo(view)
+            $0.leading.equalTo(view).offset(16)
+            $0.trailing.equalTo(view).offset(-16)
+            $0.height.equalTo(250) // 원하는 높이 값으로 설정합니다.
+        }
+
+        // 모달 바깥을 탭하면 모달을 닫기 위한 제스처 추가
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+
+    @objc private func dismissModal() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

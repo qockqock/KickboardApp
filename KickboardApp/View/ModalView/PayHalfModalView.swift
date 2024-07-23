@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class PayHalfModalView: UIView {
-    
+    // MARK: - 결제수단 하프모달 Value 관련 - DS
     // 결제수단 배열
     private let paymentMethods = ["킥키킥 페이머니", "신용/체크카드", "카카오페이", "토스페이"]
     weak var delegate: PayHalfModalViewDelegate?
@@ -54,7 +54,7 @@ class PayHalfModalView: UIView {
         }
     }
     
-    // MARK: - 결제수단 뷰 생성 메서드 (라디오 버튼 커스텀가능)
+    // MARK: - 결제수단 뷰 생성 메서드 (라디오 버튼 커스텀가능) - DS
     private func createPaymentMethodView(method: String) -> UIView {
         let containerView = UIView()
         
