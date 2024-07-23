@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43C880BB2C4E46DC00985151 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C880BA2C4E46DC00985151 /* LoginView.swift */; };
+		43C880BF2C4E7BE300985151 /* BagelFatOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */; };
+		43C880C02C4E7BE300985151 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 43C880BD2C4E7BE300985151 /* OFL.txt */; };
 		6B0715FE2C4E051A00B1605D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FD2C4E051A00B1605D /* AppDelegate.swift */; };
 		6B0716002C4E051A00B1605D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */; };
 		6B0716022C4E051A00B1605D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716012C4E051A00B1605D /* ViewController.swift */; };
@@ -28,6 +31,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43C880BA2C4E46DC00985151 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BagelFatOne-Regular.ttf"; sourceTree = "<group>"; };
+		43C880BD2C4E7BE300985151 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		6B0715FA2C4E051A00B1605D /* KickboardApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickboardApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B0715FD2C4E051A00B1605D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +67,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43C880BE2C4E7BE300985151 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */,
+				43C880BD2C4E7BE300985151 /* OFL.txt */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		6B0715F12C4E051A00B1605D = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +101,7 @@
 				6B0716172C4E058800B1605D /* Model */,
 				6B0716182C4E05AA00B1605D /* View */,
 				6B0716192C4E05B100B1605D /* Controller */,
+				43C880BE2C4E7BE300985151 /* Font */,
 				6B0716092C4E051C00B1605D /* Assets.xcassets */,
 				6B07160B2C4E051C00B1605D /* LaunchScreen.storyboard */,
 				6B07160E2C4E051C00B1605D /* Info.plist */,
@@ -110,6 +126,7 @@
 		6B0716182C4E05AA00B1605D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				43C880BA2C4E46DC00985151 /* LoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -190,7 +207,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C880BF2C4E7BE300985151 /* BagelFatOne-Regular.ttf in Resources */,
 				6B07160A2C4E051C00B1605D /* Assets.xcassets in Resources */,
+				43C880C02C4E7BE300985151 /* OFL.txt in Resources */,
 				6B07160D2C4E051C00B1605D /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +225,7 @@
 				6B0716082C4E051A00B1605D /* KickboardApp.xcdatamodeld in Sources */,
 				E721831B2C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift in Sources */,
 				E72183262C4E5EA10050A6F0 /* CoreDataManager.swift in Sources */,
+				43C880BB2C4E46DC00985151 /* LoginView.swift in Sources */,
 				E721831C2C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift in Sources */,
 				E721831D2C4E3BB20050A6F0 /* Users+CoreDataClass.swift in Sources */,
 				E721831E2C4E3BB20050A6F0 /* Users+CoreDataProperties.swift in Sources */,
