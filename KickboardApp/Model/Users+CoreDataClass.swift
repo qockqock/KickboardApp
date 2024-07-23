@@ -13,11 +13,12 @@ import CoreData
 public class Users: NSManagedObject {
     public static let entityName = "Users"
         
-        public enum Key {
-            static let id = "id"
-            static let email = "email"
-            static let nickname = "nickname"
-            static let password = "password"
-            static let rideData = "rideData"
-        }
+    public enum Key {
+        static let id = "id"
+        static let email = "email"
+        static let nickname = "nickname"
+        static let password = "password"
+        static let image = "image"
+        static let date = "date"
+    }
 }
