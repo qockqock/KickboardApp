@@ -48,42 +48,26 @@ class ReturnViewController: UIViewController {
         let payHalfModalViewController = PayHalfModalViewController()
         payHalfModalViewController.modalPresentationStyle = .pageSheet
         
-        if #available(iOS 16.0, *) {
-            if let sheet = payHalfModalViewController.sheetPresentationController {
-                sheet.detents = [.custom { _ in
-                    return 300 // 원하는 높이로 변경합니다. 예: 300 포인트
-                }]
-                sheet.preferredCornerRadius = 24.0
-            }
-        } else {
-            if let sheet = payHalfModalViewController.sheetPresentationController {
-                sheet.detents = [.medium()]
-                sheet.preferredCornerRadius = 24.0
-            }
-            payHalfModalViewController.preferredContentSize = CGSize(width: view.frame.width, height: 300)
+        if let sheet = payHalfModalViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.preferredCornerRadius = 24.0
         }
+        payHalfModalViewController.preferredContentSize = CGSize(width: view.frame.width, height: 300)
+        
         present(payHalfModalViewController, animated: true, completion: nil)
     }
     
     @objc
     private func promotionHalfModal() {
-        let promotionHalfModalViewController = PromotionHalfModalViewController()
-        promotionHalfModalViewController.modalPresentationStyle = .pageSheet
+        let payHalfModalViewController = PayHalfModalViewController()
+        payHalfModalViewController.modalPresentationStyle = .pageSheet
         
-        if #available(iOS 16.0, *) {
-            if let sheet = promotionHalfModalViewController.sheetPresentationController {
-                sheet.detents = [.custom { _ in
-                    return 300 // 원하는 높이로 변경합니다. 예: 300 포인트
-                }]
-                sheet.preferredCornerRadius = 24.0
-            }
-        } else {
-            if let sheet = promotionHalfModalViewController.sheetPresentationController {
-                sheet.detents = [.medium()]
-                sheet.preferredCornerRadius = 24.0
-            }
-            promotionHalfModalViewController.preferredContentSize = CGSize(width: view.frame.width, height: 300)
+        if let sheet = payHalfModalViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.preferredCornerRadius = 24.0
         }
-        present(promotionHalfModalViewController, animated: true, completion: nil)
+        payHalfModalViewController.preferredContentSize = CGSize(width: view.frame.width, height: 300)
+        
+        present(payHalfModalViewController, animated: true, completion: nil)
     }
 }
