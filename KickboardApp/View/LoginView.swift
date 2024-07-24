@@ -8,9 +8,7 @@
 import UIKit
 
 class LoginView: UIView {
-    
-//    let customFont = UIFont(name: "BagelFatOne-Regular", size: 30)
-    
+
     // UILabel 생성
     private let logoLabel: UILabel = {
         let label = UILabel()
@@ -20,8 +18,8 @@ class LoginView: UIView {
                                     킥
                      """
         label.numberOfLines = 3 // 최대 3줄까지 허용
-        label.textColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
-        label.font = UIFont(name: "BagelFatOne-Regular", size: 70) // 폰트 추가
+        label.textColor = .white
+        label.font = UIFont(name: "BagelFatOne-Regular", size: 75) // 폰트 추가
         
         return label
     }()
@@ -29,15 +27,13 @@ class LoginView: UIView {
     // UITextField 추가
     let idTextField: UITextField = {
         let text = UITextField()
-        text.font = .systemFont(ofSize: 18)
-        text.layer.cornerRadius = 10
+        text.font = .systemFont(ofSize: 16)
+        text.layer.cornerRadius = 18
         text.placeholder = " 이메일 주소 또는 아이디"
-//        text.backgroundColor = .systemGray5
-        text.layer.borderWidth = 2.0 // 테두리 두께
-        text.layer.borderColor = UIColor.systemGray5.cgColor // 테두리 색상
+        text.backgroundColor = UIColor.white.withAlphaComponent(0.4) // 반투명 색상
         
         // Padding 설정
-         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40)) // 여기서 높이는 임의로 40으로 설정
+         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40))
          text.leftView = paddingView
          text.leftViewMode = .always
         
@@ -46,15 +42,13 @@ class LoginView: UIView {
     
     let passwordTextField: UITextField = {
         let text = UITextField()
-        text.font = .systemFont(ofSize: 18)
-        text.layer.cornerRadius = 10
+        text.font = .systemFont(ofSize: 16)
+        text.layer.cornerRadius = 18
         text.placeholder = " 비밀번호"
-        //        text.backgroundColor = .systemGray5
-        text.layer.borderWidth = 2.0 // 테두리 두께
-        text.layer.borderColor = UIColor.systemGray5.cgColor // 테두리 색상
+        text.backgroundColor = UIColor.white.withAlphaComponent(0.4)
         
         // Padding 설정
-         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40)) // 여기서 높이는 임의로 40으로 설정
+         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40))
          text.leftView = paddingView
          text.leftViewMode = .always
         
@@ -65,25 +59,23 @@ class LoginView: UIView {
     let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그인", for: .normal)
-        button.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        button.backgroundColor = .white
         button.setTitleColor(.systemGray, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.layer.cornerRadius = 25
+        button.layer.borderColor = UIColor.systemGray5.cgColor // 테두리 색상
         
         return button
     }()
     
     // UILabel 생성
-    private let signUpButton: UIButton = {
+    let signUpButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원가입", for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
+        button.setTitleColor(.placeholderText, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.backgroundColor = .white
+        button.backgroundColor = UIColor.white.withAlphaComponent(0.4) // 반투명 색상
         button.layer.cornerRadius = 25
-        button.layer.borderWidth = 2.0 // 테두리 두께
-        button.layer.borderColor = UIColor.systemGray5.cgColor // 테두리 색상
-//        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -91,8 +83,8 @@ class LoginView: UIView {
     // 이니셜라이저 지정
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
-//        self.backgroundColor = .white
+        self.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+
         configureUI()
     }
     
@@ -100,8 +92,8 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // 오토 레이아웃
-    func configureUI() {
+    // MARK: - 오토레이아웃
+    private func configureUI() {
         [
             logoLabel,
             idTextField,
@@ -111,10 +103,8 @@ class LoginView: UIView {
         ].forEach { self.addSubview($0) }
         
         logoLabel.snp.makeConstraints {
-            //            $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(120)
             $0.leading.trailing.equalToSuperview().inset(40)
-            //            $0.width.equalTo(0)
         }
         
         idTextField.snp.makeConstraints {
