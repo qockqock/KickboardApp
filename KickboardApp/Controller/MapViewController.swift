@@ -74,45 +74,7 @@ class MapViewController: UIViewController, MapControllerDelegate {
     deinit {
         mapController?.pauseEngine()
         mapController?.resetEngine()
-        
-        print("deinit")
     }
-    
-    //MARK: - poi marker구현
-    
-//    func createLabelLayer() {
-//        guard let view = mapController?.getView("mapview") as? KakaoMap else {
-//            return
-//        }
-//        let manager = view.getLabelManager()
-//        let layerOption = LabelLayerOptions(layerID: "PoiLayer", competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 0)
-//        let _ = manager.addLabelLayer(option: layerOption)
-//    }
-//
-//    func createPoiOptions() -> PoiOptions {
-//        return PoiOptions(
-//            styleID: "style_1", poiID: "poi_1",
-//            name: "POI Name",
-//            position: MapPoint(longitude: 126.9137, latitude: 37.5491),
-//            iconImage: "poi_icon",
-//            iconAnchor: CGPoint(x: 0.5, y: 1.0),
-//            iconSize: CGSize(width: 40, height: 40)
-//        )
-//    }
-//
-//    func addPOI() {
-//        guard let view = mapController?.getView("mapview") as? KakaoMap else {
-//            return
-//        }
-//        let manager = view.getLabelManager()
-//        let poiLayer = manager.getLabelLayer(layerID: "PoiLayer")
-//        
-//        let poiOptions = createPoiOptions()
-//        let poiItem = PoiItem(options: poiOptions)
-//        
-//        poiLayer?.addItem(poiItem)
-//    }
-    
     
     
     override func viewDidLoad() {
@@ -120,9 +82,6 @@ class MapViewController: UIViewController, MapControllerDelegate {
         // hj test
         mapSetupUI()
         addViews()
-        
-//        createLabelLayer()
-//        addPOI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,7 +104,7 @@ class MapViewController: UIViewController, MapControllerDelegate {
     
     override func viewDidDisappear(_ animated: Bool) {
         removeObservers()
-        mapController?.resetEngine()     
+        mapController?.resetEngine()
         //엔진 정지. 추가되었던 ViewBase들이 삭제된다.
         
     }
@@ -214,7 +173,16 @@ class MapViewController: UIViewController, MapControllerDelegate {
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         print("OK") //추가 성공. 성공시 추가적으로 수행할 작업을 진행한다.
+        createPoiStyle()
+        createLabelLayer()
         
+        // 예시 위치에 POI 생성
+        let position = MapPoint(longitude: 126.9137, latitude: 37.5491)
+        createPoi(at: position)
+        
+        if let mapView = mapController?.getView("mapview") as? KakaoMap {
+            mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
+            }
     }
     
     //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
@@ -230,7 +198,6 @@ class MapViewController: UIViewController, MapControllerDelegate {
     }
     
     func viewWillDestroyed(_ view: ViewBase) {
-        
     }
     
     func addObservers(){
@@ -254,8 +221,6 @@ class MapViewController: UIViewController, MapControllerDelegate {
     @objc func didBecomeActive(){
         mapController?.activateEngine() //뷰가 active 상태가 되면 렌더링 시작. 엔진은 미리 시작된 상태여야 함.
     }
-    
-
     
     func mapControllerDidChangeZoomLevel(_ mapController: KakaoMapsSDK.KMController, zoomLevel: Double) {
         print("Zoom level changed to: \(zoomLevel)")
@@ -291,7 +256,54 @@ class MapViewController: UIViewController, MapControllerDelegate {
     var _appear: Bool = false
     
     
+    //MARK: - POI
     
+    func createPoiStyle() { // 보이는 스타일 정의
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            return
+        }
+        let labelManager = mapView.getLabelManager()
+        
+        guard let image = UIImage(named: "pin_blue.png") else {
+            return
+        }
+        
+        let icon = PoiIconStyle(symbol: image, anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        let perLevelStyle = PerLevelPoiStyle(iconStyle: icon, level: 0)
+        let poiStyle = PoiStyle(styleID: "blue", styles: [perLevelStyle])
+        labelManager.addPoiStyle(poiStyle)
+    }
     
+    func createLabelLayer() { // 레이어생성
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let labelManager = mapView.getLabelManager()
+        let layer = LabelLayerOptions(layerID: "poiLayer", competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001)
+        let _ = labelManager.addLabelLayer(option: layer)
+    }
+    
+    func createPoi(at position: MapPoint) {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            return
+        }
+        let labelManager = mapView.getLabelManager()
+        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
+            return
+        }
+        
+        let options = PoiOptions(styleID: "blue", poiID: "bluePoi")
+        
+        if let poi = layer.addPoi(option: options, at: position) {
+            poi.show()
+        }
+    }
+    
+    // 좌표설정
+//    var poiPositions: [MapPoint] = [
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//    
+//    ]
     
 }

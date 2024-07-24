@@ -17,12 +17,9 @@ class LoginViewController: UIViewController {
 
         view.backgroundColor = .white
         
-        view.addSubview(loginView)
-        loginView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+        view = loginView
         loginView.loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        loginView.signUpButton.addTarget(self, action: #selector(signUpbuttonTapped), for: .touchUpInside)
     }
     
     @objc func handleLogin() {
@@ -35,5 +32,9 @@ class LoginViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc func signUpbuttonTapped() {
+        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
 }
