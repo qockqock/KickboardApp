@@ -32,6 +32,7 @@ class SignUpView: UIView {
         let userIdText = UITextField()
         userIdText.textColor = .black
         userIdText.borderStyle = .roundedRect
+        userIdText.placeholder = "이메일주소를 입력하세요"
         return userIdText
     }()
     
@@ -45,7 +46,7 @@ class SignUpView: UIView {
     }()
     
     // MARK: - 비밀번호
-    private let userPassWord: UILabel = {
+    public let userPassWord: UILabel = {
         let userPassWord = UILabel()
         userPassWord.text = "비밀번호"
         userPassWord.textColor = .black
@@ -53,10 +54,13 @@ class SignUpView: UIView {
         return userPassWord
     }()
     
-    private let userPassWordText: UITextField = {
+    public let userPassWordText: UITextField = {
         let userPassWordText = UITextField()
         userPassWordText.textColor = .black
         userPassWordText.borderStyle = .roundedRect
+        userPassWordText.isSecureTextEntry = true
+        userPassWordText.textContentType = .oneTimeCode
+        userPassWordText.placeholder = "비밀번호를 입력하세요"
         return userPassWordText
     }()
     
@@ -69,21 +73,24 @@ class SignUpView: UIView {
         return checkLabel
     }()
     
-    private let userPassWordCheck: UILabel = {
+    public let userPassWordCheck: UILabel = {
         let userPassWordCheck = UILabel()
         userPassWordCheck.text = "비밀번호 확인"
         userPassWordCheck.textColor = .black
         return userPassWordCheck
     }()
     
-    private let userPassWordCheckText: UITextField = {
+    public let userPassWordCheckText: UITextField = {
         let userPassWordCheckText = UITextField()
         userPassWordCheckText.textColor = .black
         userPassWordCheckText.borderStyle = .roundedRect
+        userPassWordCheckText.isSecureTextEntry = true
+        userPassWordCheckText.textContentType = .oneTimeCode
+        userPassWordCheckText.placeholder = "동일한 비밀번호를 입력해주세요"
         return userPassWordCheckText
     }()
     
-    private let passWordCheck: UILabel = {
+    public let passWordCheck: UILabel = {
         let passWordCheck = UILabel()
         passWordCheck.text = "비밀번호를 확인해주세요!"
         passWordCheck.textColor = .red
@@ -100,18 +107,19 @@ class SignUpView: UIView {
         return userNickName
     }()
     
-    private let userNickNameText: UITextField = {
+    public let userNickNameText: UITextField = {
         let userNickNameText = UITextField()
         userNickNameText.textColor = .black
         userNickNameText.borderStyle = .roundedRect
+        userNickNameText.placeholder = "닉네임을 입력하세요"
         return userNickNameText
     }()
     
     public lazy var membershipJoinButton: UIButton = {
         let membershipJoinButton = UIButton()
-        membershipJoinButton.setTitle("회원가입", for: .normal)
+        membershipJoinButton.setTitle("회 원 가 입", for: .normal)
         membershipJoinButton.backgroundColor = .systemPurple
-        membershipJoinButton.layer.cornerRadius = 18
+        membershipJoinButton.layer.cornerRadius = 30
         return membershipJoinButton
     }()
     
@@ -186,6 +194,7 @@ class SignUpView: UIView {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(userNickNameText.snp.bottom).offset(70)
             $0.width.equalToSuperview().offset(-70)
+            $0.height.equalTo(60)
         }
     }
 }

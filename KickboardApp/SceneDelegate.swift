@@ -22,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = window
         
+        // 라이트모드만 지원
+        self.window?.overrideUserInterfaceStyle = .light
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
