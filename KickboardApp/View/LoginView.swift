@@ -103,7 +103,7 @@ class LoginView: UIView {
         ].forEach { self.addSubview($0) }
         
         logoLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(120)
+            $0.top.equalToSuperview().offset(110)
             $0.leading.trailing.equalToSuperview().inset(40)
         }
         

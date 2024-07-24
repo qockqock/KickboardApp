@@ -11,19 +11,32 @@ class HistoryViewController: UIViewController {
     
     private let historyView = HistoryView()
     
+    let imageNames = ["RandomImg1", "RandomImg2", "RandomImg3", "RandomImg4", "RandomImg5"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = historyView
-        navigationSet()
+        
+        // 네비게이션
+        self.title = "마이 페이지"
 
+        historyView.imageButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     private func navigationSet() {
         self.title = "마이 페이지"
     }
+    
+    @objc
+    private func buttonTapped() {
+        let randomIndex = Int.random(in: 0..<imageNames.count)
+        
+        let randomImageName = imageNames[randomIndex]
+        
+        historyView.profileImage.image = UIImage(named: randomImageName)
+    }
 }
-
 
 //extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
 //
