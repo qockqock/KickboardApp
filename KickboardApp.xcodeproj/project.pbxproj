@@ -11,6 +11,9 @@
 		43C880BB2C4E46DC00985151 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C880BA2C4E46DC00985151 /* LoginView.swift */; };
 		43C880BF2C4E7BE300985151 /* BagelFatOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */; };
 		43C880C02C4E7BE300985151 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 43C880BD2C4E7BE300985151 /* OFL.txt */; };
+		43DF1A782C4F923500E6C7C1 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A772C4F923500E6C7C1 /* HistoryViewController.swift */; };
+		43DF1A7A2C4F92AF00E6C7C1 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */; };
+		43DF1A7E2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */; };
 		6B0715FE2C4E051A00B1605D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FD2C4E051A00B1605D /* AppDelegate.swift */; };
 		6B0716002C4E051A00B1605D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */; };
 		6B0716022C4E051A00B1605D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716012C4E051A00B1605D /* MapViewController.swift */; };
@@ -26,7 +29,6 @@
 		E72182FC2C4E33100050A6F0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72182FB2C4E33100050A6F0 /* LoginViewController.swift */; };
 		E72182FE2C4E33600050A6F0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72182FD2C4E33600050A6F0 /* SignUpViewController.swift */; };
 		E72183002C4E336F0050A6F0 /* ReturnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72182FF2C4E336F0050A6F0 /* ReturnViewController.swift */; };
-		E72183022C4E337B0050A6F0 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183012C4E337B0050A6F0 /* MyPageViewController.swift */; };
 		E721831B2C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183152C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift */; };
 		E721831C2C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183162C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift */; };
 		E721831D2C4E3BB20050A6F0 /* Users+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183172C4E3BB20050A6F0 /* Users+CoreDataClass.swift */; };
@@ -43,6 +45,9 @@
 		43C880BA2C4E46DC00985151 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BagelFatOne-Regular.ttf"; sourceTree = "<group>"; };
 		43C880BD2C4E7BE300985151 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		43DF1A772C4F923500E6C7C1 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		6B0715FA2C4E051A00B1605D /* KickboardApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickboardApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B0715FD2C4E051A00B1605D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,7 +63,6 @@
 		E72182FB2C4E33100050A6F0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E72182FD2C4E33600050A6F0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E72182FF2C4E336F0050A6F0 /* ReturnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnViewController.swift; sourceTree = "<group>"; };
-		E72183012C4E337B0050A6F0 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		E72183152C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kickboards+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E72183162C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kickboards+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E72183172C4E3BB20050A6F0 /* Users+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 				6B0716572C500D5300B1605D /* ModalView */,
 				43C880BA2C4E46DC00985151 /* LoginView.swift */,
 				14EFB2152C4F46D60074E1ED /* SignUpView.swift */,
+				43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */,
+				43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */,
 				6B0716232C4FB0C900B1605D /* ReturnView.swift */,
 			);
 			path = View;
@@ -158,7 +164,7 @@
 				E72182FB2C4E33100050A6F0 /* LoginViewController.swift */,
 				E72182FD2C4E33600050A6F0 /* SignUpViewController.swift */,
 				E72182FF2C4E336F0050A6F0 /* ReturnViewController.swift */,
-				E72183012C4E337B0050A6F0 /* MyPageViewController.swift */,
+				43DF1A772C4F923500E6C7C1 /* HistoryViewController.swift */,
 				6B0716532C4FF57400B1605D /* ModalViewController.swift */,
 			);
 			path = Controller;
@@ -274,6 +280,7 @@
 				E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */,
 				E721831C2C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift in Sources */,
 				E721831D2C4E3BB20050A6F0 /* Users+CoreDataClass.swift in Sources */,
+				43DF1A7E2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift in Sources */,
 				E721831E2C4E3BB20050A6F0 /* Users+CoreDataProperties.swift in Sources */,
 				E7A692062C4F9E4D005DB1F0 /* DataGenerator.swift in Sources */,
 				E721831F2C4E3BB20050A6F0 /* RideData+CoreDataClass.swift in Sources */,
@@ -283,8 +290,9 @@
 				6B0715FE2C4E051A00B1605D /* AppDelegate.swift in Sources */,
 				E72183002C4E336F0050A6F0 /* ReturnViewController.swift in Sources */,
 				E72182FC2C4E33100050A6F0 /* LoginViewController.swift in Sources */,
+				43DF1A782C4F923500E6C7C1 /* HistoryViewController.swift in Sources */,
+				43DF1A7A2C4F92AF00E6C7C1 /* HistoryView.swift in Sources */,
 				6B0716002C4E051A00B1605D /* SceneDelegate.swift in Sources */,
-				E72183022C4E337B0050A6F0 /* MyPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
