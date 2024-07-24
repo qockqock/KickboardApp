@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SwiftUI
 
 // 결제 수단 선택 델리게이트 프로토콜 정의
 protocol PayHalfModalViewDelegate: AnyObject {
@@ -63,6 +64,8 @@ class PromotionHalfModalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        promotionHalfModalView.getCouponsButton.addTarget(self, action: #selector(promotionButtonTapped), for: .touchUpInside)
     }
     
     private func configureUI() {
@@ -73,15 +76,43 @@ class PromotionHalfModalViewController: UIViewController {
             $0.center.equalTo(view)
             $0.leading.equalTo(view).offset(16)
             $0.trailing.equalTo(view).offset(-16)
-            $0.height.equalTo(250) // 원하는 높이 값으로 설정합니다.
+            $0.height.equalTo(208) // 원하는 높이 값으로 설정합니다.
         }
 
         // 모달 바깥을 탭하면 모달을 닫기 위한 제스처 추가
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
-
+    
+    // 쿠폰사용 버튼액션
+    @objc
+    private func promotionButtonTapped() {
+        
+    }
+    
+    
     @objc private func dismissModal() {
         self.dismiss(animated: true, completion: nil)
     }
 }
+//
+//struct PreView: PreviewProvider {
+//  static var previews: some View {
+//      PromotionHalfModalViewController().toPreview()
+//  }
+//}
+//#if DEBUG
+//extension UIViewController {
+//  private struct Preview: UIViewControllerRepresentable {
+//      let viewController: UIViewController
+//      func makeUIViewController(context: Context) -> UIViewController {
+//        return viewController
+//      }
+//      func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+//      }
+//    }
+//    func toPreview() -> some View {
+//      Preview(viewController: self)
+//    }
+//}
+//#endif
