@@ -16,10 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        window.rootViewController = UINavigationController(rootViewController: SignUpViewController())
+        
+        window.rootViewController = UINavigationController(rootViewController: LoginViewController())
         window.makeKeyAndVisible()
         
         self.window = window
+        
+        // 라이트모드만 지원
+        self.window?.overrideUserInterfaceStyle = .light
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
