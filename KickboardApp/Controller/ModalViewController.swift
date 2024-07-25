@@ -15,9 +15,9 @@ protocol PayHalfModalViewDelegate: AnyObject {
 }
 
 class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
-
+    
     private let payHalfModalView = PayHalfModalView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -28,7 +28,7 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
         super.viewWillDisappear(animated)
         payHalfModalView.delegate = nil
     }
-
+    
     private func configureUI() {
         view.backgroundColor = UIColor.white
         
@@ -40,16 +40,16 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
             $0.leading.equalTo(view).offset(16)
             $0.trailing.equalTo(view).offset(-16)
         }
-
+        
         // 모달 바깥을 탭하면 모달을 닫기 위한 제스처 추가
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
-
+    
     @objc private func dismissModal() {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     // 결제 수단 선택 시 호출되는 메서드
     func paymentMethodSelected(_ method: String) {
         // 선택된 결제 수단 처리
@@ -60,6 +60,18 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
 class PromotionHalfModalViewController: UIViewController {
     
     private let promotionHalfModalView = PromotionHalfModalView()
+    private var returnView = ReturnView()
+    private let timerModel = TimerModel()
+    
+    // ReturnView를 초기화하는 생성자 추가
+    init(returnView: ReturnView) {
+        self.returnView = returnView
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +90,7 @@ class PromotionHalfModalViewController: UIViewController {
             $0.trailing.equalTo(view).offset(-16)
             $0.height.equalTo(208) // 원하는 높이 값으로 설정합니다.
         }
-
+        
         // 모달 바깥을 탭하면 모달을 닫기 위한 제스처 추가
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -87,32 +99,24 @@ class PromotionHalfModalViewController: UIViewController {
     // 쿠폰사용 버튼액션
     @objc
     private func promotionButtonTapped() {
+        // 쿠폰 금액
+        let promotionAmount = 1000
         
+        // 프로모션 레이블 업데이트
+        returnView.promotionValueLabel.text = "-\(timerModel.formatNumber(promotionAmount))원"
+        
+        // paymentAmountValueLabel에서 금액 가져오기
+        guard let paymentText = returnView.paymentAmountValueLabel.text,
+              let paymentAmount = Int(paymentText.replacingOccurrences(of: "원", with: "").replacingOccurrences(of: ",", with: "")) else {
+            return
+        }
+        
+        // 최종 금액 계산 및 업데이트
+        let finalAmount = paymentAmount - promotionAmount
+        returnView.totalAmountValueLabel.text = "\(timerModel.formatNumber(finalAmount))원"
     }
-    
     
     @objc private func dismissModal() {
         self.dismiss(animated: true, completion: nil)
     }
 }
-//
-//struct PreView: PreviewProvider {
-//  static var previews: some View {
-//      PromotionHalfModalViewController().toPreview()
-//  }
-//}
-//#if DEBUG
-//extension UIViewController {
-//  private struct Preview: UIViewControllerRepresentable {
-//      let viewController: UIViewController
-//      func makeUIViewController(context: Context) -> UIViewController {
-//        return viewController
-//      }
-//      func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-//      }
-//    }
-//    func toPreview() -> some View {
-//      Preview(viewController: self)
-//    }
-//}
-//#endif

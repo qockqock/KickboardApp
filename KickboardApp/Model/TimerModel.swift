@@ -61,9 +61,11 @@ class TimerModel {
     }
     
     // 숫자를 세 자리마다 쉼표를 추가하여 포맷
-    func formatFare(_ fare: Int) -> String {
+    func formatNumber(_ fare: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: fare)) ?? "\(fare)"
     }
+    
+    
 }
