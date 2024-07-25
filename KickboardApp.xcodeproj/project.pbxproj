@@ -39,10 +39,6 @@
 		E72183262C4E5EA10050A6F0 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */; };
 		E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E721834F2C4F77080050A6F0 /* MainTabbarController.swift */; };
 		E7A692062C4F9E4D005DB1F0 /* DataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A692052C4F9E4D005DB1F0 /* DataGenerator.swift */; };
-		E7A6920F2C50E44B005DB1F0 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A6920E2C50E44A005DB1F0 /* SearchMapView.swift */; };
-		E7A692122C50E59E005DB1F0 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E7A692112C50E59E005DB1F0 /* Alamofire */; };
-		E7A692152C514117005DB1F0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A692142C514117005DB1F0 /* NetworkManager.swift */; };
-		E7A692172C5142A2005DB1F0 /* SearchedAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A692162C5142A2005DB1F0 /* SearchedAddress.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,9 +74,6 @@
 		E72183252C4E5EA10050A6F0 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E721834F2C4F77080050A6F0 /* MainTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
 		E7A692052C4F9E4D005DB1F0 /* DataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataGenerator.swift; sourceTree = "<group>"; };
-		E7A6920E2C50E44A005DB1F0 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
-		E7A692142C514117005DB1F0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		E7A692162C5142A2005DB1F0 /* SearchedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedAddress.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +81,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7A692122C50E59E005DB1F0 /* Alamofire in Frameworks */,
 				6B0716162C4E058100B1605D /* SnapKit in Frameworks */,
 				E550BACB2C4E4BF8000285BD /* KakaoMapsSDK-SPM in Frameworks */,
 			);
@@ -132,7 +124,6 @@
 				6B0716182C4E05AA00B1605D /* View */,
 				6B0716192C4E05B100B1605D /* Controller */,
 				E7A692042C4F9E2F005DB1F0 /* Data */,
-				E7A692132C5140F0005DB1F0 /* Network */,
 				43C880BE2C4E7BE300985151 /* Font */,
 				6B0716092C4E051C00B1605D /* Assets.xcassets */,
 				6B07160B2C4E051C00B1605D /* LaunchScreen.storyboard */,
@@ -150,7 +141,6 @@
 				E72183182C4E3BB20050A6F0 /* Users+CoreDataProperties.swift */,
 				E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */,
 				E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */,
-				E7A692162C5142A2005DB1F0 /* SearchedAddress.swift */,
 				6B07165B2C50D36D00B1605D /* TimerModel.swift */,
 			);
 			path = Model;
@@ -164,8 +154,6 @@
 				14EFB2152C4F46D60074E1ED /* SignUpView.swift */,
 				43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */,
 				43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */,
-				6B0716232C4FB0C900B1605D /* ReturnView.swift */,
-				E7A6920E2C50E44A005DB1F0 /* SearchMapView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -211,14 +199,6 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		E7A692132C5140F0005DB1F0 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				E7A692142C514117005DB1F0 /* NetworkManager.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -238,7 +218,6 @@
 			packageProductDependencies = (
 				6B0716152C4E058100B1605D /* SnapKit */,
 				E550BACA2C4E4BF8000285BD /* KakaoMapsSDK-SPM */,
-				E7A692112C50E59E005DB1F0 /* Alamofire */,
 			);
 			productName = KickboardApp;
 			productReference = 6B0715FA2C4E051A00B1605D /* KickboardApp.app */;
@@ -271,7 +250,6 @@
 			packageReferences = (
 				6B0716142C4E058100B1605D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				E550BAC92C4E4BF8000285BD /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
-				E7A692102C50E59E005DB1F0 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 6B0715FB2C4E051A00B1605D /* Products */;
 			projectDirPath = "";
@@ -301,16 +279,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7A692152C514117005DB1F0 /* NetworkManager.swift in Sources */,
 				6B0716592C500DD200B1605D /* PromotionHalfModalView.swift in Sources */,
 				6B0716562C4FFBC800B1605D /* PayHalfModalView.swift in Sources */,
 				6B0716242C4FB0C900B1605D /* ReturnView.swift in Sources */,
 				E72182FE2C4E33600050A6F0 /* SignUpViewController.swift in Sources */,
-				E7A692172C5142A2005DB1F0 /* SearchedAddress.swift in Sources */,
 				6B0716082C4E051A00B1605D /* KickboardApp.xcdatamodeld in Sources */,
 				14EFB2162C4F46D60074E1ED /* SignUpView.swift in Sources */,
 				E721831B2C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift in Sources */,
-				E7A6920F2C50E44B005DB1F0 /* SearchMapView.swift in Sources */,
 				E72183262C4E5EA10050A6F0 /* CoreDataManager.swift in Sources */,
 				43C880BB2C4E46DC00985151 /* LoginView.swift in Sources */,
 				E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */,
@@ -562,14 +537,6 @@
 				minimumVersion = 2.10.5;
 			};
 		};
-		E7A692102C50E59E005DB1F0 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.9.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -582,11 +549,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E550BAC92C4E4BF8000285BD /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */;
 			productName = "KakaoMapsSDK-SPM";
-		};
-		E7A692112C50E59E005DB1F0 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E7A692102C50E59E005DB1F0 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 
