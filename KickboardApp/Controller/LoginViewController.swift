@@ -24,9 +24,6 @@ class LoginViewController: UIViewController {
         
         view = loginView
         
-        // passwordTextField 마스킹
-        loginView.passwordTextField.isSecureTextEntry = true
-        
         loginView.loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         loginView.signUpButton.addTarget(self, action: #selector(signUpbuttonTapped), for: .touchUpInside)
     }
@@ -62,6 +59,11 @@ class LoginViewController: UIViewController {
                         }
                     }
                 }
+                
+                // 로그인하면 현재 유저 이메일 저장
+                let currentUserEmail = loginView.idTextField.text
+                UserDefaults.standard.set(currentUserEmail, forKey: "currentUserEmail")
+                
             } else {
                 // 존재하지 않는 유저일 경우
                 showAlert(title: "알림", message: "등록되지 않은 사용자입니다. 회원가입 해주세요.")
@@ -98,7 +100,7 @@ class LoginViewController: UIViewController {
             }
             
         } catch {
-            print("데이터 읽기 실패: \(error.localizedDescription)")
+            print("데이터 읽기 실패")
         }
     }
 }

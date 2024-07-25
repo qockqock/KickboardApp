@@ -6,15 +6,21 @@
 //
 
 import UIKit
+import CoreData
 
 class HistoryViewController: UIViewController {
     
     private let historyView = HistoryView()
+
+    var container: NSPersistentContainer!
     
     let imageNames = ["RandomImg1", "RandomImg2", "RandomImg3", "RandomImg4", "RandomImg5"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.container = appDelegate.persistentContainer
         
         view = historyView
         
@@ -23,11 +29,8 @@ class HistoryViewController: UIViewController {
         
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
-    }
-   
-    // MARK: - 네이게이션 타이틀 - YJ
-    private func navigationSet() {
-        self.title = "마이 페이지"
+        
+        fetchCurrentUser()
     }
     
     // MARK: - 랜덤 이미지 버튼 - YJ
@@ -39,7 +42,37 @@ class HistoryViewController: UIViewController {
         historyView.profileImage.image = UIImage(named: randomImageName)
     }
     
-    // MARK: - 로그아웃 - YJ
+    // MARK: - 현재 유저 정보 마이페이지에 띄우기 - YJ
+    func fetchCurrentUser() {
+            guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else {
+                print("사용자 이메일을 찾을 수 없습니다.")
+                return
+            }
+        
+        let fetchRequest: NSFetchRequest<Users> = NSFetchRequest(entityName: "Users")
+        fetchRequest.predicate = NSPredicate(format: "email == %@", currentUserEmail)
+        
+        do {
+            let users = try self.container.viewContext.fetch(fetchRequest)
+                if let currentUser = users.first {
+                    if let nickname = currentUser.nickname {
+                        historyView.nicknameLabel.text = "\(nickname)  님"
+                    }
+                    if let id = currentUser.id {
+                        historyView.idLabel.text = "회원번호   \(id)"
+                    }
+                    if let email = currentUser.email {
+                        historyView.emailLabel.text = "이메일   \(email)"
+                    }
+                } else {
+                    print("해당 사용자의 데이터를 찾을 수 없습니다.")
+                }
+            } catch {
+                print("사용자 데이터 가져오기 오류")
+            }
+        }
+    
+    // MARK: - 로그아웃 버튼 - YJ
     @objc private func loginOutButtonTapped() {
         if let windowScene = view.window?.windowScene {
             for window in windowScene.windows {
