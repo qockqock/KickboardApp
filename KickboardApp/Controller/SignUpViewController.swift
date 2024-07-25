@@ -189,7 +189,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: - UItextField가 값이 없을때 날리는 얼럿통합창
     private func textFieldCheck(textField: UITextField, type: String) {
         if textField.text == nil || textField.text == "" {
-            let nickNameAlert = UIAlertController(title: "\(type)을 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
+            let nickNameAlert = UIAlertController(title: "\(type)를 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
             print("얼럿창이 열렸습니다.")
             
             nickNameAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
