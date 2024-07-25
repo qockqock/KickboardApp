@@ -9,8 +9,11 @@ import UIKit
 import SnapKit
 import KakaoMapsSDK
 import CoreLocation
+import Alamofire
 
-class MapViewController: UIViewController, MapControllerDelegate {
+class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate {
+    
+    let searchMapView = SearchMapView()
     
     let locationManager = CLLocationManager()
     var selectedPoi: Poi?
@@ -129,6 +132,7 @@ class MapViewController: UIViewController, MapControllerDelegate {
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         print("OK") //추가 성공. 성공시 추가적으로 수행할 작업을 진행한다.
+        _auth = true
         createPoiStyle()
         createLabelLayer()
         createPoi()
@@ -301,8 +305,89 @@ extension MapViewController: KakaoMapEventDelegate {
                     return { param in
                         self?.poiTapped(param)
                     }
+        
+        let options = PoiOptions(styleID: "blue", poiID: "bluePoi")
+        
+        if let poi = layer.addPoi(option: options, at: position) {
+            poi.show()
+        }
+    }
+    
+    // 좌표설정
+//    var poiPositions: [MapPoint] = [
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//        MapPoint(longitude: 126.9137, latitude: 37.5491),
+//    
+//    ]
+    
+    //MARK: SearchMapView - sh
+
+
+    // delegate 필수함수 - sh
+    func didSearchAddress(_ documents: String) {
+        guard _auth else {
+            print("인증상태 없음")
+            return
+        }
+
+        // 주소검색 및 지도이동 처리 - sh
+        searchAddress(documents) { result in
+            switch result {
+            case .success(let documents):
+                // 첫 번째 documents값에서 위도와 경도 가져오기
+                if let documents = documents.first, let latitude = Double(documents.latitude), let longitude = Double(documents.longitude) {
+                    self.updateMapView(latitude: latitude, longitude: longitude)
+                } else {
+                    print("Address 데이터 오류")
                 }
             }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
+
+    // 주소 찾기 메서드 - sh
+    private func searchAddress(_ address: String, completion: @escaping (Result<[Address], Error>) -> Void) {
+        let apiKey = "aac47a0eaf15cc563a8993c289fdd10f"
+        let encodedQuery = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let urlString = "https://dapi.kakao.com/v2/local/search/address.json?query=\(encodedQuery!)"
+
+        guard let url = URL(string: urlString) else {
+            print("URL 오류")
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "KakaoAK \(apiKey)"
+        ]
+
+        // NetworkManager 함수 사용
+        NetworkManager.shared.fetchData(url: url, headers: headers) { (result: Result<SearchedAddress, AFError>) in
+            switch result {
+            case .success(let searchedAddress):
+                completion(.success(searchedAddress.documents))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // 주소검색에서 가져온 위도, 경도 데이터 이용해 지도 이동하는 메서드 - sh
+    private func updateMapView(latitude: Double, longitude: Double) {
+        guard !latitude.isNaN, !longitude.isNaN else {
+            print("위도 경도 데이터 오류")
+            // 오류 Alert 추가예정
+            return
+        }
+
+        let position = MapPoint(longitude: longitude, latitude: latitude)
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            print("맵뷰 로드 실패")
+            // 오류 Alert 추가예정
+            return
         }
     }
     
