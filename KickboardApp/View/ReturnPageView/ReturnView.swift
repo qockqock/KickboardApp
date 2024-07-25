@@ -36,13 +36,13 @@ class ReturnView: UIView {
     private lazy var paymentAmountLabel = topLabel("결제금액:")
     private lazy var promotionLabel = topLabel("프로모션:")
     
-    private lazy var paymentAmountValueLabel = topLabel("")
-    private lazy var promotionValueLabel = topLabel("")
-    private lazy var totalAmountValueLabel = topLabel("")
+    lazy var usageTimeValueLabel = middleLabel("00:00:00")
+    lazy var paymentAmountValueLabel = middleLabel("1,500원")
+    lazy var promotionValueLabel = middleLabel("-0원")
     
     // MARK: - 최종 금액, 결제수단, 프로모션 버튼 레이블
     private lazy var totalAmountLabel = middleLabel("최종금액")
-    private lazy var usageTimeValueLabel = middleLabel("")
+    lazy var totalAmountValueLabel = middleLabel("")
     private lazy var paymentMethodButton = middleLabel("결제수단")
     private lazy var promotionButton = middleLabel("프로모션")
     

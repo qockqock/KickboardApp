@@ -7,13 +7,14 @@
 
 import UIKit
 import SnapKit
+import SwiftUI
 
 class PromotionHalfModalView: UIView {
     
-    // MARK: -  쿠폰 뷰 내 요소들 선언 - DS
+    // MARK: -  쿠폰 뷰 내 요소들 선언 (사용 전) - DS
     private let discountLabel: UILabel = {
         let label = UILabel()
-        label.text = "10% 할인"
+        label.text = "1,000원 할인"
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.textColor = UIColor.orange
         return label
@@ -21,29 +22,28 @@ class PromotionHalfModalView: UIView {
     
     private let tagsLabel: UILabel = {
         let label = UILabel()
-        label.text = "첫이용할인"
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.gray
+        label.text = " 첫이용할인"
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = UIColor.systemPink
+        
+        label.setRoundedCorners(radius: 8.0, backgroundColor: UIColor.systemPink.withAlphaComponent(0.1), borderColor: UIColor.purple, borderWidth: 0)
+        
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        let text = """
-        처음 이용하는 당신을 위한 쿠폰!
-        많이 많이 이용해주세요~
-        최대 2,000원 할인
-        """
+        let text = "처음 이용하시면 할인 받아요"
         label.text = text
         label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.black
+        label.textColor = UIColor.systemGray
         label.numberOfLines = 0
         return label
     }()
     
     public let getCouponsButton: UIButton = {
         let button = UIButton()
-        button.setTitle("쿠폰 받기", for: .normal)
+        button.setTitle("쿠폰사용", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.systemTeal
         button.layer.cornerRadius = 10
@@ -81,6 +81,8 @@ class PromotionHalfModalView: UIView {
         tagsLabel.snp.makeConstraints {
             $0.top.equalTo(discountLabel.snp.bottom).offset(10)
             $0.leading.equalTo(discountLabel)
+            $0.width.equalTo(68)
+            $0.height.equalTo(24)
         }
         
         descriptionLabel.snp.makeConstraints {
@@ -93,7 +95,18 @@ class PromotionHalfModalView: UIView {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(200)
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
+    }
+}
+
+// MARK: - 쿠폰 테두리 관련 - DS
+extension UILabel {
+    func setRoundedCorners(radius: CGFloat, backgroundColor: UIColor, borderColor: UIColor, borderWidth: CGFloat) {
+        self.layer.cornerRadius = radius
+        self.layer.masksToBounds = true
+        self.backgroundColor = backgroundColor
+        self.layer.borderColor = borderColor.cgColor
+        self.layer.borderWidth = borderWidth
     }
 }

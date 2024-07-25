@@ -10,8 +10,8 @@ import SnapKit
 
 class ReturnViewController: UIViewController {
     
-    // ReturnView에 있는 내용 갖고오기
     private let returnView = ReturnView()
+    private let timerModel = TimerModel()
     
     // 정보 받아와서 값 넣을꺼
     //    private let returnInfo = ReturnInfo(usageTime: "14:31", paymentAmount: 5900, promotionDiscount: 1000, totalAmount: 4900)
@@ -28,6 +28,36 @@ class ReturnViewController: UIViewController {
         returnView.paymentMethodDetailButton.addTarget(self, action: #selector(payHalfModal), for: .touchUpInside)
         returnView.promotionDetailButton.addTarget(self, action: #selector(promotionHalfModal), for: .touchUpInside)
         returnView.payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
+        
+        // 타이머 관련 추가 - DS ( 앱 상태 변화 감지 )
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    // MARK: - 타이머 시작
+
+    // 대여하기 버튼 클릭 후 타이머 진행관련 코드 작성예정
+//    timerModel.startTimer { [weak self] in
+//        self?.updateLabels()
+//    }
+    
+    // 레이블 업데이트
+    private func updateLabels() {
+        returnView.usageTimeValueLabel.text = timerModel.formatTime()
+        let fare = timerModel.calculateFare()
+        returnView.paymentAmountValueLabel.text = "\(timerModel.formatFare(fare))원"
+    }
+
+    // 앱이 백그라운드로 전환될 때 호출
+    @objc func appDidEnterBackground() {
+        timerModel.enterBackground()
+    }
+
+    // 앱이 포그라운드로 돌아올 때 호출
+    @objc func appWillEnterForeground() {
+        timerModel.enterForeground { [weak self] in
+            self?.updateLabels()
+        }
     }
     
     // MARK: - 결제버튼 클릭시 이벤트 - DS
@@ -39,6 +69,11 @@ class ReturnViewController: UIViewController {
         present(alert, animated: true, completion: nil)
         
         // 값 초기화 해줄 코드 작성하면 됨
+        
+        // 임시 타이머 코드
+        timerModel.startTimer { [weak self] in
+            self?.updateLabels()
+        }
     }
     // MARK: - 하프모달 func - DS
     // 내일 이야기 한 번 해봐야함
@@ -59,15 +94,15 @@ class ReturnViewController: UIViewController {
     
     @objc
     private func promotionHalfModal() {
-        let payHalfModalViewController = PayHalfModalViewController()
-        payHalfModalViewController.modalPresentationStyle = .pageSheet
+        let promotionHalfModalViewController = PromotionHalfModalViewController()
+        promotionHalfModalViewController.modalPresentationStyle = .pageSheet
         
-        if let sheet = payHalfModalViewController.sheetPresentationController {
+        if let sheet = promotionHalfModalViewController.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.preferredCornerRadius = 24.0
         }
-        payHalfModalViewController.preferredContentSize = CGSize(width: view.frame.width, height: 300)
+        promotionHalfModalViewController.preferredContentSize = CGSize(width: view.frame.width, height: 300)
         
-        present(payHalfModalViewController, animated: true, completion: nil)
+        present(promotionHalfModalViewController, animated: true, completion: nil)
     }
 }
