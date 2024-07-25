@@ -10,76 +10,59 @@ import SnapKit
 
 class HistoryView: UIView {
     
-    // 이미지뷰 생성
     let profileImage: UIImageView = {
         let image = UIImageView()
+        image.image = UIImage(named: "DefaultProfileImage")
         image.backgroundColor = .white
         image.layer.cornerRadius = 60
-        image.layer.borderWidth = 2.5 // 테두리 두께
+        image.layer.borderWidth = 1.0 // 테두리 두께
         image.layer.borderColor = UIColor.lightGray.cgColor // 테두리 색상
         image.contentMode = .scaleAspectFit
         image.layer.masksToBounds = true // 이미지 뷰 밖으로 나간 이미지를 자르기
         return image
     }()
     
-    // UILabel 생성
-    private let imageButton: UIButton = {
+    let imageButton: UIButton = {
         let button = UIButton()
         button.setTitle("이미지 선택", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
         return button
     }()
     
     private let nicknameLabel : UILabel = {
-        let button = UILabel()
-        button.text = "닉네임 님"
-        button.font = .boldSystemFont(ofSize: 18)
-        button.textAlignment = .center
-        
-        return button
+        let label = UILabel()
+        label.text = "닉네임 님"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textAlignment = .center
+        return label
     }()
     
     private let infoLabel : UILabel = {
-        let button = UILabel()
-        button.text = "기본정보"
-        button.textColor = .black
-        button.font = .boldSystemFont(ofSize: 14)
-        button.textAlignment = .left
-        
-        return button
+        let label = UILabel()
+        label.text = "기본정보"
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 14)
+        label.textAlignment = .left
+        return label
     }()
     
-    private let nameLabel : UILabel = {
-        let button = UILabel()
-        button.text = "이름   강유정"
-        button.textColor = .gray
-        button.font = .systemFont(ofSize: 14)
-        button.textAlignment = .left
-        
-        return button
+    private let idLabel : UILabel = {
+        let label = UILabel()
+        label.text = "회원번호   CF5168EA-E312-4D65-A62F-5084497F30CF"
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 14)
+        label.textAlignment = .left
+        return label
     }()
     
     private let emailLabel : UILabel = {
-        let button = UILabel()
-        button.text = "이메일   gni711@naver.com"
-        button.textColor = .gray
-        button.font = .systemFont(ofSize: 14)
-        button.textAlignment = .left
-        
-        return button
-    }()
-    
-    private let dateLabel : UILabel = {
-        let button = UILabel()
-        button.text = "생년월일   0000.00.00"
-        button.textColor = .gray
-        button.font = .systemFont(ofSize: 14)
-        button.textAlignment = .left
-        
-        return button
+        let label = UILabel()
+        label.text = "이메일   gni711@naver.com"
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 14)
+        label.textAlignment = .left
+        return label
     }()
     
     private var userInfoStackView: UIStackView = {
@@ -92,8 +75,86 @@ class HistoryView: UIView {
         
         // Padding 설정
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40))
-        
         return stackView
+    }()
+    
+    private var detailInfoStackView1: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.backgroundColor = .white
+        stackView.layer.cornerRadius = 20
+        return stackView
+    }()
+    
+    private var detailInfoStackView2: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.backgroundColor = .white
+        stackView.layer.cornerRadius = 20
+        return stackView
+    }()
+    
+    private let detailinfoLabel : UILabel = {
+        let label = UILabel()
+        label.text = "부가정보"
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 14)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private let phoneNumberLabel : UILabel = {
+        let button = UILabel()
+        button.text = "휴대폰"
+        button.textColor = .gray
+        button.font = .systemFont(ofSize: 14)
+        button.textAlignment = .left
+        return button
+    }()
+    
+    private var phoneChangeButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("변경", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        return button
+    }()
+    
+    private let birthDateLabel : UILabel = {
+        let button = UILabel()
+        button.text = "생년월일"
+        button.textColor = .gray
+        button.font = .systemFont(ofSize: 14)
+        button.textAlignment = .left
+        return button
+    }()
+    
+    private var dateChangeButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("변경", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        return button
+    }()
+    
+    private let detailUse : UILabel = {
+        let label = UILabel()
+        label.text = "이용 내역"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let loginOutButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("로그아웃", for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 15
+        button.setTitleColor(.darkGray, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        return button
     }()
     
     // 이니셜라이저 지정
@@ -108,65 +169,91 @@ class HistoryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc
-    private func buttonTapped() {
-        // 랜덤 사진 4장 로직 구현 예정
-    }
-    
     // 오토 레이아웃
     func configureUI() {
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [
-            profileImage,
-            imageButton,
-            nicknameLabel,
-            userInfoStackView
-        ].forEach { self.addSubview($0) }
+        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, loginOutButton]
+            .forEach { self.addSubview($0) }
         
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(110)
+            $0.top.equalToSuperview().offset(105)
             $0.width.height.equalTo(120)
-        }
-        
-        imageButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(profileImage.snp.bottom).offset(10)
         }
         
         nicknameLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(imageButton.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(40)
+            $0.top.equalTo(profileImage.snp.bottom).offset(20)
+        }
+        
+        imageButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(nicknameLabel.snp.bottom)
+            $0.width.equalTo(100)
         }
         
         userInfoStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(nicknameLabel.snp.bottom).offset(30)
+            $0.top.equalTo(imageButton.snp.bottom).offset(15)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(130)
+            $0.height.equalTo(180)
         }
         
-        [infoLabel, nameLabel, emailLabel, dateLabel]
+        detailUse.snp.makeConstraints {
+            $0.top.equalTo(userInfoStackView.snp.bottom).offset(30)
+            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.centerX.equalToSuperview()
+        }
+        
+        loginOutButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(30)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(35)
+            $0.width.equalTo(75)
+        }
+        
+        [infoLabel, idLabel, emailLabel, detailinfoLabel, detailInfoStackView1, detailInfoStackView2]
             .forEach {userInfoStackView.addArrangedSubview($0)}
         
         infoLabel.snp.makeConstraints {
-            $0.top.equalTo(userInfoStackView.snp.top).inset(15)
+            $0.top.equalTo(userInfoStackView.snp.top).inset(18)
             $0.leading.equalTo(userInfoStackView.snp.leading).offset(20)
         }
         
-        nameLabel.snp.makeConstraints {
+        idLabel.snp.makeConstraints {
             $0.top.equalTo(infoLabel.snp.bottom).offset(10)
         }
         
         emailLabel.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(10)
+            $0.top.equalTo(infoLabel.snp.bottom).offset(35)
         }
         
-        dateLabel.snp.makeConstraints {
-            $0.top.equalTo(emailLabel.snp.bottom)
-            $0.bottom.equalTo(userInfoStackView.snp.bottom).offset(20)
+        detailinfoLabel.snp.makeConstraints {
+            $0.top.equalTo(emailLabel.snp.bottom).offset(30)
+        }
+        
+        detailInfoStackView1.snp.makeConstraints {
+            $0.top.equalTo(detailinfoLabel.snp.bottom).offset(25)
+        }
+        
+        detailInfoStackView2.snp.makeConstraints {
+            $0.top.equalTo(detailinfoLabel.snp.bottom).offset(35)
+        }
+        
+        [phoneNumberLabel, phoneChangeButton]
+            .forEach {detailInfoStackView1.addArrangedSubview($0)}
+        
+        phoneChangeButton.snp.makeConstraints {
+            $0.trailing.equalTo(userInfoStackView.snp.trailing).inset(20)
+            $0.width.equalTo(40)
+        }
+        
+        [birthDateLabel, dateChangeButton]
+            .forEach {detailInfoStackView2.addArrangedSubview($0)}
+        
+        dateChangeButton.snp.makeConstraints {
+            $0.trailing.equalTo(userInfoStackView.snp.trailing).inset(20)
+            $0.width.equalTo(40)
         }
         
     }
