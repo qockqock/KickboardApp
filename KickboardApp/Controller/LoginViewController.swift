@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
         readAllData()
     }
     
-    // MARK: - email과 password 확인해서 로그인 or 회원가입 이동
+    // MARK: - email과 password 확인해서 로그인 or 회원가입 이동 - YJ
     @objc func handleLogin() {
         // 입력한 아이디와 패스워드 가져오기
         guard let email = loginView.idTextField.text, !email.isEmpty,
@@ -72,10 +72,12 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - 회원가입 버튼 - YJ
     @objc func signUpbuttonTapped() {
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     
+    // MARK: - 알럿 메서드 - YJ
     // 알림 표시 메서드
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

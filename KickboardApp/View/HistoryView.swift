@@ -10,7 +10,6 @@ import SnapKit
 
 class HistoryView: UIView {
     
-    // 이미지뷰 생성
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "DefaultProfileImage")
@@ -23,7 +22,6 @@ class HistoryView: UIView {
         return image
     }()
     
-    // UILabel 생성
     let imageButton: UIButton = {
         let button = UIButton()
         button.setTitle("이미지 선택", for: .normal)
@@ -149,6 +147,16 @@ class HistoryView: UIView {
         return label
     }()
     
+    let loginOutButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("로그아웃", for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 15
+        button.setTitleColor(.darkGray, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        return button
+    }()
+    
     // 이니셜라이저 지정
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -164,12 +172,12 @@ class HistoryView: UIView {
     // 오토 레이아웃
     func configureUI() {
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView]
+        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, loginOutButton]
             .forEach { self.addSubview($0) }
         
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(110)
+            $0.top.equalToSuperview().offset(105)
             $0.width.height.equalTo(120)
         }
         
@@ -186,7 +194,7 @@ class HistoryView: UIView {
         
         userInfoStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(imageButton.snp.bottom).offset(20)
+            $0.top.equalTo(imageButton.snp.bottom).offset(15)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(180)
         }
@@ -197,11 +205,18 @@ class HistoryView: UIView {
             $0.centerX.equalToSuperview()
         }
         
+        loginOutButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(30)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(35)
+            $0.width.equalTo(75)
+        }
+        
         [infoLabel, idLabel, emailLabel, detailinfoLabel, detailInfoStackView1, detailInfoStackView2]
             .forEach {userInfoStackView.addArrangedSubview($0)}
         
         infoLabel.snp.makeConstraints {
-            $0.top.equalTo(userInfoStackView.snp.top).inset(15)
+            $0.top.equalTo(userInfoStackView.snp.top).inset(18)
             $0.leading.equalTo(userInfoStackView.snp.leading).offset(20)
         }
         
