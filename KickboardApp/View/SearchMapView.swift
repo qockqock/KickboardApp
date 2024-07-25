@@ -21,6 +21,7 @@ class SearchMapView: UIView {
         let textfield = UITextField()
         textfield.placeholder = "도로명/지번 주소로 검색해주세요."
         textfield.borderStyle = .roundedRect
+
         return textfield
     }()
     
@@ -42,23 +43,24 @@ class SearchMapView: UIView {
         setupView()
     }
     
-    private func setupView() {
+    func setupView() {
         addSubview(textField)
         addSubview(searchButton)
         
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
-        textField.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.height.equalTo(50)
+        textField.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(180)
+            $0.height.equalTo(50)
         }
         
-        searchButton.snp.makeConstraints { make in
-            make.centerY.equalTo(textField)
-            make.trailing.equalTo(textField.snp.trailing).inset(10)
-            make.width.height.equalTo(40)
+        searchButton.snp.makeConstraints {
+            $0.centerY.equalTo(textField)
+            $0.trailing.equalTo(textField.snp.trailing).inset(10)
+            $0.width.height.equalTo(40)
         }
     }
     
