@@ -6,34 +6,29 @@
 //
 
 import UIKit
-import WebKit
 import SnapKit
 import KakaoMapsSDK
-import Alamofire
 
-class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate {
-    
-    let searchMapView = SearchMapView()
+class MapViewController: UIViewController, MapControllerDelegate {
     
     private lazy var mapView: KMViewContainer = {
         let view = KMViewContainer()
         return view
     }()
     
-    // searchMapView로 대체했습니다 - sh
-//    private var mapSearchBar: UISearchBar = {
-//        let searchBar = UISearchBar()
-//        searchBar.placeholder = "위치 검색"
-//        searchBar.backgroundColor = .white
-//        searchBar.layer.cornerRadius = 10
-//        searchBar.clipsToBounds = true
-//        return searchBar
-//    }()
+    private var mapSearchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "위치 검색"
+        searchBar.backgroundColor = .white
+        searchBar.layer.cornerRadius = 10
+        searchBar.clipsToBounds = true
+        return searchBar
+    }()
     
     private lazy var stopReturnButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .purple
-        button.setTitle("반납하기", for: .normal)
+        button.setTitle("반환하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         return button
@@ -87,8 +82,6 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         // hj test
         mapSetupUI()
         addViews()
-        
-        searchMapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,6 +133,7 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
             // 인증 실패 delegate 호출 이후 5초뒤에 재인증 시도..
             DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                 print("retry auth...")
+                
                 self.mapController?.prepareEngine()
             }
             break
@@ -152,7 +146,7 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
     private func mapSetupUI() {
         view.backgroundColor = .white
         
-        [mapView, searchMapView, stopReturnButton].forEach {
+        [mapView, mapSearchBar, stopReturnButton].forEach {
             self.view.addSubview($0)
         }
         
@@ -160,24 +154,25 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
             $0.edges.equalToSuperview()
         }
         
-        searchMapView.snp.makeConstraints {
+        mapSearchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(80)
+            $0.height.equalTo(40)
         }
-            
+        
         stopReturnButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
+            $0.width.equalTo(180)
             $0.height.equalTo(50)
         }
         
     }
     
+    
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         print("OK") //추가 성공. 성공시 추가적으로 수행할 작업을 진행한다.
-        _auth = true
         createPoiStyle()
         createLabelLayer()
         
@@ -311,76 +306,4 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
 //    
 //    ]
     
-    
-    //MARK: SearchMapView - sh
-    
-    
-    // delegate 필수함수 - sh
-    func didSearchAddress(_ documents: String) {
-        guard _auth else {
-            print("인증상태 없음")
-            return
-        }
-        
-        // 주소검색 및 지도이동 처리 - sh
-        searchAddress(documents) { result in
-            switch result {
-            case .success(let documents):
-                // 첫 번째 documents값에서 위도와 경도 가져오기
-                if let documents = documents.first, let latitude = Double(documents.latitude), let longitude = Double(documents.longitude) {
-                    self.updateMapView(latitude: latitude, longitude: longitude)
-                } else {
-                    print("Address 데이터 오류")
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
-    }
-    
-    // 주소 찾기 메서드 - sh
-    private func searchAddress(_ address: String, completion: @escaping (Result<[Address], Error>) -> Void) {
-        let apiKey = "aac47a0eaf15cc563a8993c289fdd10f"
-        let encodedQuery = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let urlString = "https://dapi.kakao.com/v2/local/search/address.json?query=\(encodedQuery!)"
-        
-        guard let url = URL(string: urlString) else {
-            print("URL 오류")
-            return
-        }
-        
-        let headers: HTTPHeaders = [
-            "Authorization": "KakaoAK \(apiKey)"
-        ]
-        
-        // NetworkManager 함수 사용
-        NetworkManager.shared.fetchData(url: url, headers: headers) { (result: Result<SearchedAddress, AFError>) in
-            switch result {
-            case .success(let searchedAddress):
-                completion(.success(searchedAddress.documents))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-        
-    // 주소검색에서 가져온 위도, 경도 데이터 이용해 지도 이동하는 메서드 - sh
-    private func updateMapView(latitude: Double, longitude: Double) {
-        guard !latitude.isNaN, !longitude.isNaN else {
-            print("위도 경도 데이터 오류")
-            // 오류 Alert 추가예정
-            return
-        }
-        
-        let position = MapPoint(longitude: longitude, latitude: latitude)
-        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-            print("맵뷰 로드 실패")
-            // 오류 Alert 추가예정
-            return
-        }
-        mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
-        createPoi(at: position)
-    }
 }
-
-
