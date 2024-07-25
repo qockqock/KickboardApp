@@ -8,27 +8,31 @@
 import UIKit
 import SnapKit
 import KakaoMapsSDK
+import Alamofire
 
-class MapViewController: UIViewController, MapControllerDelegate {
+class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate {
+    
+    let searchMapView = SearchMapView()
     
     private lazy var mapView: KMViewContainer = {
         let view = KMViewContainer()
         return view
     }()
     
-    private var mapSearchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "위치 검색"
-        searchBar.backgroundColor = .white
-        searchBar.layer.cornerRadius = 10
-        searchBar.clipsToBounds = true
-        return searchBar
-    }()
+    // searchMapView로 대체했습니다 - sh
+//    private var mapSearchBar: UISearchBar = {
+//        let searchBar = UISearchBar()
+//        searchBar.placeholder = "위치 검색"
+//        searchBar.backgroundColor = .white
+//        searchBar.layer.cornerRadius = 10
+//        searchBar.clipsToBounds = true
+//        return searchBar
+//    }()
     
     private lazy var stopReturnButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .purple
-        button.setTitle("반환하기", for: .normal)
+        button.setTitle("반납하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         return button
@@ -82,6 +86,8 @@ class MapViewController: UIViewController, MapControllerDelegate {
         // hj test
         mapSetupUI()
         addViews()
+        
+        searchMapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,7 +152,7 @@ class MapViewController: UIViewController, MapControllerDelegate {
     private func mapSetupUI() {
         view.backgroundColor = .white
         
-        [mapView, mapSearchBar, stopReturnButton].forEach {
+        [mapView, searchMapView, stopReturnButton].forEach {
             self.view.addSubview($0)
         }
         
@@ -154,8 +160,8 @@ class MapViewController: UIViewController, MapControllerDelegate {
             $0.edges.equalToSuperview()
         }
         
-        mapSearchBar.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+        searchMapView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(40)
         }
@@ -173,6 +179,7 @@ class MapViewController: UIViewController, MapControllerDelegate {
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         print("OK") //추가 성공. 성공시 추가적으로 수행할 작업을 진행한다.
+        _auth = true
         createPoiStyle()
         createLabelLayer()
         
@@ -306,4 +313,74 @@ class MapViewController: UIViewController, MapControllerDelegate {
 //    
 //    ]
     
+    //MARK: SearchMapView - sh
+
+
+    // delegate 필수함수 - sh
+    func didSearchAddress(_ documents: String) {
+        guard _auth else {
+            print("인증상태 없음")
+            return
+        }
+
+        // 주소검색 및 지도이동 처리 - sh
+        searchAddress(documents) { result in
+            switch result {
+            case .success(let documents):
+                // 첫 번째 documents값에서 위도와 경도 가져오기
+                if let documents = documents.first, let latitude = Double(documents.latitude), let longitude = Double(documents.longitude) {
+                    self.updateMapView(latitude: latitude, longitude: longitude)
+                } else {
+                    print("Address 데이터 오류")
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
+
+    // 주소 찾기 메서드 - sh
+    private func searchAddress(_ address: String, completion: @escaping (Result<[Address], Error>) -> Void) {
+        let apiKey = "aac47a0eaf15cc563a8993c289fdd10f"
+        let encodedQuery = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let urlString = "https://dapi.kakao.com/v2/local/search/address.json?query=\(encodedQuery!)"
+
+        guard let url = URL(string: urlString) else {
+            print("URL 오류")
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "KakaoAK \(apiKey)"
+        ]
+
+        // NetworkManager 함수 사용
+        NetworkManager.shared.fetchData(url: url, headers: headers) { (result: Result<SearchedAddress, AFError>) in
+            switch result {
+            case .success(let searchedAddress):
+                completion(.success(searchedAddress.documents))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // 주소검색에서 가져온 위도, 경도 데이터 이용해 지도 이동하는 메서드 - sh
+    private func updateMapView(latitude: Double, longitude: Double) {
+        guard !latitude.isNaN, !longitude.isNaN else {
+            print("위도 경도 데이터 오류")
+            // 오류 Alert 추가예정
+            return
+        }
+
+        let position = MapPoint(longitude: longitude, latitude: latitude)
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            print("맵뷰 로드 실패")
+            // 오류 Alert 추가예정
+            return
+        }
+        mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
+        createPoi(at: position)
+    }
+
 }
