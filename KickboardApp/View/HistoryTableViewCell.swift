@@ -81,6 +81,7 @@ final class TableViewCell: UITableViewCell {
 //        rideDatelabel.text = rideData.date
 //        rideTimelabel.text = rideData.distance
 //        ridePaymentlabel.text = rideData.fee
+//        kickboardId
 
     }
     

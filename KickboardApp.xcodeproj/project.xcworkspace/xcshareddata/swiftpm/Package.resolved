@@ -1,6 +1,15 @@
 {
-  "originHash" : "0ad03fab95f168be87515791b7dc49977db410ccbc0a6afbed1e923872036803",
+  "originHash" : "c887eaffa2e8c6bc56ecb336a472af273c23fea1632ac53c38010a16f955886a",
   "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
+      }
+    },
     {
       "identity" : "kakaomapssdk-spm",
       "kind" : "remoteSourceControl",

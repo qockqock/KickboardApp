@@ -46,6 +46,7 @@ class LoginView: UIView {
         text.layer.cornerRadius = 18
         text.placeholder = " 비밀번호"
         text.backgroundColor = UIColor.white.withAlphaComponent(0.4)
+        text.isSecureTextEntry = true  // passwordTextField 마스킹
         
         // Padding 설정
          let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40))
@@ -60,7 +61,6 @@ class LoginView: UIView {
         let button = UIButton()
         button.setTitle("로그인", for: .normal)
         button.backgroundColor = .white
-        button.setTitleColor(.systemGray, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.layer.cornerRadius = 25
         button.layer.borderColor = UIColor.systemGray5.cgColor // 테두리 색상
@@ -103,7 +103,7 @@ class LoginView: UIView {
         ].forEach { self.addSubview($0) }
         
         logoLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(120)
+            $0.top.equalToSuperview().offset(110)
             $0.leading.trailing.equalToSuperview().inset(40)
         }
         
