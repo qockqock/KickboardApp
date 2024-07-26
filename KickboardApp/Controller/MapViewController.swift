@@ -57,7 +57,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         setupStopReturnButton()
         updateStopReturnButtonState()
         generateRandomPoiPositions()
-        rentingButton()
         searchButton()
         changeReturnButton()
         
@@ -210,7 +209,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     private func deselectCurrentPoi() {
         if let poi = selectedPoi {
             poi.changeStyle(styleID: "blue")
-            selectedPoi = nil
+//            selectedPoi = nil
             updateStopReturnButtonState()
         }
     }
@@ -227,9 +226,24 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         // 윤대성 여기에 타임스탑,모달팝업 등의 동작을 넣으세요
         print("마커가 선택되었당")
         
-        // 마커가 선택 되었을 때 버튼 활성화
-        mapView?.stopReturnButton.isEnabled = true
-
+        if isRenting == true {
+            // 반납 버튼 로직
+            print("반납 버튼 클릭됨")
+            
+            // 버튼 제목 변경
+            mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
+            ReturnViewController.timer.stopTimer()
+            selectedPoi = nil
+            
+            isRenting = false
+        } else {
+            // 대여 버튼 로직
+            print("대여 버튼 클릭됨")
+            
+            mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
+            ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
+            isRenting = true
+        }
         deselectCurrentPoi()
     }
     
@@ -237,46 +251,22 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         guard let address = searchMapView.textField.text, !address.isEmpty else { return }
         print("search 버튼 눌림")
         searchMapView.delegate?.didSearchAddress(address)
-//        didSearchAddress(address)
-    }
-    
-    private func rentingButton() {
-        mapView?.stopReturnButton.addTarget(self, action: #selector(rentingButtonTapped), for: .touchUpInside)
     }
     
     private func searchButton() {
         searchMapView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     }
     
-    
     // 대여하기, 반납하기 관련 - DS
     @objc
     private func rentingButtonTapped() {
         print(isRenting)
-        if isRenting {
-                // 반납 버튼 로직
-                print("반납 버튼 클릭됨")
-                isRenting = false
-                // 버튼 제목 변경
-                mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
-                ReturnViewController.timer.stopTimer()
-            } else {
-                // 대여 버튼 로직
-                print("대여 버튼 클릭됨")
-                isRenting = true
-                mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
-                ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
-            }
     }
     
     // 반납 버튼 설정
     private func changeReturnButton() {
-        guard let stopReturnButton = mapView?.stopReturnButton else {
-            print("대여하기 값이 닐임")
-            return
-        }
-        stopReturnButton.setTitle("대여하기", for: .normal) // 기본 제목 설정
-        stopReturnButton.addTarget(self, action: #selector(rentingButtonTapped), for: .touchUpInside)
+        mapView?.stopReturnButton.setTitle("대여하기", for: .normal) // 기본 제목 설정
+        mapView?.stopReturnButton.addTarget(self, action: #selector(rentingButtonTapped), for: .touchUpInside)
         updateStopReturnButtonState() // 얘 왜 쓰는거지
     }
     
@@ -286,8 +276,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         locationManager.requestWhenInUseAuthorization()
     }
 }
-    
-    
     
     //MARK: - SearchMapView - sh
 extension MapViewController: SearchMapViewDelegate {
@@ -484,6 +472,9 @@ extension MapViewController: KakaoMapEventDelegate {
         
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
+        
+        // 마커가 선택 되었을 때
+        mapView?.stopReturnButton.isEnabled = true
         
         // 정보 표시
         let alert = UIAlertController(title: "위치 정보", message: "\n위치: \(poi.position)", preferredStyle: .alert)
