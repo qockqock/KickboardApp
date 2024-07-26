@@ -12,7 +12,14 @@ import CoreLocation
 import Alamofire
 import CoreData
 
+protocol MapViewControllerDelegate: AnyObject {
+    func didTapStopReturnButton()
+}
+
 class MapViewController: UIViewController, MapControllerDelegate  {
+    
+    weak var delegate: MapViewControllerDelegate?
+    var container: NSPersistentContainer!
     
     let searchMapView = SearchMapView()
     let locationManager = CLLocationManager()
@@ -62,6 +69,9 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.container = appDelegate.persistentContainer
     }
     
     
@@ -260,7 +270,12 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     // 대여하기, 반납하기 관련 - DS
     @objc
     private func rentingButtonTapped() {
-        print(isRenting)
+        print("대여하기 버튼이 클릭되었음")
+        
+        ReturnViewController.timer.startTimer()
+        
+        // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+        delegate?.didTapStopReturnButton()
     }
     
     // 반납 버튼 설정
@@ -473,8 +488,19 @@ extension MapViewController: KakaoMapEventDelegate {
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
         
-        // 마커가 선택 되었을 때
-        mapView?.stopReturnButton.isEnabled = true
+        // 현재 로그인한 유저의 ID 가져오기
+            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
+                  let currentUserId = UUID(uuidString: currentUserIdString) else {
+                print("로그인한 유저 ID를 가져올 수 없습니다.")
+                return
+            }
+            
+        // 현재 로그인한 유저의 ID 가져오기
+        guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
+              let currentUserId = UUID(uuidString: currentUserIdString) else {
+            print("로그인한 유저 ID를 가져올 수 없습니다.")
+            return
+        }
         
         // 정보 표시
         let alert = UIAlertController(title: "위치 정보", message: "\n위치: \(poi.position)", preferredStyle: .alert)
