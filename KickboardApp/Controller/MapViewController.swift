@@ -228,6 +228,12 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         _observerAdded = false
     }
     
+    // MARK: - stopReturnButton 버튼 클릭 - YJ
+    @objc private func stopReturnButtonTapped() {
+        delegate?.didTapStopReturnButton()
+        // 버튼이 클릭되면 레이블의 텍스트를 변경
+    }
+    
     @objc func willResignActive(){
         mapController?.pauseEngine()  //뷰가 inactive 상태로 전환되는 경우 렌더링 중인 경우 렌더링을 중단.
     }
@@ -389,13 +395,6 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
         createPoi(at: position)
     }
-    
-    // MARK: - stopReturnButton 버튼 클릭 - YJ
-    @objc private func stopReturnButtonTapped() {
-        delegate?.didTapStopReturnButton()
-        // 버튼이 클릭되면 레이블의 텍스트를 변경
-    }
-
 }
 
 
