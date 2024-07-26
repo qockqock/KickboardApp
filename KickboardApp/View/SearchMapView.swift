@@ -53,8 +53,7 @@ class SearchMapView: UIView {
         
         textField.snp.makeConstraints {
             $0.top.equalToSuperview().inset(10)
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(180)
             $0.height.equalTo(50)
         }
@@ -71,9 +70,9 @@ class SearchMapView: UIView {
         superview.addSubview(self)
         superview.bringSubviewToFront(self) // 항상 맨위에 올라오도록
         self.snp.makeConstraints {
-            $0.top.equalTo(superview).offset(80)
-            $0.leading.equalTo(superview.safeAreaLayoutGuide).offset(10)
-            $0.trailing.equalTo(superview.safeAreaLayoutGuide).offset(-10)
+            $0.top.equalTo(superview).offset(70)
+            $0.leading.equalTo(superview.safeAreaLayoutGuide).offset(20)
+            $0.trailing.equalTo(superview.safeAreaLayoutGuide).offset(-20)
             $0.height.equalTo(60)
         }
     }
