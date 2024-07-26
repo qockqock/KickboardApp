@@ -207,7 +207,7 @@ class HistoryView: UIView {
         // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(mypageLabel.snp.bottom).offset(60)
+            $0.top.equalTo(mypageLabel.snp.bottom).offset(15)
             $0.width.height.equalTo(120)
         }
         
