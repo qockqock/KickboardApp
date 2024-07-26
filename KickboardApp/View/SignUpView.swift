@@ -33,6 +33,7 @@ class SignUpView: UIView {
         userIdText.textColor = .black
         userIdText.borderStyle = .roundedRect
         userIdText.resignFirstResponder()
+        userIdText.autocapitalizationType = .none
         userIdText.placeholder = "이메일주소를 입력하세요"
         return userIdText
     }()
@@ -114,9 +115,6 @@ class SignUpView: UIView {
         let userNickNameText = UITextField()
         userNickNameText.textColor = .black
         userNickNameText.borderStyle = .roundedRect
-        userNickNameText.borderStyle = .roundedRect
-        userNickNameText.isSecureTextEntry = true
-        userNickNameText.resignFirstResponder()
         userNickNameText.placeholder = "닉네임을 입력하세요"
         return userNickNameText
     }()
