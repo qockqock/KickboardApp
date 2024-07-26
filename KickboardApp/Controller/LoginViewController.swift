@@ -28,6 +28,7 @@ class LoginViewController: UIViewController {
         loginView.signUpButton.addTarget(self, action: #selector(signUpbuttonTapped), for: .touchUpInside)
     }
     
+    // 디버깅용
     override func viewWillAppear(_ animated: Bool) {
         readAllData()
     }
@@ -41,7 +42,6 @@ class LoginViewController: UIViewController {
             // 두 필드 중 하나라도 비어 있을 경우 알럿
             return
         }
-        let realPassword = loginView.passwordTextField
         
         // 데이터베이스에서 유저 정보 확인
         let fetchRequest: NSFetchRequest<Users> = NSFetchRequest(entityName: "Users")
@@ -76,9 +76,9 @@ class LoginViewController: UIViewController {
     
     // MARK: - 회원가입 버튼 - YJ
     @objc func signUpbuttonTapped() {
-        let signUpVC = SignUpViewController()
-        signUpVC.modalPresentationStyle = .fullScreen
-        self.present(signUpVC, animated: true, completion: nil)
+        print("회원가입 버튼 클릭됨")
+    
+        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     
     // MARK: - 알럿 메서드 - YJ
@@ -89,7 +89,7 @@ class LoginViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // CoreData에서 모든 사용자 데이터 읽어오기
+    // CoreData에서 모든 사용자 데이터 읽어오기 - 디버깅용
     func readAllData() {
         do {
             let users = try self.container.viewContext.fetch(Users.fetchRequest()) as! [Users]

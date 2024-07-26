@@ -10,6 +10,14 @@ import SnapKit
 
 class HistoryView: UIView {
     
+    let mypageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "마이페이지"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textAlignment = .center
+        return label
+    }()
+    
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "DefaultProfileImage")
@@ -111,7 +119,7 @@ class HistoryView: UIView {
         return button
     }()
     
-    private var phoneChangeButton : UIButton = {
+    var phoneChangeButton : UIButton = {
         let button = UIButton()
         button.setTitle("변경", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
@@ -128,7 +136,7 @@ class HistoryView: UIView {
         return button
     }()
     
-    private var dateChangeButton : UIButton = {
+    var dateChangeButton : UIButton = {
         let button = UIButton()
         button.setTitle("변경", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
@@ -156,7 +164,7 @@ class HistoryView: UIView {
     
     let useKickboardLabel: UILabel = {
         let label = UILabel()
-        label.text = "\" 현재 킥보드를 이용중입니다. \""
+        label.text = "\" 현재 킥보드를 이용하고 있지 않습니다. \""
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .gray
         label.textAlignment = .center
@@ -188,13 +196,18 @@ class HistoryView: UIView {
     // 오토 레이아웃
     func configureUI() {
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, loginOutButton, quitButton]
+        [mypageLabel, profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, loginOutButton, quitButton]
             .forEach { self.addSubview($0) }
+        
+        mypageLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(80)
+        }
         
         // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(150)
+            $0.top.equalTo(mypageLabel.snp.bottom).offset(15)
             $0.width.height.equalTo(120)
         }
         

@@ -16,9 +16,16 @@ class MainTabbarController: UITabBarController {
     
     // Tabbar 생성하는 메서드 - sh
     func setupTabbar() {
-        let firstTab = UINavigationController(rootViewController: ReturnViewController.timer)
-        let secondTab = UINavigationController(rootViewController: MapViewController())
-        let thirdTab = UINavigationController(rootViewController: HistoryViewController())
+        // 델리게이트를 위한 변수 설정 - YJ
+        let mapviewController = MapViewController()
+        let historyController = HistoryViewController()
+        
+        mapviewController.delegate = historyController
+        
+        let firstTab = ReturnViewController.timer
+        let secondTab = mapviewController
+        let thirdTab = historyController
+
         
         firstTab.tabBarItem = UITabBarItem(title: "반납하기", image: UIImage(named: "tabBarScooter"), tag: 0)
         secondTab.tabBarItem = UITabBarItem(title: "지도", image: UIImage(named: "tabBarMap"), tag: 1)
