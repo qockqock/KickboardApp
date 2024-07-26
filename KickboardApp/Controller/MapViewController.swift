@@ -65,7 +65,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         generateRandomPoiPositions()
         rentingButton()
         searchButton()
-        
+
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
         
