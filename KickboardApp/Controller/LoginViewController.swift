@@ -41,7 +41,6 @@ class LoginViewController: UIViewController {
             // 두 필드 중 하나라도 비어 있을 경우 알럿
             return
         }
-        let realPassword = loginView.passwordTextField
         
         // 데이터베이스에서 유저 정보 확인
         let fetchRequest: NSFetchRequest<Users> = NSFetchRequest(entityName: "Users")

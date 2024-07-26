@@ -60,6 +60,7 @@ class LoginView: UIView {
     let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그인", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
         button.backgroundColor = .white
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.layer.cornerRadius = 25
@@ -71,7 +72,7 @@ class LoginView: UIView {
     // UILabel 생성
     let signUpButton: UIButton = {
         let button = UIButton()
-        button.setTitle("회원가입", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
         button.setTitleColor(.placeholderText, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor.white.withAlphaComponent(0.4) // 반투명 색상
