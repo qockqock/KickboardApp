@@ -11,21 +11,10 @@ import KakaoMapsSDK
 
 class MapView: UIView {
 
-    
-
     lazy var mapView: KMViewContainer = {
         let view = KMViewContainer()
         return view
     }()
-    
-//    var mapSearchBar: UISearchBar = {
-//        let searchBar = UISearchBar()
-//        searchBar.placeholder = "위치 검색"
-//        searchBar.backgroundColor = .white
-//        searchBar.layer.cornerRadius = 10
-//        searchBar.clipsToBounds = true
-//        return searchBar
-//    }()
     
     lazy var stopReturnButton: UIButton = {
         let button = UIButton()
@@ -58,19 +47,13 @@ class MapView: UIView {
     func mapSetupUI() {
         backgroundColor = .white
         
-        [mapView,  stopReturnButton, myLocationButton].forEach {
+        [mapView, stopReturnButton, myLocationButton].forEach {
             self.addSubview($0)
         }
         
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-//        mapSearchBar.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(80)
-//            $0.leading.trailing.equalToSuperview().inset(20)
-//            $0.height.equalTo(40)
-//        }
         
         stopReturnButton.snp.makeConstraints {
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(30)
