@@ -30,7 +30,9 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
     var mapContainer: KMViewContainer?
     var mapController: KMController?
     var poiPositions: [MapPoint] = []
+    
     private var isMapInit = false
+    private let timerModel = TimerModel()
     
     override func loadView() {
         mapView = MapView()
@@ -63,6 +65,8 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         setupStopReturnButton()
         updateStopReturnButtonState()
         generateRandomPoiPositions()
+        rentingButton()
+        searchButton()
         
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
@@ -236,9 +240,37 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         guard selectedPoi != nil else { return }
         // 윤대성 여기에 타임스탑,모달팝업 등의 동작을 넣으세요
         print("마커가 선택되었당")
-        // 작업 완료 후 선택 상태 초기화
+        
+        // 마커가 선택 되었을 때 버튼 활성화
+        mapView?.stopReturnButton.isEnabled = true
+
         deselectCurrentPoi()
     }
+    
+    @objc func searchButtonTapped() {
+        guard let address = searchMapView.textField.text, !address.isEmpty else { return }
+        print("search 버튼 눌림")
+        searchMapView.delegate?.didSearchAddress(address)
+//        didSearchAddress(address)
+    }
+    
+    private func rentingButton() {
+        mapView?.stopReturnButton.addTarget(self, action: #selector(rentingButtonTapped), for: .touchUpInside)
+    }
+    
+    private func searchButton() {
+        searchMapView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    // 대여하기 버튼이 눌렸을 때 - DS
+    @objc
+    private func rentingButtonTapped() {
+        print("대여하기 버튼이 클릭되었음")
+        
+        ReturnViewController.timer.startTimer()
+    }
+    
     
     private func setLocation() {
         locationManager.delegate = self
