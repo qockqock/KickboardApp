@@ -42,23 +42,38 @@ class SearchMapView: UIView {
         setupView()
     }
     
-    private func setupView() {
-        addSubview(textField)
-        addSubview(searchButton)
+    func setupView() {
+//        addSubview(textField)
+//        addSubview(searchButton)
+        [textField, searchButton].forEach {
+            self.addSubview($0)
+        }
         
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
-        textField.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.height.equalTo(50)
+        textField.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview()
+            $0.width.equalTo(180)
+            $0.height.equalTo(50)
         }
         
-        searchButton.snp.makeConstraints { make in
-            make.centerY.equalTo(textField)
-            make.trailing.equalTo(textField.snp.trailing).inset(10)
-            make.width.height.equalTo(40)
+        searchButton.snp.makeConstraints {
+            $0.centerY.equalTo(textField)
+            $0.trailing.equalTo(textField.snp.trailing).inset(10)
+            $0.width.height.equalTo(40)
+        }
+    }
+    
+    //해당 UI를 MapViewController에서 불러올 때의 자리를 지정
+    func setupConstraints(in superview: UIView) {
+        superview.addSubview(self)
+        superview.bringSubviewToFront(self) // 항상 맨위에 올라오도록
+        self.snp.makeConstraints {
+            $0.top.equalTo(superview).offset(70)
+            $0.leading.equalTo(superview.safeAreaLayoutGuide).offset(20)
+            $0.trailing.equalTo(superview.safeAreaLayoutGuide).offset(-20)
+            $0.height.equalTo(60)
         }
     }
     

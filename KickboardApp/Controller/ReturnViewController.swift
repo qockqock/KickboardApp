@@ -35,24 +35,25 @@ class ReturnViewController: UIViewController {
     }
     
     // MARK: - 타이머 시작
-
+    
     // 대여하기 버튼 클릭 후 타이머 진행관련 코드 작성예정
-//    timerModel.startTimer { [weak self] in
-//        self?.updateLabels()
-//    }
+    //    timerModel.startTimer { [weak self] in
+    //        self?.updateLabels()
+    //    }
     
     // 레이블 업데이트
     private func updateLabels() {
         returnView.usageTimeValueLabel.text = timerModel.formatTime()
         let fare = timerModel.calculateFare()
-        returnView.paymentAmountValueLabel.text = "\(timerModel.formatFare(fare))원"
+        returnView.paymentAmountValueLabel.text = "\(timerModel.formatNumber(fare))원"
+        returnView.totalAmountValueLabel.text = "\(timerModel.formatNumber(fare))"
     }
-
+    
     // 앱이 백그라운드로 전환될 때 호출
     @objc func appDidEnterBackground() {
         timerModel.enterBackground()
     }
-
+    
     // 앱이 포그라운드로 돌아올 때 호출
     @objc func appWillEnterForeground() {
         timerModel.enterForeground { [weak self] in
@@ -75,6 +76,7 @@ class ReturnViewController: UIViewController {
             self?.updateLabels()
         }
     }
+    
     // MARK: - 하프모달 func - DS
     // 내일 이야기 한 번 해봐야함
     // 어떤? -> 하프모달이 16버전 이상부터 높이를 커스텀 할 수 있어서, 16아래 버전은 깨지게 되는데, 어떻게해야할지에 대해 토의해야할 듯
@@ -94,7 +96,7 @@ class ReturnViewController: UIViewController {
     
     @objc
     private func promotionHalfModal() {
-        let promotionHalfModalViewController = PromotionHalfModalViewController()
+        let promotionHalfModalViewController = PromotionHalfModalViewController(returnView: returnView)
         promotionHalfModalViewController.modalPresentationStyle = .pageSheet
         
         if let sheet = promotionHalfModalViewController.sheetPresentationController {

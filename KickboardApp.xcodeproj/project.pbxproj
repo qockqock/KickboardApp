@@ -21,12 +21,14 @@
 		6B07160A2C4E051C00B1605D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B0716092C4E051C00B1605D /* Assets.xcassets */; };
 		6B07160D2C4E051C00B1605D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6B07160C2C4E051C00B1605D /* Base */; };
 		6B0716162C4E058100B1605D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B0716152C4E058100B1605D /* SnapKit */; };
-		6B0716242C4FB0C900B1605D /* ReturnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716232C4FB0C900B1605D /* ReturnView.swift */; };
 		6B0716542C4FF57400B1605D /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716532C4FF57400B1605D /* ModalViewController.swift */; };
 		6B0716562C4FFBC800B1605D /* PayHalfModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716552C4FFBC700B1605D /* PayHalfModalView.swift */; };
 		6B0716592C500DD200B1605D /* PromotionHalfModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0716582C500DD200B1605D /* PromotionHalfModalView.swift */; };
 		6B07165C2C50D36D00B1605D /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B07165B2C50D36D00B1605D /* TimerModel.swift */; };
+		E519AC482C5197E6009D6A54 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519AC472C5197E6009D6A54 /* POIModel.swift */; };
+		E51B40932C50C0BE005F223A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51B40922C50C0BE005F223A /* MapView.swift */; };
 		E550BACB2C4E4BF8000285BD /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = E550BACA2C4E4BF8000285BD /* KakaoMapsSDK-SPM */; };
+		E5AD93832C520C940080FB16 /* ReturnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AD93822C520C940080FB16 /* ReturnView.swift */; };
 		E705A1322C51E3470094BD55 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E705A1312C51E3470094BD55 /* Alamofire */; };
 		E705A1352C51E38A0094BD55 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E705A1342C51E38A0094BD55 /* NetworkManager.swift */; };
 		E705A1372C51E3A40094BD55 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E705A1362C51E3A40094BD55 /* SearchMapView.swift */; };
@@ -61,11 +63,13 @@
 		6B0716092C4E051C00B1605D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B07160C2C4E051C00B1605D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B07160E2C4E051C00B1605D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B0716232C4FB0C900B1605D /* ReturnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnView.swift; sourceTree = "<group>"; };
 		6B0716532C4FF57400B1605D /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		6B0716552C4FFBC700B1605D /* PayHalfModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayHalfModalView.swift; sourceTree = "<group>"; };
 		6B0716582C500DD200B1605D /* PromotionHalfModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionHalfModalView.swift; sourceTree = "<group>"; };
 		6B07165B2C50D36D00B1605D /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
+		E519AC472C5197E6009D6A54 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
+		E51B40922C50C0BE005F223A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = KickboardApp/View/MapView.swift; sourceTree = SOURCE_ROOT; };
+		E5AD93822C520C940080FB16 /* ReturnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnView.swift; sourceTree = "<group>"; };
 		E705A1342C51E38A0094BD55 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E705A1362C51E3A40094BD55 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		E705A1382C51E3DB0094BD55 /* SearchedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedAddress.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 				E72183182C4E3BB20050A6F0 /* Users+CoreDataProperties.swift */,
 				E72183192C4E3BB20050A6F0 /* RideData+CoreDataClass.swift */,
 				E721831A2C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift */,
+				E519AC472C5197E6009D6A54 /* POIModel.swift */,
 				6B07165B2C50D36D00B1605D /* TimerModel.swift */,
 				E705A1382C51E3DB0094BD55 /* SearchedAddress.swift */,
 			);
@@ -162,6 +167,7 @@
 				6B07165A2C50D13200B1605D /* ReturnPageView */,
 				43C880BA2C4E46DC00985151 /* LoginView.swift */,
 				14EFB2152C4F46D60074E1ED /* SignUpView.swift */,
+				E51B40922C50C0BE005F223A /* MapView.swift */,
 				43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */,
 				43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */,
 				E705A1362C51E3A40094BD55 /* SearchMapView.swift */,
@@ -195,8 +201,8 @@
 		6B07165A2C50D13200B1605D /* ReturnPageView */ = {
 			isa = PBXGroup;
 			children = (
+				E5AD93822C520C940080FB16 /* ReturnView.swift */,
 				6B0716572C500D5300B1605D /* ModalView */,
-				6B0716232C4FB0C900B1605D /* ReturnView.swift */,
 			);
 			path = ReturnPageView;
 			sourceTree = "<group>";
@@ -302,9 +308,10 @@
 			files = (
 				E705A1352C51E38A0094BD55 /* NetworkManager.swift in Sources */,
 				6B0716592C500DD200B1605D /* PromotionHalfModalView.swift in Sources */,
+				E51B40932C50C0BE005F223A /* MapView.swift in Sources */,
 				6B0716562C4FFBC800B1605D /* PayHalfModalView.swift in Sources */,
-				6B0716242C4FB0C900B1605D /* ReturnView.swift in Sources */,
 				E72182FE2C4E33600050A6F0 /* SignUpViewController.swift in Sources */,
+				E5AD93832C520C940080FB16 /* ReturnView.swift in Sources */,
 				6B0716082C4E051A00B1605D /* KickboardApp.xcdatamodeld in Sources */,
 				14EFB2162C4F46D60074E1ED /* SignUpView.swift in Sources */,
 				E721831B2C4E3BB20050A6F0 /* Kickboards+CoreDataClass.swift in Sources */,
@@ -317,6 +324,7 @@
 				43DF1A7E2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift in Sources */,
 				E721831E2C4E3BB20050A6F0 /* Users+CoreDataProperties.swift in Sources */,
 				E7A692062C4F9E4D005DB1F0 /* DataGenerator.swift in Sources */,
+				E519AC482C5197E6009D6A54 /* POIModel.swift in Sources */,
 				E721831F2C4E3BB20050A6F0 /* RideData+CoreDataClass.swift in Sources */,
 				6B0716542C4FF57400B1605D /* ModalViewController.swift in Sources */,
 				E72183202C4E3BB20050A6F0 /* RideData+CoreDataProperties.swift in Sources */,
