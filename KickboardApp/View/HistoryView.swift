@@ -163,6 +163,16 @@ class HistoryView: UIView {
         return label
     }()
     
+    let quitButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("회원탈퇴", for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 15
+        button.setTitleColor(.darkGray, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        return button
+    }()
+    
     // 이니셜라이저 지정
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -178,12 +188,13 @@ class HistoryView: UIView {
     // 오토 레이아웃
     func configureUI() {
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, loginOutButton]
+        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, loginOutButton, quitButton]
             .forEach { self.addSubview($0) }
         
+        // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(105)
+            $0.top.equalToSuperview().offset(150)
             $0.width.height.equalTo(120)
         }
         
@@ -218,7 +229,16 @@ class HistoryView: UIView {
         
         loginOutButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(30)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview().offset(75)
+            $0.height.equalTo(35)
+            $0.width.equalTo(75)
+        }
+        
+        
+        // 회원탈퇴 버튼 추가하며 loginOutButton 제약조건 수정 - sh
+        quitButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(30)
+            $0.trailing.equalToSuperview().offset(-75)
             $0.height.equalTo(35)
             $0.width.equalTo(75)
         }
