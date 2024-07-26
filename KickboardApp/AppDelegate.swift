@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Tabbar 배경색 전역적으로 설정
         UITabBar.appearance().backgroundColor = .white
         
-        // Kickboards 난수데이터 500개 생성 - 필요시에만 주석 해제하여 사용
+//        // Kickboards 난수데이터 10000개 생성 - 필요시에만 주석 해제하여 사용
 //        let dataGenerator = DataGenerator()
 //        dataGenerator.CreateRandomData()
         

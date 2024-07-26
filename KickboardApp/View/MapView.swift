@@ -18,10 +18,11 @@ class MapView: UIView {
     
     lazy var stopReturnButton: UIButton = {
         let button = UIButton()
+        button.setTitle("대여하기", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
         button.backgroundColor = .purple
-        button.setTitle("반환하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.isEnabled = false // 처음에는 비활성화
+        button.layer.cornerRadius = 10
         return button
     }()
     
