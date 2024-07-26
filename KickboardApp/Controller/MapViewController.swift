@@ -11,11 +11,12 @@ import KakaoMapsSDK
 import CoreLocation
 import Alamofire
 
-class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate {
-    
+class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate  {
+
+    let searchMapView = SearchMapView()
     let locationManager = CLLocationManager()
     var selectedPoi: Poi?
-    var mapView: MapView!
+    var mapView: MapView?
     var mapContainer: KMViewContainer?
     var mapController: KMController?
     var poiPositions: [MapPoint] = []
@@ -32,23 +33,14 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         let defaultPosition: MapPoint = MapPoint(longitude: 126.9137, latitude: 37.5491)
         //지도(KakaoMap)를 그리기 위한 viewInfo를 생성
         let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 17)
-        
-        mapContainer = mapView?.mapView
-        
-        print("1맵 컨테이너 생성 성공")
+        mapContainer = mapView?.mapView // KMViewContainer 생성
         
         mapController = KMController(viewContainer: mapContainer!)
-        mapController!.delegate = self
-        
-        print("2mapController 초기화 성공")
-        
-        mapController?.prepareEngine()
-        print("3 prepareEngine 성공")
+        mapController?.delegate = self
+        mapController!.prepareEngine()
         DispatchQueue.main.async {
             self.mapController?.addView(mapviewInfo)
         }
-        print("4단계 뷰 로드 완")
-        // ❗️메인스레드에서 실행하고자 디스패치큐를 사용했으나 이로인해 뷰로드 순서가 꼬여서 때때로 맵 로드가 제대로 되지 않을 수 있음, 테스트 중...
         
         isMapInit = true
     }
@@ -61,8 +53,12 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         setupStopReturnButton()
         updateStopReturnButtonState()
         generateRandomPoiPositions()
-            SearchMapView().setupView()
+        
+        searchMapView.setupConstraints(in: view)
+        searchMapView.delegate = self
+            
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -87,7 +83,6 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         mapController?.pauseEngine()
         mapController?.resetEngine()
     }
-    
     
     // 지도 API 인증 실패 시 처리
     func authenticationFailed(_ errorCode: Int, desc: String) {
@@ -186,9 +181,6 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         }
     }
     
-    
-    
-    
     //MARK: - 현재 위치 파악
     private func setupMyLocationButton() {
         guard let myLocationButton = mapView?.myLocationButton else {
@@ -197,6 +189,7 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         }
         myLocationButton.addTarget(self, action: #selector(myLocationButtonTapped), for: .touchUpInside)
     }
+    
     private func setupStopReturnButton() {
         guard let stopReturnButton = mapView?.stopReturnButton else {
             print("stopReturnButton is nil")
@@ -241,7 +234,7 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
     
     
     
-    //MARK: SearchMapView - sh
+    //MARK: - SearchMapView - sh
     
     
     // delegate 필수함수 - sh
@@ -307,8 +300,8 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
             // 오류 Alert 추가예정
             return
         }
-        //            mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
-        //            createPoi(at: position)
+//                    mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
+//                    createPoi(at: position)
     }
     
     
