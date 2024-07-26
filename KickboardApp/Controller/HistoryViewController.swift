@@ -93,6 +93,7 @@ class HistoryViewController: UIViewController {
     
     // MARK: - 로그아웃 버튼 - YJ
     @objc private func loginOutButtonTapped() {
+        UserDefaults.standard.removeObject(forKey: "currentUserEmail")
         returnToLoginPage()
     }
     // 회원탈퇴 버튼 - sh
