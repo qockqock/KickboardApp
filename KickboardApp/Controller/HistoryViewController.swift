@@ -6,15 +6,21 @@
 //
 
 import UIKit
+import CoreData
 
 class HistoryViewController: UIViewController {
     
     private let historyView = HistoryView()
     
+    var container: NSPersistentContainer!
+    
     let imageNames = ["RandomImg1", "RandomImg2", "RandomImg3", "RandomImg4", "RandomImg5"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.container = appDelegate.persistentContainer
         
         view = historyView
         
@@ -23,11 +29,9 @@ class HistoryViewController: UIViewController {
         
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
-    }
-   
-    // MARK: - 네이게이션 타이틀 - YJ
-    private func navigationSet() {
-        self.title = "마이 페이지"
+        historyView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
+        
+        fetchCurrentUser()
     }
     
     // MARK: - 랜덤 이미지 버튼 - YJ
@@ -39,8 +43,38 @@ class HistoryViewController: UIViewController {
         historyView.profileImage.image = UIImage(named: randomImageName)
     }
     
-    // MARK: - 로그아웃 - YJ
-    @objc private func loginOutButtonTapped() {
+    // MARK: - 현재 유저 정보 마이페이지에 띄우기 - YJ
+    func fetchCurrentUser() {
+        guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else {
+            print("사용자 이메일을 찾을 수 없습니다.")
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<Users> = NSFetchRequest(entityName: "Users")
+        fetchRequest.predicate = NSPredicate(format: "email == %@", currentUserEmail)
+        
+        do {
+            let users = try self.container.viewContext.fetch(fetchRequest)
+            if let currentUser = users.first {
+                if let nickname = currentUser.nickname {
+                    historyView.nicknameLabel.text = "\(nickname)  님"
+                }
+                if let id = currentUser.id {
+                    historyView.idLabel.text = "회원번호   \(id)"
+                }
+                if let email = currentUser.email {
+                    historyView.emailLabel.text = "이메일   \(email)"
+                }
+            } else {
+                print("해당 사용자의 데이터를 찾을 수 없습니다.")
+            }
+        } catch {
+            print("사용자 데이터 가져오기 오류")
+        }
+    }
+    
+    // 메인페이지로 돌아가는 코드 따로 뺐습니다!! - sh
+    private func returnToLoginPage() {
         if let windowScene = view.window?.windowScene {
             for window in windowScene.windows {
                 if window.isKeyWindow {
@@ -50,7 +84,33 @@ class HistoryViewController: UIViewController {
             }
         }
     }
+    
+    // 유저 delete 메서드 - sh
+    private func deleteUser(email: String) {
+        let predicate = NSPredicate(format: "email == %@", email)
+        CoreDataManager.shared.delete(entityType: Users.self, predicate: predicate)
+    }
+    
+    // MARK: - 로그아웃 버튼 - YJ
+    @objc private func loginOutButtonTapped() {
+        returnToLoginPage()
+    }
+    // 회원탈퇴 버튼 - sh
+    @objc private func quitButtonTapped() {
+        let alert = UIAlertController(title: "정말 탈퇴하시겠습니까?", message: "저장된 정보는 모두 삭제되며, 돌이킬 수 없습니다.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "예", style: .destructive) { _ in
+            guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else { return }
+            self.deleteUser(email: currentUserEmail)
+            UserDefaults.standard.removeObject(forKey: "currentUserEmail")
+            self.returnToLoginPage()
+        }
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
+
 
 //extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
 //
