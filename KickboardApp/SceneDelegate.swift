@@ -20,8 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         
         self.window = window
-        
-        // 라이트모드만 지원
         self.window?.overrideUserInterfaceStyle = .light
     }
     
