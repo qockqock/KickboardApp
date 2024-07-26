@@ -76,9 +76,7 @@ class LoginViewController: UIViewController {
     
     // MARK: - 회원가입 버튼 - YJ
     @objc func signUpbuttonTapped() {
-        let signUpVC = SignUpViewController()
-        signUpVC.modalPresentationStyle = .fullScreen
-        self.present(signUpVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     
     // MARK: - 알럿 메서드 - YJ
