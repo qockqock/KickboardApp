@@ -57,6 +57,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         updateStopReturnButtonState()
         generateRandomPoiPositions()
         rentingButton()
+        searchButton()
         
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
@@ -234,7 +235,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     @objc func searchButtonTapped() {
         guard let address = searchMapView.textField.text, !address.isEmpty else { return }
         print("search 버튼 눌림")
-        didSearchAddress(address)
+        searchMapView.delegate?.didSearchAddress(address)
+//        didSearchAddress(address)
     }
     
     private func rentingButton() {
