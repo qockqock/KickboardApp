@@ -99,6 +99,11 @@ class PromotionHalfModalViewController: UIViewController {
     // 쿠폰사용 버튼액션
     @objc
     private func promotionButtonTapped() {
+        let alert = UIAlertController(title: "사용완료", message: "쿠폰이 사용되었습니다.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+        
         // 쿠폰 금액
         let promotionAmount = 1000
         
