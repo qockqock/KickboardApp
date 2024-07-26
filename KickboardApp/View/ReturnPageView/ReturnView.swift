@@ -55,7 +55,7 @@ class ReturnView: UIView {
     public lazy var payButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제하기", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.backgroundColor = .purple
         button.layer.cornerRadius = 10
         return button
