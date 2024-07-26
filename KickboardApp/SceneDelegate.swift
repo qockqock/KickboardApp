@@ -16,12 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        window.rootViewController = MainTabbarController()
+        window.rootViewController = LoginViewController()
         window.makeKeyAndVisible()
         
         self.window = window
-        
-        // 라이트모드만 지원
         self.window?.overrideUserInterfaceStyle = .light
     }
     
