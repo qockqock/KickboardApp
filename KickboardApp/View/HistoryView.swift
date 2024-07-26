@@ -156,7 +156,7 @@ class HistoryView: UIView {
     
     let useKickboardLabel: UILabel = {
         let label = UILabel()
-        label.text = "\" 현재 킥보드를 이용중입니다. \""
+        label.text = "\" 현재 킥보드를 이용하고 있지 않습니다. \""
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .gray
         label.textAlignment = .center
@@ -194,7 +194,7 @@ class HistoryView: UIView {
         // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(150)
+            $0.top.equalToSuperview().offset(105)
             $0.width.height.equalTo(120)
         }
         

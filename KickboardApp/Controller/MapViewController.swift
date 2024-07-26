@@ -10,7 +10,13 @@ import SnapKit
 import KakaoMapsSDK
 import Alamofire
 
+protocol MapViewControllerDelegate: AnyObject {
+    func didTapStopReturnButton()
+}
+
 class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate {
+    
+    weak var delegate: MapViewControllerDelegate?
     
     let searchMapView = SearchMapView()
     
@@ -35,6 +41,7 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         button.setTitle("반납하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.addTarget(self, action: #selector(stopReturnButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -382,5 +389,13 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
         createPoi(at: position)
     }
+    
+    // MARK: - stopReturnButton 버튼 클릭 - YJ
+    @objc private func stopReturnButtonTapped() {
+        delegate?.didTapStopReturnButton()
+        // 버튼이 클릭되면 레이블의 텍스트를 변경
+    }
 
 }
+
+

@@ -72,6 +72,7 @@ class LoginView: UIView {
     // UILabel 생성
     let signUpButton: UIButton = {
         let button = UIButton()
+        button.setTitle("회원가입", for: .normal)
         button.setTitleColor(.gray, for: .normal)
         button.setTitleColor(.placeholderText, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)

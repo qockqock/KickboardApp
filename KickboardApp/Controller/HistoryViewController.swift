@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class HistoryViewController: UIViewController {
+class HistoryViewController: UIViewController, MapViewControllerDelegate {
     
     private let historyView = HistoryView()
     
@@ -32,12 +32,15 @@ class HistoryViewController: UIViewController {
         historyView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
         
         fetchCurrentUser()
+        
+        // MapViewController 인스턴스 생성 및 delegate 설정
+        let mapViewController = MapViewController()
+        mapViewController.delegate = self
     }
     
     // MARK: - 랜덤 이미지 버튼 - YJ
     @objc private func imageButtonTapped() {
         let randomIndex = Int.random(in: 0..<imageNames.count)
-        
         let randomImageName = imageNames[randomIndex]
         
         historyView.profileImage.image = UIImage(named: randomImageName)
@@ -109,6 +112,11 @@ class HistoryViewController: UIViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: - stopReturnButton 버튼 클릭 - YJ
+    func didTapStopReturnButton() {
+           historyView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
+       }
 }
 
 

@@ -28,6 +28,7 @@ class LoginViewController: UIViewController {
         loginView.signUpButton.addTarget(self, action: #selector(signUpbuttonTapped), for: .touchUpInside)
     }
     
+    // 디버깅용
     override func viewWillAppear(_ animated: Bool) {
         readAllData()
     }
@@ -86,7 +87,7 @@ class LoginViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // CoreData에서 모든 사용자 데이터 읽어오기
+    // CoreData에서 모든 사용자 데이터 읽어오기 - 디버깅용
     func readAllData() {
         do {
             let users = try self.container.viewContext.fetch(Users.fetchRequest()) as! [Users]
