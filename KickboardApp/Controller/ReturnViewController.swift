@@ -10,11 +10,18 @@ import SnapKit
 
 class ReturnViewController: UIViewController {
     
+    static let timer = ReturnViewController()
+    
     private let returnView = ReturnView()
     private let timerModel = TimerModel()
     
-    // 정보 받아와서 값 넣을꺼
-    //    private let returnInfo = ReturnInfo(usageTime: "14:31", paymentAmount: 5900, promotionDiscount: 1000, totalAmount: 4900)
+    private init() {
+            super.init(nibName: nil, bundle: nil)
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     
     override func loadView() {
         view = returnView
