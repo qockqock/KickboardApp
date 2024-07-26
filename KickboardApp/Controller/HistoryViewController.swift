@@ -94,7 +94,19 @@ class HistoryViewController: UIViewController {
     // MARK: - 로그아웃 버튼 - YJ
     @objc private func loginOutButtonTapped() {
         UserDefaults.standard.removeObject(forKey: "currentUserEmail")
-        returnToLoginPage()
+        loginOutButtonTapAlert()
+    }
+    
+    private func loginOutButtonTapAlert() {
+        let loginOutAlert = UIAlertController(title: "로그아웃", message: "정말로 로그아웃을 하시겠습니까?", preferredStyle: .alert)
+        loginOutAlert.addAction(UIAlertAction(title: "확인", style: .cancel) { action in
+            print("확인 버튼이 클릭되었습니다")
+            self.returnToLoginPage()
+        })
+        loginOutAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
+            print("취소 버튼이 클릭되었습니다")
+        })
+        self.present(loginOutAlert, animated: true, completion: nil)
     }
     
     // MARK: - 회원탈퇴 버튼 - sh
