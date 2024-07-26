@@ -45,7 +45,7 @@ class CoreDataManager {
     /// - Parameters:
     ///   - entityType: 어떤 엔티티를 불러올건지 결정, 예를 들어 RideData.self
     ///   - configure: 읽어온 entityType를 처리하는 클로저
-    func read<T:NSManagedObject>(entityType: T.Type, configure: (T) -> Void) {
+    func read<T: NSManagedObject>(entityType: T.Type, configure: (T) -> Void) {
         let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityType))
         do {
             let results = try self.context.fetch(fetchRequest)
