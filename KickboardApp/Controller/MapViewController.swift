@@ -21,6 +21,8 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
     var mapController: KMController?
     var poiPositions: [MapPoint] = []
     private var isMapInit = false
+    private let timerModel = TimerModel()
+    private let returnViewController = ReturnViewController()
     
     override func loadView() {
         mapView = MapView()
@@ -221,9 +223,14 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         guard selectedPoi != nil else { return }
         // 윤대성 여기에 타임스탑,모달팝업 등의 동작을 넣으세요
         print("마커가 선택되었당")
-        // 작업 완료 후 선택 상태 초기화
+        
+        // 마커가 선택 되었을 때 버튼 활성화
+        mapView?.stopReturnButton.isEnabled = true
+
         deselectCurrentPoi()
     }
+    
+//    private func
     
     private func setLocation() {
         locationManager.delegate = self

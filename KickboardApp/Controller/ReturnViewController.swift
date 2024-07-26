@@ -70,8 +70,15 @@ class ReturnViewController: UIViewController {
         present(alert, animated: true, completion: nil)
         
         // 값 초기화 해줄 코드 작성하면 됨
-        
-        // 임시 타이머 코드
+         
+//        // 임시 타이머 코드
+//        timerModel.startTimer { [weak self] in
+//            self?.updateLabels()
+//        }
+    }
+    
+    // 타이머 시작 코드
+    func startTimer() {
         timerModel.startTimer { [weak self] in
             self?.updateLabels()
         }
