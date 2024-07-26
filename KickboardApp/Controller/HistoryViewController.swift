@@ -24,8 +24,8 @@ class HistoryViewController: UIViewController {
         
         view = historyView
         
-        // 네비게이션
-        self.title = "마이 페이지"
+//        // 네비게이션
+//        self.title = "마이 페이지"
         
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
@@ -93,22 +93,37 @@ class HistoryViewController: UIViewController {
     
     // MARK: - 로그아웃 버튼 - YJ
     @objc private func loginOutButtonTapped() {
+        UserDefaults.standard.removeObject(forKey: "currentUserEmail")
         returnToLoginPage()
     }
-    // 회원탈퇴 버튼 - sh
-    @objc private func quitButtonTapped() {
-        let alert = UIAlertController(title: "정말 탈퇴하시겠습니까?", message: "저장된 정보는 모두 삭제되며, 돌이킬 수 없습니다.", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "예", style: .destructive) { _ in
-            guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else { return }
-            self.deleteUser(email: currentUserEmail)
-            UserDefaults.standard.removeObject(forKey: "currentUserEmail")
-            self.returnToLoginPage()
+    
+    // MARK: - 회원탈퇴 버튼 - sh
+        @objc private func quitButtonTapped() {
+            showAlert(title: "정말 탈퇴하시겠습니까?", message: "저장된 정보는 모두 삭제되며, 돌이킬 수 없습니다.", confirmActionTitle: "예", cancelActionTitle: "아니오") {
+                guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else { return }
+                self.deleteUser(email: currentUserEmail)
+                UserDefaults.standard.removeObject(forKey: "currentUserEmail")
+                
+                self.showAlert(title: "탈퇴 완료", message: "회원 탈퇴가 완료되었습니다.", confirmActionTitle: "확인", cancelActionTitle: nil) {
+                    self.returnToLoginPage()
+                }
+            }
         }
-        let cancelAction = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
-    }
+        
+        func showAlert(title: String, message: String, confirmActionTitle: String, cancelActionTitle: String?, confirmActionHandler: @escaping () -> Void) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: confirmActionTitle, style: .destructive) { _ in
+                confirmActionHandler()
+            }
+            alert.addAction(confirmAction)
+            
+            if let cancelTitle = cancelActionTitle {
+                let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: nil)
+                alert.addAction(cancelAction)
+            }
+            
+            present(alert, animated: true, completion: nil)
+        }
 }
 
 

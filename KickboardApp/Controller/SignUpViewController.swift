@@ -134,6 +134,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             
             membershipAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
                 print("확인 버튼이 클릭되었습니다")
+                // 로그인 페이지로 자동으로 돌아감 - sh
+                self.navigationController?.popViewController(animated: true)
             })
             
             self.present(membershipAlert, animated: true, completion: nil)
