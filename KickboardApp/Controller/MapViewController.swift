@@ -10,6 +10,9 @@ import SnapKit
 import KakaoMapsSDK
 import CoreLocation
 import Alamofire
+import CoreData
+
+class MapViewController: UIViewController, MapControllerDelegate  {
 
 protocol MapViewControllerDelegate: AnyObject {
     func didTapStopReturnButton()
@@ -63,7 +66,6 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
-            
     }
     
     
@@ -243,26 +245,23 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
-    
+}
     
     
     
     //MARK: - SearchMapView - sh
-    
+extension MapViewController: SearchMapViewDelegate {
     
     // delegate 필수함수 - sh
-    func didSearchAddress(_ documents: String) {
-        //            guard _auth else {
-        //                print("인증상태 없음")
-        //                return
-        //            }
-        
+    func didSearchAddress(_ address: String) {
         // 주소검색 및 지도이동 처리 - sh
-        searchAddress(documents) { result in
+        searchAddress(address) { result in
             switch result {
             case .success(let documents):
                 // 첫 번째 documents값에서 위도와 경도 가져오기
-                if let documents = documents.first, let latitude = Double(documents.latitude), let longitude = Double(documents.longitude) {
+                if let document = documents.first,
+                   let latitude = Double(document.latitude),
+                   let longitude = Double(document.longitude) {
                     self.updateMapView(latitude: latitude, longitude: longitude)
                 } else {
                     print("Address 데이터 오류")
@@ -281,6 +280,7 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         
         guard let url = URL(string: urlString) else {
             print("URL 오류")
+            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
         
@@ -303,34 +303,82 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
     private func updateMapView(latitude: Double, longitude: Double) {
         guard !latitude.isNaN, !longitude.isNaN else {
             print("위도 경도 데이터 오류")
-            // 오류 Alert 추가예정
             return
         }
         
         let position = MapPoint(longitude: longitude, latitude: latitude)
         guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
             print("맵뷰 로드 실패")
-            // 오류 Alert 추가예정
             return
         }
-//                    mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
-//                    createPoi(at: position)
+        
+        mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
+        let pois = fetchPoisAround(latitude: latitude, longitude: longitude)
+        print("POI 개수: \(pois.count)")
+        createSearchedPoi(pois: pois)
     }
     
+    // 주변 반경 거리 계산 메서드
+    private func calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
+        let earthRadius = 6371000.0
+        let dLat = (lat2 - lat1) * .pi / 180
+        let dLon = (lon2 - lon1) * .pi / 180
+        let a = sin(dLat/2) * sin(dLat/2) +
+        cos(lat1 * .pi / 180) * cos(lat2 * .pi / 180) *
+        sin(dLon/2) * sin(dLon/2)
+        let c = 2 * atan2(sqrt(a), sqrt(1-a))
+        return earthRadius * c
+    }
     
+    // 가로세로 500미터 이내 poi
+    private func fetchPoisAround(latitude: Double, longitude: Double) -> [Kickboards] {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Kickboards> = Kickboards.fetchRequest()
+
+        let delta = 0.5
+
+        let minLat = latitude - delta
+        let maxLat = latitude + delta
+        let minLon = longitude - delta
+        let maxLon = longitude + delta
+
+        fetchRequest.predicate = NSPredicate(format: "latitude >= %f AND latitude <= %f AND longitude >= %f AND longitude <= %f", minLat, maxLat, minLon, maxLon)
+
+        do {
+            let pois = try context.fetch(fetchRequest)
+            print("Fetched POIs: \(pois.count)")
+            return pois
+        } catch {
+            return []
+        }
+    }
+
     
-    
+    private func createSearchedPoi(pois: [Kickboards]) {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            return
+        }
+        let labelManager = mapView.getLabelManager()
+        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
+            return
+        }
+        for poi in pois {
+            let position = MapPoint(longitude: poi.longitude, latitude: poi.latitude)
+            let options = PoiOptions(styleID: "blue", poiID: "poi_\(UUID().uuidString)")
+            options.clickable = true
+            if let poiItem = layer.addPoi(option: options, at: position) {
+                poiItem.show()
+                let _ = poiItem.addPoiTappedEventHandler(target: self) { [weak self] _ in
+                    return { param in
+                        self?.poiTapped(param)
+                    }
+                }
+            } else {
+                print("POI 찍기 실패")
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 //MARK: - POI
