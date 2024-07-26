@@ -23,6 +23,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     var poiPositions: [MapPoint] = []
     
     private var isMapInit = false
+    private var isRenting: Bool = false
     private let timerModel = TimerModel()
     
     override func loadView() {
@@ -58,6 +59,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         generateRandomPoiPositions()
         rentingButton()
         searchButton()
+        changeReturnButton()
         
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
@@ -247,14 +249,36 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     }
     
     
-    // 대여하기 버튼이 눌렸을 때 - DS
+    // 대여하기, 반납하기 관련 - DS
     @objc
     private func rentingButtonTapped() {
-        print("대여하기 버튼이 클릭되었음")
-        
-        ReturnViewController.timer.startTimer()
+        print(isRenting)
+        if isRenting {
+                // 반납 버튼 로직
+                print("반납 버튼 클릭됨")
+                isRenting = false
+                // 버튼 제목 변경
+                mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
+                ReturnViewController.timer.stopTimer()
+            } else {
+                // 대여 버튼 로직
+                print("대여 버튼 클릭됨")
+                isRenting = true
+                mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
+                ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
+            }
     }
     
+    // 반납 버튼 설정
+    private func changeReturnButton() {
+        guard let stopReturnButton = mapView?.stopReturnButton else {
+            print("대여하기 값이 닐임")
+            return
+        }
+        stopReturnButton.setTitle("대여하기", for: .normal) // 기본 제목 설정
+        stopReturnButton.addTarget(self, action: #selector(rentingButtonTapped), for: .touchUpInside)
+        updateStopReturnButtonState() // 얘 왜 쓰는거지
+    }
     
     private func setLocation() {
         locationManager.delegate = self

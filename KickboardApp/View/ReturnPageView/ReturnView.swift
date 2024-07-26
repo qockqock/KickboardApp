@@ -227,4 +227,21 @@ class ReturnView: UIView {
         separator.backgroundColor = .systemGray4
         return separator
     }
+    
+    // MARK: - 값 초기화 관련
+    func updateUsageTime(_ time: String) {
+        usageTimeValueLabel.text = time
+    }
+    
+    func updatePaymentAmount(_ amount: String) {
+        paymentAmountValueLabel.text = amount
+    }
+    
+    func updatePromotionAmount(_ amount: String) {
+        promotionValueLabel.text = amount
+    }
+    
+    func updateTotalAmount(_ amount: String) {
+        totalAmountValueLabel.text = amount
+    }
 }
