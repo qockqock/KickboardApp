@@ -14,7 +14,7 @@ class DataGenerator {
     let coreDataManager = CoreDataManager.shared
     
     func CreateRandomData() {
-        for _ in 0..<500 {
+        for _ in 0..<10000 {
             let randomLatitude = Double.random(in: 33...38)
             let randomLongitude = Double.random(in: 124...132)
             let randomBattery = Double.random(in: 10...99)
