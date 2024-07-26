@@ -110,9 +110,9 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
         // 모든 값 초기화
         timerModel.stopTimer()
         returnView.updateUsageTime("00:00:00")
-        returnView.updatePaymentAmount("1,500원")
+        returnView.updatePaymentAmount("0원")
         returnView.updatePromotionAmount("-0원")
-        returnView.updateTotalAmount("1,500원")
+        returnView.updateTotalAmount("0원")
         returnView.payButton.isEnabled = false
     }
     

@@ -243,8 +243,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             // 버튼 제목 변경
             mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
             ReturnViewController.timer.stopTimer()
-            selectedPoi = nil
             
+            selectedPoi = nil
             isRenting = false
         } else {
             // 대여 버튼 로직
@@ -252,8 +252,13 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             
             mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
             ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
+            
+            // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+            delegate?.didTapStopReturnButton()
+            
             isRenting = true
         }
+        
         deselectCurrentPoi()
     }
     
@@ -267,21 +272,10 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         searchMapView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     }
     
-    // 대여하기, 반납하기 관련 - DS
-    @objc
-    private func rentingButtonTapped() {
-        print("대여하기 버튼이 클릭되었음")
-        
-        ReturnViewController.timer.startTimer()
-        
-        // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
-        delegate?.didTapStopReturnButton()
-    }
-    
     // 반납 버튼 설정
     private func changeReturnButton() {
         mapView?.stopReturnButton.setTitle("대여하기", for: .normal) // 기본 제목 설정
-        mapView?.stopReturnButton.addTarget(self, action: #selector(rentingButtonTapped), for: .touchUpInside)
+        mapView?.stopReturnButton.addTarget(self, action: #selector(stopReturnButtonTapped), for: .touchUpInside)
         updateStopReturnButtonState() // 얘 왜 쓰는거지
     }
     
