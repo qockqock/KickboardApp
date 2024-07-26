@@ -17,14 +17,14 @@ class SearchMapView: UIView {
     
     weak var delegate: SearchMapViewDelegate?
     
-    private let textField: UITextField = {
+    let textField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "도로명/지번 주소로 검색해주세요."
         textfield.borderStyle = .roundedRect
         return textfield
     }()
     
-    private let searchButton: UIButton = {
+    let searchButton: UIButton = {
         let button = UIButton(type: .custom)
         if let image = UIImage(named: "MapSearchButton") {
             button.setImage(image, for: .normal)
@@ -43,13 +43,9 @@ class SearchMapView: UIView {
     }
     
     func setupView() {
-//        addSubview(textField)
-//        addSubview(searchButton)
         [textField, searchButton].forEach {
             self.addSubview($0)
         }
-        
-        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
         textField.snp.makeConstraints {
             $0.top.equalToSuperview().inset(10)
@@ -75,11 +71,5 @@ class SearchMapView: UIView {
             $0.trailing.equalTo(superview.safeAreaLayoutGuide).offset(-20)
             $0.height.equalTo(60)
         }
-    }
-    
-    @objc private func searchButtonTapped() {
-        guard let address = textField.text, !address.isEmpty else { return }
-        print("search 버튼 눌림")
-        delegate?.didSearchAddress(address)
     }
 }
