@@ -30,9 +30,8 @@ class HistoryView: UIView {
         return button
     }()
     
-    private let nicknameLabel : UILabel = {
+    let nicknameLabel : UILabel = {
         let label = UILabel()
-        label.text = "닉네임 님"
         label.font = .boldSystemFont(ofSize: 18)
         label.textAlignment = .center
         return label
@@ -47,18 +46,16 @@ class HistoryView: UIView {
         return label
     }()
     
-    private let idLabel : UILabel = {
+    let idLabel : UILabel = {
         let label = UILabel()
-        label.text = "회원번호   CF5168EA-E312-4D65-A62F-5084497F30CF"
         label.textColor = .gray
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .left
         return label
     }()
     
-    private let emailLabel : UILabel = {
+    let emailLabel : UILabel = {
         let label = UILabel()
-        label.text = "이메일   gni711@naver.com"
         label.textColor = .gray
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .left
@@ -142,7 +139,7 @@ class HistoryView: UIView {
     private let detailUse : UILabel = {
         let label = UILabel()
         label.text = "이용 내역"
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 17)
         label.textAlignment = .left
         return label
     }()
@@ -150,6 +147,25 @@ class HistoryView: UIView {
     let loginOutButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그아웃", for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 15
+        button.setTitleColor(.darkGray, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        return button
+    }()
+    
+    let useKickboardLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\" 현재 킥보드를 이용중입니다. \""
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let quitButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("회원탈퇴", for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
         button.setTitleColor(.darkGray, for: .normal)
@@ -172,18 +188,19 @@ class HistoryView: UIView {
     // 오토 레이아웃
     func configureUI() {
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, loginOutButton]
+        [profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, loginOutButton, quitButton]
             .forEach { self.addSubview($0) }
         
+        // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(105)
+            $0.top.equalToSuperview().offset(150)
             $0.width.height.equalTo(120)
         }
         
         nicknameLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(profileImage.snp.bottom).offset(20)
+            $0.top.equalTo(profileImage.snp.bottom).offset(18)
         }
         
         imageButton.snp.makeConstraints {
@@ -200,14 +217,28 @@ class HistoryView: UIView {
         }
         
         detailUse.snp.makeConstraints {
-            $0.top.equalTo(userInfoStackView.snp.bottom).offset(30)
+            $0.top.equalTo(userInfoStackView.snp.bottom).offset(25)
             $0.leading.trailing.equalToSuperview().inset(40)
+            $0.centerX.equalToSuperview()
+        }
+        
+        useKickboardLabel.snp.makeConstraints {
+            $0.top.equalTo(detailUse.snp.bottom).offset(18)
             $0.centerX.equalToSuperview()
         }
         
         loginOutButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(30)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview().offset(75)
+            $0.height.equalTo(35)
+            $0.width.equalTo(75)
+        }
+        
+        
+        // 회원탈퇴 버튼 추가하며 loginOutButton 제약조건 수정 - sh
+        quitButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(30)
+            $0.trailing.equalToSuperview().offset(-75)
             $0.height.equalTo(35)
             $0.width.equalTo(75)
         }
@@ -258,3 +289,4 @@ class HistoryView: UIView {
         
     }
 }
+
