@@ -16,8 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        window.rootViewController = LoginViewController()
-        window.makeKeyAndVisible()
+        // UserDefaults에 데이터가 있을 경우 자동로그인
+        if UserDefaults.standard.string (forKey: "currentUserEmail") != nil {
+        window.rootViewController = MainTabbarController ()
+        }
+        else {
+            window.rootViewController = UINavigationController(rootViewController: LoginViewController())
+        }
+        window.makeKeyAndVisible ()
         
         self.window = window
         self.window?.overrideUserInterfaceStyle = .light

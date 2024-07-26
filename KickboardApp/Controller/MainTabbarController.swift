@@ -22,12 +22,10 @@ class MainTabbarController: UITabBarController {
         
         mapviewController.delegate = historyController
         
-        let firstTab = UINavigationController(rootViewController: ReturnViewController())
-        let secondTab = UINavigationController(rootViewController: mapviewController)
-        let thirdTab = UINavigationController(rootViewController: historyController)
-        let firstTab = UINavigationController(rootViewController: ReturnViewController.timer)
-        let secondTab = UINavigationController(rootViewController: MapViewController())
-        let thirdTab = UINavigationController(rootViewController: HistoryViewController())
+        let firstTab = ReturnViewController.timer
+        let secondTab = mapviewController
+        let thirdTab = historyController
+
         
         firstTab.tabBarItem = UITabBarItem(title: "반납하기", image: UIImage(named: "tabBarScooter"), tag: 0)
         secondTab.tabBarItem = UITabBarItem(title: "지도", image: UIImage(named: "tabBarMap"), tag: 1)

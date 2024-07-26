@@ -76,6 +76,8 @@ class LoginViewController: UIViewController {
     
     // MARK: - 회원가입 버튼 - YJ
     @objc func signUpbuttonTapped() {
+        print("회원가입 버튼 클릭됨")
+    
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     

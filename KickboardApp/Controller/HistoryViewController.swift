@@ -21,7 +21,7 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
-        
+    
         view = historyView
         
         // 네비게이션
@@ -30,6 +30,8 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
         historyView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
+        historyView.phoneChangeButton.addTarget(self, action: #selector(phoneChangeButtonTapped), for: .touchUpInside)
+        historyView.dateChangeButton.addTarget(self, action: #selector(dateChangeButtonTapped), for: .touchUpInside)
         
         fetchCurrentUser()
         
@@ -44,6 +46,14 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         let randomImageName = imageNames[randomIndex]
         
         historyView.profileImage.image = UIImage(named: randomImageName)
+    }
+    
+    @objc private func phoneChangeButtonTapped() {
+        
+    }
+    
+    @objc private func dateChangeButtonTapped() {
+        
     }
     
     // MARK: - 현재 유저 정보 마이페이지에 띄우기 - YJ
@@ -113,7 +123,7 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // MARK: - stopReturnButton 버튼 클릭 - YJ
+    // MARK: - stopReturnButton 버튼 클릭 액션 - YJ
     func didTapStopReturnButton() {
            historyView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
        }

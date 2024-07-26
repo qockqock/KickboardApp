@@ -12,16 +12,14 @@ import CoreLocation
 import Alamofire
 import CoreData
 
-class MapViewController: UIViewController, MapControllerDelegate  {
-
 protocol MapViewControllerDelegate: AnyObject {
     func didTapStopReturnButton()
 }
-class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate  {
 
-class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewDelegate {
+class MapViewController: UIViewController, MapControllerDelegate  {
     
     weak var delegate: MapViewControllerDelegate?
+    var container: NSPersistentContainer!
     
     let searchMapView = SearchMapView()
     let locationManager = CLLocationManager()
@@ -70,6 +68,9 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.container = appDelegate.persistentContainer
     }
     
     
@@ -148,12 +149,6 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
     func removeObservers(){
         NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
-    }
-    
-    // MARK: - stopReturnButton 버튼 클릭 - YJ
-    @objc private func stopReturnButtonTapped() {
-        delegate?.didTapStopReturnButton()
-        // 버튼이 클릭되면 레이블의 텍스트를 변경
     }
     
     @objc func willResignActive(){
@@ -268,6 +263,9 @@ class MapViewController: UIViewController, MapControllerDelegate, SearchMapViewD
         print("대여하기 버튼이 클릭되었음")
         
         ReturnViewController.timer.startTimer()
+        
+        // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+        delegate?.didTapStopReturnButton()
     }
     
     
@@ -476,6 +474,20 @@ extension MapViewController: KakaoMapEventDelegate {
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
         
+        // 현재 로그인한 유저의 ID 가져오기
+            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
+                  let currentUserId = UUID(uuidString: currentUserIdString) else {
+                print("로그인한 유저 ID를 가져올 수 없습니다.")
+                return
+            }
+            
+        // 현재 로그인한 유저의 ID 가져오기
+        guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
+              let currentUserId = UUID(uuidString: currentUserIdString) else {
+            print("로그인한 유저 ID를 가져올 수 없습니다.")
+            return
+        }
+        
         // 정보 표시
         let alert = UIAlertController(title: "위치 정보", message: "\n위치: \(poi.position)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
@@ -533,5 +545,3 @@ extension MapViewController: CLLocationManagerDelegate {
         }
     }
 }
-
-

@@ -111,7 +111,7 @@ class HistoryView: UIView {
         return button
     }()
     
-    private var phoneChangeButton : UIButton = {
+    var phoneChangeButton : UIButton = {
         let button = UIButton()
         button.setTitle("변경", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
@@ -128,7 +128,7 @@ class HistoryView: UIView {
         return button
     }()
     
-    private var dateChangeButton : UIButton = {
+    var dateChangeButton : UIButton = {
         let button = UIButton()
         button.setTitle("변경", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
