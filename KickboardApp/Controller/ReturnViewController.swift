@@ -100,6 +100,9 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
         self.alertManager(title: "결제완료", message: "결제가 완료되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
             self?.resetValues()
             self?.dismiss(animated: true, completion: nil)
+            if let tabBarController = self?.tabBarController as? MainTabbarController {
+                tabBarController.selectedIndex = 1
+            }
         })
         
 //        let alert = UIAlertController(title: "결제완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
