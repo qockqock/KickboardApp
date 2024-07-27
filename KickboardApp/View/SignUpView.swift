@@ -66,7 +66,7 @@ class SignUpView: UIView {
     
     private let checkLabel: UILabel = {
         let checkLabel = UILabel()
-        checkLabel.text = "영문, 숫자, 특수문자를 포함하여 6자~12자 사이의 비밀번호를 입력해주세요."
+        checkLabel.text = "영문, 숫자, 특수문자를 포함하여 8자~12자 사이의 비밀번호를 입력해주세요."
         checkLabel.numberOfLines = 2
         checkLabel.textColor = .gray
         checkLabel.font = .boldSystemFont(ofSize: 13)

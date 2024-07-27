@@ -38,30 +38,31 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return userEmailTest.evaluate(with: email)
     }
     
-    // MARK: - 중복확인 얼럿
+    // MARK: - 중복확인 얼럿 (살짝 수정했어요) - DS
     @objc private func checkIdButtonTap() {
         print("중복확인 버튼이 클릭 되었습니다.")
         guard let email = signUpView.userIdText.text else { return }
+        
         if userEmailCheck(email) {
-            let checkIdButtonTapAlert = UIAlertController(title: "사용가능한 아이디", message: "해당 아이디로 가입을 하시겠습니까?", preferredStyle: .alert)
-            print("중복확인 버튼 얼럿이 열렸습니다.")
-            checkIdButtonTapAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
-                print("취소 버튼이 클릭되었습니다")
-            })
-            
-            checkIdButtonTapAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-                print("확인 버튼이 클릭되었습니다")
-                self.checkIdButtonTapAlerts()
-            })
-            self.present(checkIdButtonTapAlert, animated: true, completion: nil)
-            // 이메일 형식이 아닐때 뜨는 얼럿
+            if isEmailDuplicate(email) {
+                showAlert(title: "중복된 아이디", message: "이미 사용 중인 이메일입니다. 다른 이메일을 사용해주세요.")
+            } else {
+                showAlert(title: "사용가능한 아이디", message: "해당 아이디로 가입을 하시겠습니까?", actions: [
+                    UIAlertAction(title: "취소", style: .destructive) { action in
+                        print("취소 버튼이 클릭되었습니다")
+                    },
+                    UIAlertAction(title: "확인", style: .default) { action in
+                        print("확인 버튼이 클릭되었습니다")
+                        self.checkIdButtonTapAlerts()
+                    }
+                ])
+            }
         } else {
-            let nonEmailIdAlert = UIAlertController(title: "아이디 확인", message: (signUpView.userIdText.text?.isEmpty ?? true) ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요.", preferredStyle: .alert)
-            print("이메일 형식이 다른 얼럿이 열렸습니다")
-            nonEmailIdAlert.addAction(UIAlertAction(title: "확인", style: .destructive) { action in
-                print("확인 버튼이 클릭되었습니다")
-            })
-            self.present(nonEmailIdAlert, animated: true, completion: nil)
+            showAlert(title: "아이디 확인", message: (signUpView.userIdText.text?.isEmpty ?? true) ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요.", actions: [
+                UIAlertAction(title: "확인", style: .destructive) { action in
+                    print("확인 버튼이 클릭되었습니다")
+                }
+            ])
         }
     }
     
@@ -74,11 +75,35 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.present(checkDoubleAlert, animated: true, completion: nil)
     }
     
+    // MARK: - 이메일 중복 체크 - DS
+    private func isEmailDuplicate(_ email: String) -> Bool {
+        let fetchRequest: NSFetchRequest<Users> = Users.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            return !result.isEmpty
+        } catch {
+            print("메일이 확인 되지 않았음")
+            return false
+        }
+    }
+    
     // MARK: - 회원가입 얼럿
     @objc private func membershipJoinButtonTap() {
         print("회원가입 버튼이 클릭 되었습니다.")
         guard let userId = signUpView.userIdText.text, !userId.isEmpty else {
             self.textFieldCheck(textField: signUpView.userIdText, type: "아이디")
+            return
+        }
+        
+        if !userEmailCheck(userId) { // 이메일 형식 확인 추가 - DS
+            showAlert(title: "아이디 오류", message: "이메일 형식이 잘못되었습니다. 올바른 이메일 형식을 입력해주세요.")
+            return
+        }
+        
+        if isEmailDuplicate(userId) { // 이메일 중복 확인 추가 -DS
+            showAlert(title: "중복된 아이디", message: "이미 사용 중인 이메일입니다. 다른 이메일을 사용해주세요.")
             return
         }
         
@@ -206,6 +231,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     private func membershipshowAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - 얼럿창 새로 생성 (재사용성을 위함) - DS
+    private func showAlert(title: String, message: String, actions: [UIAlertAction] = [UIAlertAction(title: "확인", style: .default)]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        actions.forEach { alert.addAction($0) }
         self.present(alert, animated: true, completion: nil)
     }
 }
