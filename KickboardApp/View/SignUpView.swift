@@ -32,6 +32,8 @@ class SignUpView: UIView {
         let userIdText = UITextField()
         userIdText.textColor = .black
         userIdText.borderStyle = .roundedRect
+        userIdText.resignFirstResponder()
+        userIdText.autocapitalizationType = .none
         userIdText.placeholder = "이메일주소를 입력하세요"
         return userIdText
     }()
@@ -40,7 +42,7 @@ class SignUpView: UIView {
     public lazy var checkIdButton: UIButton = {
         let checkIdButton = UIButton()
         checkIdButton.setTitle("중복확인", for: .normal)
-        checkIdButton.backgroundColor = .systemPurple
+        checkIdButton.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
         checkIdButton.layer.cornerRadius = 15
         return checkIdButton
     }()
@@ -60,6 +62,7 @@ class SignUpView: UIView {
         userPassWordText.borderStyle = .roundedRect
         userPassWordText.isSecureTextEntry = true
         userPassWordText.textContentType = .oneTimeCode
+        userPassWordText.resignFirstResponder()
         userPassWordText.placeholder = "비밀번호를 입력하세요"
         return userPassWordText
     }()
@@ -86,6 +89,7 @@ class SignUpView: UIView {
         userPassWordCheckText.borderStyle = .roundedRect
         userPassWordCheckText.isSecureTextEntry = true
         userPassWordCheckText.textContentType = .oneTimeCode
+        userPassWordCheckText.resignFirstResponder()
         userPassWordCheckText.placeholder = "동일한 비밀번호를 입력해주세요"
         return userPassWordCheckText
     }()
@@ -118,7 +122,7 @@ class SignUpView: UIView {
     public lazy var membershipJoinButton: UIButton = {
         let membershipJoinButton = UIButton()
         membershipJoinButton.setTitle("회 원 가 입", for: .normal)
-        membershipJoinButton.backgroundColor = .systemPurple
+        membershipJoinButton.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
         membershipJoinButton.layer.cornerRadius = 30
         return membershipJoinButton
     }()

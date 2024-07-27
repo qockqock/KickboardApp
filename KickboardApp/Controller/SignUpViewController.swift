@@ -11,11 +11,13 @@ import CoreData
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     private let signUpView = SignUpView()
+    
     //코어데이터에 저장하기 위한 필수 구현
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    // MARK: - 뷰디드로드
+    // MARK: - ViewDidLoad
     
+    //유저 데이터가 저장되었는지 확인하는 코드
     func printAllUsers() { CoreDataManager.shared.read(entityType: Users.self) {
         user in
         if let id = user.id, let nickname = user.nickname, let email = user.email, let password = user.password, let date = user.date, let image = user.image { print("User ID: \(id), Nickname: \(nickname), Email: \(email), Password: \(password), Date: \(date), Image: \(image)") } } }
@@ -42,7 +44,20 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @objc private func checkIdButtonTap() {
         print("중복확인 버튼이 클릭 되었습니다.")
         guard let email = signUpView.userIdText.text else { return }
+        // 이메일이 중복되었을때
+        if coreDataEmailCheck(email: email, context: context) {
+            let checkingIdAlert = UIAlertController(title: "중복된 아이디", message: "해당 아이디는 중복된 아이디입니다 다른 이메일을 작성해 주세요.", preferredStyle: .alert)
+            print("중복확인 버튼 얼럿이 열렸습니다.")
+            
+            checkingIdAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+                print("확인 버튼이 클릭되었습니다")
+            })
+            
+            self.present(checkingIdAlert, animated: true, completion: nil)
+        }
+        
         if userEmailCheck(email) {
+            // 사용가능한 아이디가 나왔을때
             let checkIdButtonTapAlert = UIAlertController(title: "사용가능한 아이디", message: "해당 아이디로 가입을 하시겠습니까?", preferredStyle: .alert)
             print("중복확인 버튼 얼럿이 열렸습니다.")
             checkIdButtonTapAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
@@ -54,9 +69,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 self.checkIdButtonTapAlerts()
             })
             self.present(checkIdButtonTapAlert, animated: true, completion: nil)
-            // 이메일 형식이 아닐때 뜨는 얼럿
+            
         } else {
-            let nonEmailIdAlert = UIAlertController(title: "아이디 확인", message: (signUpView.userIdText.text?.isEmpty ?? true) ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요.", preferredStyle: .alert)
+            let isEmpty = signUpView.userIdText.text?.isEmpty ?? true
+            let message = isEmpty ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요."
+            let nonEmailIdAlert = UIAlertController(title: "아이디 확인", message: message, preferredStyle: .alert)
             print("이메일 형식이 다른 얼럿이 열렸습니다")
             nonEmailIdAlert.addAction(UIAlertAction(title: "확인", style: .destructive) { action in
                 print("확인 버튼이 클릭되었습니다")
@@ -65,7 +82,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //확인시 2중 얼럿
+    //확인얼럿 클릭시 얼럿
     private func checkIdButtonTapAlerts() {
         let checkDoubleAlert = UIAlertController(title: "축하합니다", message: "중복확인을 모두 마치었습니다.", preferredStyle: .alert)
         checkDoubleAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
@@ -77,6 +94,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: - 회원가입 얼럿
     @objc private func membershipJoinButtonTap() {
         print("회원가입 버튼이 클릭 되었습니다.")
+        // 회원가입중 아이디랑 비밀번호들이 비어있을떄 확인해주는 얼럿
         guard let userId = signUpView.userIdText.text, !userId.isEmpty else {
             self.textFieldCheck(textField: signUpView.userIdText, type: "아이디")
             return
@@ -97,6 +115,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        // 아이디 비밀번호 닉네임 제약조건
         if userId.count < 8 {
             self.membershipshowAlert(title: "아이디 오류", message: "이메일 형식이 잘못되었거나 또는 아이디는 최소 8자 이상이어야 합니다.")
             return
@@ -129,6 +148,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         do {
             try context.save()
             
+            // 모든 조건에 완료했을떄 뜨는 얼럿
             let membershipAlert = UIAlertController(title: "회원가입 완료", message: "킥킥킥 서비스에 회원가입을 해주셔서 감사합니다 많은 이용 부탁드립니다🎉.", preferredStyle: .alert)
             print("회원가입 얼럿창이 열렸습니다.")
             
@@ -191,7 +211,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: - UItextField가 값이 없을때 날리는 얼럿통합창
     private func textFieldCheck(textField: UITextField, type: String) {
         if textField.text == nil || textField.text == "" {
-            let nickNameAlert = UIAlertController(title: "\(type)을 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
+            let nickNameAlert = UIAlertController(title: "\(type)를 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
             print("얼럿창이 열렸습니다.")
             
             nickNameAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
@@ -207,5 +227,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - CoreData에서 email을 조회할수 있는 함수
+    private func coreDataEmailCheck(email: String, context: NSManagedObjectContext) -> Bool {
+        let fetchRequest: NSFetchRequest<Users> = Users.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+        } catch {
+            print("Failed to fetch users: \(error)")
+            return false
+        }
     }
 }
