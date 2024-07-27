@@ -19,6 +19,8 @@ protocol MapViewControllerDelegate: AnyObject {
 
 class MapViewController: UIViewController, MapControllerDelegate  {
     
+    var container: NSPersistentContainer!
+    
     weak var delegate: MapViewControllerDelegate?
     
     let searchMapView = SearchMapView()
