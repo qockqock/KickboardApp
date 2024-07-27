@@ -20,7 +20,6 @@ protocol MapViewControllerDelegate: AnyObject {
 class MapViewController: UIViewController, MapControllerDelegate  {
     
     weak var delegate: MapViewControllerDelegate?
-    var container: NSPersistentContainer!
     
     let searchMapView = SearchMapView()
     let locationManager = CLLocationManager()
@@ -73,9 +72,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
 
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.container = appDelegate.persistentContainer
     }
     
     
