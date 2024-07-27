@@ -34,6 +34,20 @@ class MapView: UIView {
         return button
     }()
     
+    lazy var returnPointLabel: UILabel = {
+        let label = UILabel()
+        label.text = "목적지를 설정해주세요"
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.textColor = .black
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOffset = CGSize(width: 2, height: 2)
+        label.layer.shadowOpacity = 0.6
+        
+        label.isHidden = true
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         mapSetupUI()
@@ -68,5 +82,13 @@ class MapView: UIView {
             $0.width.equalTo(50)
             $0.height.equalTo(50)
         }
-    } 
+        
+        self.addSubview(returnPointLabel)
+        
+        returnPointLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(200)
+            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.height.equalTo(50)
+        }
+    }
 }

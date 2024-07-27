@@ -21,6 +21,7 @@ class SearchMapView: UIView {
         let textfield = UITextField()
         textfield.placeholder = "도로명/지번 주소로 검색해주세요."
         textfield.borderStyle = .roundedRect
+        textfield.isEnabled = true
         return textfield
     }()
     
@@ -29,6 +30,7 @@ class SearchMapView: UIView {
         if let image = UIImage(named: "MapSearchButton") {
             button.setImage(image, for: .normal)
         }
+        button.isEnabled = true
         return button
     }()
     
