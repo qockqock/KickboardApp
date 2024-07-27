@@ -85,7 +85,7 @@ class LoginView: UIView {
     // 이니셜라이저 지정
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        self.backgroundColor = .twPurple
 
         configureUI()
     }
