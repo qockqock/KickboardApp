@@ -19,7 +19,8 @@ extension RideData {
     @NSManaged public var kickboardId: UUID?
     @NSManaged public var distance: String?
     @NSManaged public var date: Date?
-    @NSManaged public var fee: Double
+    @NSManaged public var fee: Int32
+    @NSManaged public var email: String
 }
 
 extension RideData : Identifiable {

@@ -42,7 +42,7 @@ class SignUpView: UIView {
     public lazy var checkIdButton: UIButton = {
         let checkIdButton = UIButton()
         checkIdButton.setTitle("중복확인", for: .normal)
-        checkIdButton.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        checkIdButton.backgroundColor = .twPurple
         checkIdButton.layer.cornerRadius = 15
         return checkIdButton
     }()
@@ -69,7 +69,7 @@ class SignUpView: UIView {
     
     private let checkLabel: UILabel = {
         let checkLabel = UILabel()
-        checkLabel.text = "영문, 숫자, 특수문자를 포함하여 6자~12자 사이의 비밀번호를 입력해주세요."
+        checkLabel.text = "영문, 숫자, 특수문자를 포함하여 8자~12자 사이의 비밀번호를 입력해주세요."
         checkLabel.numberOfLines = 2
         checkLabel.textColor = .gray
         checkLabel.font = .boldSystemFont(ofSize: 13)
@@ -122,7 +122,7 @@ class SignUpView: UIView {
     public lazy var membershipJoinButton: UIButton = {
         let membershipJoinButton = UIButton()
         membershipJoinButton.setTitle("회 원 가 입", for: .normal)
-        membershipJoinButton.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        membershipJoinButton.backgroundColor = .twPurple
         membershipJoinButton.layer.cornerRadius = 30
         return membershipJoinButton
     }()
