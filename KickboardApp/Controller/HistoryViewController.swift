@@ -21,11 +21,11 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
-    
+        
         view = historyView
         
-//        // 네비게이션
-//        self.title = "마이 페이지"
+        //        // 네비게이션
+        //        self.title = "마이 페이지"
         
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
@@ -111,50 +111,54 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
     }
     
     private func loginOutButtonTapAlert() {
-        let loginOutAlert = UIAlertController(title: "로그아웃", message: "정말로 로그아웃을 하시겠습니까?", preferredStyle: .alert)
-        loginOutAlert.addAction(UIAlertAction(title: "확인", style: .cancel) { action in
+        self.alertManager(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?", confirmTitles: "확인", cancelTitles: "취소", confirmActions: { action in
             print("확인 버튼이 클릭되었습니다")
             self.returnToLoginPage()
         })
-        loginOutAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
-            print("취소 버튼이 클릭되었습니다")
-        })
-        self.present(loginOutAlert, animated: true, completion: nil)
+        
+        //        let loginOutAlert = UIAlertController(title: "로그아웃", message: "정말로 로그아웃을 하시겠습니까?", preferredStyle: .alert)
+        //        loginOutAlert.addAction(UIAlertAction(title: "확인", style: .cancel) { action in
+        //            print("확인 버튼이 클릭되었습니다")
+        //            self.returnToLoginPage()
+        //        })
+        //        loginOutAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
+        //            print("취소 버튼이 클릭되었습니다")
+        //        })
+        //        self.present(loginOutAlert, animated: true, completion: nil)
     }
     
     // MARK: - 회원탈퇴 버튼 - sh
-        @objc private func quitButtonTapped() {
-            showAlert(title: "정말 탈퇴하시겠습니까?", message: "저장된 정보는 모두 삭제되며, 돌이킬 수 없습니다.", confirmActionTitle: "예", cancelActionTitle: "아니오") {
-                guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else { return }
+    @objc private func quitButtonTapped() {
+        self.alertManager(title: "정말 탈퇴하시겠습니까?", message: "저장된 정보는 모두 삭제되며, 돌이킬 수 없습니댜.", confirmTitles: "예", cancelTitles: "아니오", confirmActions: { action in
+            guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else { return }
+            self.alertManager(title: "탈퇴 완료", message: "회원 탈퇴가 완료되었습니다.", confirmTitles: "확인", confirmActions: { _ in
                 self.deleteUser(email: currentUserEmail)
                 UserDefaults.standard.removeObject(forKey: "currentUserEmail")
-                
-                self.showAlert(title: "탈퇴 완료", message: "회원 탈퇴가 완료되었습니다.", confirmActionTitle: "확인", cancelActionTitle: nil) {
-                    self.returnToLoginPage()
-                }
-            }
-        }
-        
-        func showAlert(title: String, message: String, confirmActionTitle: String, cancelActionTitle: String?, confirmActionHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let confirmAction = UIAlertAction(title: confirmActionTitle, style: .destructive) { _ in
-                confirmActionHandler()
-            }
-            alert.addAction(confirmAction)
-            
-            if let cancelTitle = cancelActionTitle {
-                let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: nil)
-                alert.addAction(cancelAction)
-            }
-            
-            present(alert, animated: true, completion: nil)
-        }
+                self.returnToLoginPage()})
+        })
+    }
+    
+    //        func showAlert(title: String, message: String, confirmActionTitle: String, cancelActionTitle: String?, confirmActionHandler: @escaping () -> Void) {
+    //            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    //            let confirmAction = UIAlertAction(title: confirmActionTitle, style: .destructive) { _ in
+    //                confirmActionHandler()
+    //            }
+    //            alert.addAction(confirmAction)
+    //
+    //            if let cancelTitle = cancelActionTitle {
+    //                let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: nil)
+    //                alert.addAction(cancelAction)
+    //            }
+    //
+    //            present(alert, animated: true, completion: nil)
+    //        }
+    
     // MARK: - stopReturnButton 버튼 클릭 액션 - YJ
     func didTapStopReturnButton() {
-           historyView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
-       }
+        historyView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
+    }
+    
 }
-
 
 //extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
 //

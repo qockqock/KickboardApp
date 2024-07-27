@@ -46,49 +46,64 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         guard let email = signUpView.userIdText.text else { return }
         // 이메일이 중복되었을때
         if coreDataEmailCheck(email: email, context: context) {
-            let checkingIdAlert = UIAlertController(title: "중복된 아이디", message: "해당 아이디는 중복된 아이디입니다 다른 이메일을 작성해 주세요.", preferredStyle: .alert)
-            print("중복확인 버튼 얼럿이 열렸습니다.")
-            
-            checkingIdAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-                print("확인 버튼이 클릭되었습니다")
-            })
-            
-            self.present(checkingIdAlert, animated: true, completion: nil)
+            self.alertManager(title: "중복된 이메일", message: "중복된 이메일입니다. 다른 이메일을 입력해주세요.", confirmTitles: "확인", confirmActions: {action in print("확인 버튼이 클릭되었습니다.")})
         }
         
         if userEmailCheck(email) {
-            // 사용가능한 아이디가 나왔을때
-            let checkIdButtonTapAlert = UIAlertController(title: "사용가능한 아이디", message: "해당 아이디로 가입을 하시겠습니까?", preferredStyle: .alert)
-            print("중복확인 버튼 얼럿이 열렸습니다.")
-            checkIdButtonTapAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
-                print("취소 버튼이 클릭되었습니다")
-            })
-            
-            checkIdButtonTapAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-                print("확인 버튼이 클릭되었습니다")
-                self.checkIdButtonTapAlerts()
-            })
-            self.present(checkIdButtonTapAlert, animated: true, completion: nil)
-            
+            self.alertManager(title: "사용가능한 아이디", message: "해당 아이디로 가입하시겠습니까?", confirmTitles: "예", cancelTitles: "아니오", confirmActions: {action in self.checkIdButtonTapAlerts()})
         } else {
             let isEmpty = signUpView.userIdText.text?.isEmpty ?? true
             let message = isEmpty ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요."
-            let nonEmailIdAlert = UIAlertController(title: "아이디 확인", message: message, preferredStyle: .alert)
-            print("이메일 형식이 다른 얼럿이 열렸습니다")
-            nonEmailIdAlert.addAction(UIAlertAction(title: "확인", style: .destructive) { action in
-                print("확인 버튼이 클릭되었습니다")
-            })
-            self.present(nonEmailIdAlert, animated: true, completion: nil)
+            self.alertManager(title: "아이디 확인", message: message, confirmTitles: "확인")
         }
+            
+            //            let checkingIdAlert = UIAlertController(title: "중복된 아이디", message: "해당 아이디는 중복된 아이디입니다 다른 이메일을 작성해 주세요.", preferredStyle: .alert)
+            //            print("중복확인 버튼 얼럿이 열렸습니다.")
+            //
+            //            checkingIdAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+            //                print("확인 버튼이 클릭되었습니다")
+            //            })
+            //
+            //            self.present(checkingIdAlert, animated: true, completion: nil)
+        
+            // 사용가능한 아이디가 나왔을때
+//            let checkIdButtonTapAlert = UIAlertController(title: "사용가능한 아이디", message: "해당 아이디로 가입을 하시겠습니까?", preferredStyle: .alert)
+//            print("중복확인 버튼 얼럿이 열렸습니다.")
+//            checkIdButtonTapAlert.addAction(UIAlertAction(title: "취소", style: .destructive) { action in
+//                print("취소 버튼이 클릭되었습니다")
+//            })
+//            
+//            checkIdButtonTapAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+//                print("확인 버튼이 클릭되었습니다")
+//                self.checkIdButtonTapAlerts()
+//            })
+//            self.present(checkIdButtonTapAlert, animated: true, completion: nil)
+//            
+//        } else {
+//            let isEmpty = signUpView.userIdText.text?.isEmpty ?? true
+//            let message = isEmpty ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요."
+//            let nonEmailIdAlert = UIAlertController(title: "아이디 확인", message: message, preferredStyle: .alert)
+//            print("이메일 형식이 다른 얼럿이 열렸습니다")
+//            nonEmailIdAlert.addAction(UIAlertAction(title: "확인", style: .destructive) { action in
+//                print("확인 버튼이 클릭되었습니다")
+//            })
+//            self.present(nonEmailIdAlert, animated: true, completion: nil)
+//        }
     }
     
     //확인얼럿 클릭시 얼럿
-    private func checkIdButtonTapAlerts() {
-        let checkDoubleAlert = UIAlertController(title: "축하합니다", message: "중복확인을 모두 마치었습니다.", preferredStyle: .alert)
-        checkDoubleAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-            print("확인 버튼이 클릭되었습니다")
+    func checkIdButtonTapAlerts() {
+        self.alertManager(title: "중복확인 완료", message: "축하합니다! 중복확인을 모두 마쳤습니다.", confirmTitles: "확인", confirmActions: {[weak self] _ in
+            // 중복확인 버튼 비활성화 코드 추가 - sh
+            self?.signUpView.checkIdButton.isEnabled = false
+            self?.signUpView.checkIdButton.backgroundColor = .lightGray
         })
-        self.present(checkDoubleAlert, animated: true, completion: nil)
+            
+//        let checkDoubleAlert = UIAlertController(title: "축하합니다", message: "중복확인을 모두 마치었습니다.", preferredStyle: .alert)
+//        checkDoubleAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+//            print("확인 버튼이 클릭되었습니다")
+//        })
+//        self.present(checkDoubleAlert, animated: true, completion: nil)
     }
     
     // MARK: - 회원가입 얼럿
@@ -149,19 +164,24 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             try context.save()
             
             // 모든 조건에 완료했을떄 뜨는 얼럿
-            let membershipAlert = UIAlertController(title: "회원가입 완료", message: "킥킥킥 서비스에 회원가입을 해주셔서 감사합니다 많은 이용 부탁드립니다🎉.", preferredStyle: .alert)
-            print("회원가입 얼럿창이 열렸습니다.")
+            self.alertManager(title: "회원가입 완료", message: "킥킥킥 서비스에 가입해주셔서 감사합니다.\n많은 이용 부탁드립니다 🎉", confirmTitles: "확인", confirmActions: {action in
+                self.navigationController?.popViewController(animated: true)})
             
-            membershipAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-                print("확인 버튼이 클릭되었습니다")
-                // 로그인 페이지로 자동으로 돌아감 - sh
-                self.navigationController?.popViewController(animated: true)
-            })
-            
-            self.present(membershipAlert, animated: true, completion: nil)
+//            let membershipAlert = UIAlertController(title: "회원가입 완료", message: "킥킥킥 서비스에 회원가입을 해주셔서 감사합니다 많은 이용 부탁드립니다🎉.", preferredStyle: .alert)
+//            print("회원가입 얼럿창이 열렸습니다.")
+//            
+//            membershipAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+//                print("확인 버튼이 클릭되었습니다")
+//                // 로그인 페이지로 자동으로 돌아감 - sh
+//                self.navigationController?.popViewController(animated: true)
+//            })
+//            
+//            self.present(membershipAlert, animated: true, completion: nil)
             // 회원가입 실패시
         } catch {
-            self.membershipshowAlert(title: "회원가입 실패", message: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.")
+            self.alertManager(title: "회원가입 실패", message: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.", confirmTitles: "확인")
+            
+            //self.membershipshowAlert(title: "회원가입 실패", message: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.")
         }
     }
     // MARK: - 비밀번호 텍스트필드
@@ -211,22 +231,26 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     // MARK: - UItextField가 값이 없을때 날리는 얼럿통합창
     private func textFieldCheck(textField: UITextField, type: String) {
         if textField.text == nil || textField.text == "" {
-            let nickNameAlert = UIAlertController(title: "\(type)를 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
-            print("얼럿창이 열렸습니다.")
+            self.alertManager(title: "닉네임 오류", message: "닉네임이 입력되지 않았습니다. 다시 한번 확인해주세요.", confirmTitles: "확인")
             
-            nickNameAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
-                print("확인 버튼이 클릭되었습니다")
-            })
-            
-            self.present(nickNameAlert, animated: true, completion: nil)
+//            let nickNameAlert = UIAlertController(title: "\(type)를 입력해주세요", message: "\(type) 세팅이 안되어있습니다 다시한번 확인 해주세요.", preferredStyle: .alert)
+//            print("얼럿창이 열렸습니다.")
+//            
+//            nickNameAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+//                print("확인 버튼이 클릭되었습니다")
+//            })
+//            
+//            self.present(nickNameAlert, animated: true, completion: nil)
         }
     }
     
     // MARK: - 회원가입의 제약조건에 실패했을 경우
     private func membershipshowAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        self.alertManager(title: title, message: message, confirmTitles: "확인")
+        
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - CoreData에서 email을 조회할수 있는 함수
