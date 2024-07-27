@@ -7,8 +7,14 @@
 
 import Foundation
 
+protocol TimerModelDelegate: AnyObject {
+    func timerDidUpdate(time: String, fare: String)
+}
+
 // MARK: - 타이머 관련 모델 - DS
 class TimerModel {
+    weak var delegate: TimerModelDelegate?
+    
     private(set) var counter: Int = 0
     private var timer: Timer?
     private var backgroundDate: Date?
@@ -67,5 +73,17 @@ class TimerModel {
         return formatter.string(from: NSNumber(value: fare)) ?? "\(fare)"
     }
     
+    // 델리게이트 업데이트
+    private func updateDelegate() {
+        let time = formatTime()
+        let fare = "\(formatNumber(calculateFare()))원"
+        delegate?.timerDidUpdate(time: time, fare: fare)
+    }
+    
+    // 총금액 업데이트
+    func updateTotalAmount(paymentAmount: Int, promotionAmount: Int) -> String {
+        let finalAmount = paymentAmount - promotionAmount
+        return formatNumber(finalAmount)
+    }
     
 }

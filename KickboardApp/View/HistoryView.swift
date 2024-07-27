@@ -119,7 +119,7 @@ class HistoryView: UIView {
         return button
     }()
     
-    private var phoneChangeButton : UIButton = {
+    var phoneChangeButton : UIButton = {
         let button = UIButton()
         button.setTitle("변경", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
@@ -136,7 +136,7 @@ class HistoryView: UIView {
         return button
     }()
     
-    private var dateChangeButton : UIButton = {
+    var dateChangeButton : UIButton = {
         let button = UIButton()
         button.setTitle("변경", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
@@ -164,7 +164,7 @@ class HistoryView: UIView {
     
     let useKickboardLabel: UILabel = {
         let label = UILabel()
-        label.text = "\" 현재 킥보드를 이용중입니다. \""
+        label.text = "\" 현재 킥보드를 이용하고 있지 않습니다. \""
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .gray
         label.textAlignment = .center
@@ -207,7 +207,7 @@ class HistoryView: UIView {
         // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(mypageLabel.snp.bottom).offset(60)
+            $0.top.equalTo(mypageLabel.snp.bottom).offset(15)
             $0.width.height.equalTo(120)
         }
         

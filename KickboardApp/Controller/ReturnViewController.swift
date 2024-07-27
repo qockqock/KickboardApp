@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ReturnViewController: UIViewController {
+class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfModalViewControllerDelegate {
     
     static let timer = ReturnViewController()
     
@@ -16,12 +16,13 @@ class ReturnViewController: UIViewController {
     private let timerModel = TimerModel()
     
     private init() {
-            super.init(nibName: nil, bundle: nil)
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+        super.init(nibName: nil, bundle: nil)
+        timerModel.delegate = self // 델리게이트 설정
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = returnView
@@ -41,19 +42,44 @@ class ReturnViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    // MARK: - 타이머 시작
+    // 타이머 시작 코드
+    func startTimer() {
+        timerModel.startTimer { [weak self] in
+            self?.timerDidUpdate(time: self?.timerModel.formatTime() ?? "00:00:00", fare: "\(self?.timerModel.formatNumber(self?.timerModel.calculateFare() ?? 0) ?? "0")원")
+        }
+        returnView.payButton.isEnabled = false // 타이머 시작 시 결제 버튼 비활성화
+    }
     
-    // 대여하기 버튼 클릭 후 타이머 진행관련 코드 작성예정
-    //    timerModel.startTimer { [weak self] in
-    //        self?.updateLabels()
-    //    }
+    // 타이머 멈추기
+    func stopTimer() {
+        timerModel.stopTimer()
+        returnView.payButton.isEnabled = true // 타이머 멈춘 후 결제 버튼 활성화
+    }
     
-    // 레이블 업데이트
-    private func updateLabels() {
-        returnView.usageTimeValueLabel.text = timerModel.formatTime()
-        let fare = timerModel.calculateFare()
-        returnView.paymentAmountValueLabel.text = "\(timerModel.formatNumber(fare))원"
-        returnView.totalAmountValueLabel.text = "\(timerModel.formatNumber(fare))"
+    // TimerModelDelegate 메서드
+    func timerDidUpdate(time: String, fare: String) {
+        returnView.updateUsageTime(time)
+        returnView.updatePaymentAmount(fare)
+        updateTotalAmount()
+    }
+    
+    // PromotionHalfModalViewControllerDelegate 메서드
+    func didUseCoupon(amount: Int) {
+        returnView.updatePromotionAmount("-\(timerModel.formatNumber(amount))원")
+        updateTotalAmount()
+    }
+    
+    // 총금액 업데이트
+    private func updateTotalAmount() {
+        guard let paymentText = returnView.paymentAmountValueLabel.text,
+              let paymentAmount = Int(paymentText.replacingOccurrences(of: "원", with: "").replacingOccurrences(of: ",", with: "")),
+              let promotionText = returnView.promotionValueLabel.text,
+              let promotionAmount = Int(promotionText.replacingOccurrences(of: "원", with: "").replacingOccurrences(of: "-", with: "").replacingOccurrences(of: ",", with: "")) else {
+            return
+        }
+        
+        let finalAmount = paymentAmount - promotionAmount
+        returnView.updateTotalAmount("\(timerModel.formatNumber(finalAmount))원")
     }
     
     // 앱이 백그라운드로 전환될 때 호출
@@ -64,36 +90,33 @@ class ReturnViewController: UIViewController {
     // 앱이 포그라운드로 돌아올 때 호출
     @objc func appWillEnterForeground() {
         timerModel.enterForeground { [weak self] in
-            self?.updateLabels()
+            self?.timerDidUpdate(time: self?.timerModel.formatTime() ?? "00:00:00", fare: "\(self?.timerModel.formatNumber(self?.timerModel.calculateFare() ?? 0) ?? "0")원")
         }
     }
     
-    // MARK: - 결제버튼 클릭시 이벤트 - DS
+    // 결제 버튼 클릭시 이벤트 - DS
     @objc
     private func payButtonTapped() {
         let alert = UIAlertController(title: "결제완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.resetValues()
+            self?.dismiss(animated: true, completion: nil)
+        }
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
-        
-        // 값 초기화 해줄 코드 작성하면 됨
-         
-//        // 임시 타이머 코드
-//        timerModel.startTimer { [weak self] in
-//            self?.updateLabels()
-//        }
     }
     
-    // 타이머 시작 코드
-    func startTimer() {
-        timerModel.startTimer { [weak self] in
-            self?.updateLabels()
-        }
+    private func resetValues() {
+        // 모든 값 초기화
+        timerModel.stopTimer()
+        returnView.updateUsageTime("00:00:00")
+        returnView.updatePaymentAmount("0원")
+        returnView.updatePromotionAmount("-0원")
+        returnView.updateTotalAmount("0원")
+        returnView.payButton.isEnabled = false
     }
     
-    // MARK: - 하프모달 func - DS
-    // 내일 이야기 한 번 해봐야함
-    // 어떤? -> 하프모달이 16버전 이상부터 높이를 커스텀 할 수 있어서, 16아래 버전은 깨지게 되는데, 어떻게해야할지에 대해 토의해야할 듯
+    // 하프모달 관련 코드
     @objc
     private func payHalfModal() {
         let payHalfModalViewController = PayHalfModalViewController()
@@ -110,7 +133,8 @@ class ReturnViewController: UIViewController {
     
     @objc
     private func promotionHalfModal() {
-        let promotionHalfModalViewController = PromotionHalfModalViewController(returnView: returnView)
+        let promotionHalfModalViewController = PromotionHalfModalViewController()
+        promotionHalfModalViewController.delegate = self // 델리게이트 설정
         promotionHalfModalViewController.modalPresentationStyle = .pageSheet
         
         if let sheet = promotionHalfModalViewController.sheetPresentationController {

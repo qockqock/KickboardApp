@@ -57,15 +57,18 @@ class PayHalfModalViewController: UIViewController, PayHalfModalViewDelegate {
     }
 }
 
+protocol PromotionHalfModalViewControllerDelegate: AnyObject {
+    func didUseCoupon(amount: Int)
+}
+
 class PromotionHalfModalViewController: UIViewController {
     
     private let promotionHalfModalView = PromotionHalfModalView()
-    private var returnView = ReturnView()
+    weak var delegate: PromotionHalfModalViewControllerDelegate? // 델리게이트 추가
     private let timerModel = TimerModel()
     
     // ReturnView를 초기화하는 생성자 추가
-    init(returnView: ReturnView) {
-        self.returnView = returnView
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -100,25 +103,14 @@ class PromotionHalfModalViewController: UIViewController {
     @objc
     private func promotionButtonTapped() {
         let alert = UIAlertController(title: "사용완료", message: "쿠폰이 사용되었습니다.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
+            // 쿠폰 금액
+            let promotionAmount = 1000
+            self?.delegate?.didUseCoupon(amount: promotionAmount)
+            self?.dismiss(animated: true, completion: nil)
+        })
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
-        
-        // 쿠폰 금액
-        let promotionAmount = 1000
-        
-        // 프로모션 레이블 업데이트
-        returnView.promotionValueLabel.text = "-\(timerModel.formatNumber(promotionAmount))원"
-        
-        // paymentAmountValueLabel에서 금액 가져오기
-        guard let paymentText = returnView.paymentAmountValueLabel.text,
-              let paymentAmount = Int(paymentText.replacingOccurrences(of: "원", with: "").replacingOccurrences(of: ",", with: "")) else {
-            return
-        }
-        
-        // 최종 금액 계산 및 업데이트
-        let finalAmount = paymentAmount - promotionAmount
-        returnView.totalAmountValueLabel.text = "\(timerModel.formatNumber(finalAmount))원"
     }
     
     @objc private func dismissModal() {
