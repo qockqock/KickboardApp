@@ -201,7 +201,7 @@ class HistoryView: UIView {
         
         mypageLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(80)
+            $0.top.equalToSuperview().offset(70)
         }
         
         // 제약조건 수정 - sh

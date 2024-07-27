@@ -13,6 +13,7 @@ import Alamofire
 import CoreData
 
 protocol MapViewControllerDelegate: AnyObject {
+    func didTapStoprentalButton()
     func didTapStopReturnButton()
 }
 
@@ -244,6 +245,9 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
             ReturnViewController.timer.stopTimer()
             
+            // 반납 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+            delegate?.didTapStopReturnButton()
+            
             selectedPoi = nil
             isRenting = false
         } else {
@@ -253,8 +257,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
             ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
             
-            // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
-            delegate?.didTapStopReturnButton()
+            // 대여 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+            delegate?.didTapStoprentalButton()
             
             isRenting = true
         }
@@ -482,12 +486,12 @@ extension MapViewController: KakaoMapEventDelegate {
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
         
-        // 현재 로그인한 유저의 ID 가져오기
-            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
-                  let currentUserId = UUID(uuidString: currentUserIdString) else {
-                print("로그인한 유저 ID를 가져올 수 없습니다.")
-                return
-            }
+//        // 현재 로그인한 유저의 ID 가져오기
+//            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
+//                  let currentUserId = UUID(uuidString: currentUserIdString) else {
+//                print("로그인한 유저 ID를 가져올 수 없습니다.")
+//                return
+//            }
             
         // 현재 로그인한 유저의 ID 가져오기
         guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),

@@ -138,9 +138,12 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
             present(alert, animated: true, completion: nil)
         }
     // MARK: - stopReturnButton 버튼 클릭 액션 - YJ
-    func didTapStopReturnButton() {
+    func didTapStoprentalButton() {
            historyView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
        }
+    func didTapStopReturnButton() {
+        historyView.useKickboardLabel.text = "\"킥보드를 사용하고 있지 않습니다.\""
+    }
 }
 
 
