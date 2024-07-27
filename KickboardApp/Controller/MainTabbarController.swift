@@ -34,7 +34,7 @@ class MainTabbarController: UITabBarController {
         viewControllers = [firstTab, secondTab, thirdTab]
         
         tabBar.barTintColor = .white
-        tabBar.tintColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        tabBar.tintColor = .twPurple
         tabBar.unselectedItemTintColor = .lightGray
         tabBar.isTranslucent = false
         

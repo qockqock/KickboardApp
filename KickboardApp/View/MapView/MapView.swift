@@ -20,7 +20,7 @@ class MapView: UIView {
         let button = UIButton()
         button.setTitle("대여하기", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .purple
+        button.backgroundColor = .twPurple
         button.isEnabled = false // 처음에는 비활성화
         button.layer.cornerRadius = 10
         return button
@@ -28,9 +28,13 @@ class MapView: UIView {
     
     lazy var myLocationButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .black
-        button.setTitle("위치", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        button.setImage(UIImage(named: "myLocation"), for: .normal)
+//        button.backgroundColor = .black
+//        button.setTitle("위치", for: .normal)
+//        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowOpacity = 0.6
         return button
     }()
     

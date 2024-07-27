@@ -42,7 +42,7 @@ class SignUpView: UIView {
     public lazy var checkIdButton: UIButton = {
         let checkIdButton = UIButton()
         checkIdButton.setTitle("중복확인", for: .normal)
-        checkIdButton.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        checkIdButton.backgroundColor = .twPurple
         checkIdButton.layer.cornerRadius = 15
         return checkIdButton
     }()
@@ -122,7 +122,7 @@ class SignUpView: UIView {
     public lazy var membershipJoinButton: UIButton = {
         let membershipJoinButton = UIButton()
         membershipJoinButton.setTitle("회 원 가 입", for: .normal)
-        membershipJoinButton.backgroundColor = UIColor(red: 134/255, green: 74/255, blue: 238/255, alpha: 1.0)
+        membershipJoinButton.backgroundColor = .twPurple
         membershipJoinButton.layer.cornerRadius = 30
         return membershipJoinButton
     }()
