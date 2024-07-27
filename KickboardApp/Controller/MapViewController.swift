@@ -27,7 +27,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     var mapView: MapView?
     var mapContainer: KMViewContainer?
     var mapController: KMController?
-    var poiPositions: [MapPoint] = []
+    // var poiPositions: [MapPoint] = []
+    var pois = [Kickboards]()
     
     private var isMapInit = false
     private var isRenting: Bool = false
@@ -63,7 +64,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         setupMyLocationButton()
         setupStopReturnButton()
         updateStopReturnButtonState()
-        generateRandomPoiPositions()
+        // generateRandomPoiPositions()
         searchButton()
         changeReturnButton()
         
@@ -128,7 +129,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         print("OK") //추가 성공. 성공시 추가적으로 수행할 작업을 진행한다.
         createPoiStyle()
         createLabelLayer()
-        createPoi()
+        // createPoi()
+        updateMapView(latitude: 37.5491, longitude: 126.9137)
     }
     
     //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
@@ -185,15 +187,15 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     }
     
     
-    //   좌표모델.
-    private func generateRandomPoiPositions() {
-        let numberOfPois = 50
-        poiPositions = (0..<numberOfPois).map { _ in
-            let longitude = Double.random(in: 126.910...126.916)
-            let latitude = Double.random(in: 37.545...37.551)
-            return MapPoint(longitude: longitude, latitude: latitude)
-        }
-    }
+//    //   좌표모델.
+//    private func generateRandomPoiPositions() {
+//        let numberOfPois = 50
+//        poiPositions = (0..<numberOfPois).map { _ in
+//            let longitude = Double.random(in: 126.910...126.916)
+//            let latitude = Double.random(in: 37.545...37.551)
+//            return MapPoint(longitude: longitude, latitude: latitude)
+//        }
+//    }
     
     //MARK: - 현재 위치 파악
     private func setupMyLocationButton() {
@@ -357,22 +359,17 @@ extension MapViewController: SearchMapViewDelegate {
     
     // 주변 반경 거리 계산 메서드
     private func calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
-        let earthRadius = 6371000.0
-        let dLat = (lat2 - lat1) * .pi / 180
-        let dLon = (lon2 - lon1) * .pi / 180
-        let a = sin(dLat/2) * sin(dLat/2) +
-        cos(lat1 * .pi / 180) * cos(lat2 * .pi / 180) *
-        sin(dLon/2) * sin(dLon/2)
-        let c = 2 * atan2(sqrt(a), sqrt(1-a))
-        return earthRadius * c
+        let latDiff = lat2 - lat1
+        let lonDiff = lon1 - lon2
+        return sqrt(latDiff * latDiff + lonDiff * lonDiff) * 111000
     }
     
-    // 가로세로 500미터 이내 poi
+    // 가로세로 1km 이내 poi 불러오기
     private func fetchPoisAround(latitude: Double, longitude: Double) -> [Kickboards] {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Kickboards> = Kickboards.fetchRequest()
 
-        let delta = 0.5
+        let delta = 0.01
 
         let minLat = latitude - delta
         let maxLat = latitude + delta
@@ -446,28 +443,28 @@ extension MapViewController: KakaoMapEventDelegate {
         let _ = labelManager.addLabelLayer(option: layer)
     }
     
-    func createPoi() {
-        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-            return
-        }
-        let labelManager = mapView.getLabelManager()
-        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
-            return
-        }
-        for (index, position) in poiPositions.enumerated() {
-            let options = PoiOptions(styleID: "blue", poiID: "bluePoi_\(index)")
-            options.clickable = true
-            if let poi = layer.addPoi(option: options, at: position) {
-                poi.show()
-                // POI 클릭 이벤트 핸들러 추가
-                let _ = poi.addPoiTappedEventHandler(target: self) { [weak self] _ in
-                    return { param in
-                        self?.poiTapped(param)
-                    }
-                }
-            }
-        }
-    }
+//    func createPoi() {
+//        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+//            return
+//        }
+//        let labelManager = mapView.getLabelManager()
+//        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
+//            return
+//        }
+//        for (index, position) in poiPositions.enumerated() {
+//            let options = PoiOptions(styleID: "blue", poiID: "bluePoi_\(index)")
+//            options.clickable = true
+//            if let poi = layer.addPoi(option: options, at: position) {
+//                poi.show()
+//                // POI 클릭 이벤트 핸들러 추가
+//                let _ = poi.addPoiTappedEventHandler(target: self) { [weak self] _ in
+//                    return { param in
+//                        self?.poiTapped(param)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func poiTapped(_ param: PoiInteractionEventParam) {
         guard let poi = param.poiItem as? Poi else { return }
