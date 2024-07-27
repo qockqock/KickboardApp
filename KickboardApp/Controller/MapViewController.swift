@@ -30,6 +30,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     // var poiPositions: [MapPoint] = []
     var pois = [Kickboards]()
     var destinationPois = [MapPoint]()
+    let alertImageView = AlertImageView()
     
     private var isMapInit = false
     // private var isRenting: Bool = false
@@ -72,6 +73,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
 
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
+        
+        setupAlertImageViewConstraints()
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
@@ -246,18 +249,25 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             // 반납버튼 누른 이후 처리
         case .renting:
             print("반납 버튼 클릭됨")
-            // 버튼 제목 변경
-            mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
-            ReturnViewController.timer.stopTimer()
-            searchMapView.textField.isEnabled.toggle()
-            searchMapView.searchButton.isEnabled.toggle()
-            destinationPois = []
-            selectedPoi = nil
-            buttonState = .idle
-            updateMapView(latitude: 37.5491, longitude: 126.9137)
-            if let tabBarController = self.tabBarController as? MainTabbarController {
-                tabBarController.selectedIndex = 0
-            }
+            // 알림을 먼저 띄우고 사용자의 응답에 따라 처리
+            self.alertManager(title: "반납 요청", message: "반납하고 결제창으로 이동하시겠습니까?", confirmTitles: "예", cancelTitles: "아니오", confirmActions: { [weak self] _ in
+                guard let self = self else { return }
+                // 반납 처리
+                self.mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
+                ReturnViewController.timer.stopTimer()
+                self.searchMapView.textField.isEnabled.toggle()
+                self.searchMapView.searchButton.isEnabled.toggle()
+                self.destinationPois = []
+                self.selectedPoi = nil
+                self.buttonState = .idle
+                if let searchText = self.searchMapView.textField.text {
+                    print("주소 검색어: \(searchText)")
+                    self.didSearchAddress(searchText)
+                }
+                if let tabBarController = self.tabBarController as? MainTabbarController {
+                    tabBarController.selectedIndex = 0
+                }
+            })
             
             // 대여버튼 누른 이후 처리
         case .idle:
@@ -286,6 +296,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             // showRideStartImage()
             searchMapView.textField.isEnabled.toggle()
             searchMapView.searchButton.isEnabled.toggle()
+            showUseAlertImage()
             ReturnViewController.timer.startTimer()
             buttonState = .renting
         }
@@ -314,6 +325,18 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
+    
+    private func setupAlertImageViewConstraints() {
+        view.addSubview(alertImageView)
+        alertImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+    }
+
+    private func showUseAlertImage() {
+        alertImageView.showWithAnimation()
+    }
 }
     
     //MARK: - SearchMapView - sh
@@ -330,10 +353,6 @@ extension MapViewController: SearchMapViewDelegate {
                    let latitude = Double(document.latitude),
                    let longitude = Double(document.longitude) {
                     self.updateMapView(latitude: latitude, longitude: longitude)
-//                    if self.buttonState == .designated {
-//                        let mapPoint = MapPoint(longitude: longitude, latitude: latitude)
-//                        self.destinationPois.append(mapPoint)
-//                    }
                 } else {
                     print("Address 데이터 오류")
                     self.alertManager(title: "주소 오류", message: "올바른 도로명/지번 주소를 입력해주세요.", confirmTitles: "확인")
@@ -386,8 +405,13 @@ extension MapViewController: SearchMapViewDelegate {
         
         mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
         if buttonState == .designated {
-               self.destinationPois.append(position)
-//               createDestinationPoi(pois: destinationPois)
+            if destinationPois.count == 1 {
+                self.destinationPois.append(position)
+            } else {
+                resetPoiLayer()
+                self.destinationPois[1] = position
+            }
+            createDestinationPoi(pois: [position])
         } else {
             resetPoiLayer()
             let pois = fetchPoisAround(latitude: latitude, longitude: longitude)
@@ -452,6 +476,7 @@ extension MapViewController: SearchMapViewDelegate {
         }
     }
 
+    // DestinationPois 관리 (출발지 - 도착지)
     private func createDestinationPoi(pois: [MapPoint]) {
         guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
             return
@@ -460,8 +485,9 @@ extension MapViewController: SearchMapViewDelegate {
         guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
             return
         }
-        for poi in pois {
-            let options = PoiOptions(styleID: "blue", poiID: "poi_\(UUID().uuidString)")
+        for (index, poi) in pois.enumerated() {
+            let styleID = index == 0 ? "leave" : "arrive"
+            let options = PoiOptions(styleID: styleID, poiID: "poi_\(UUID().uuidString)")
             options.clickable = true
             if let poiItem = layer.addPoi(option: options, at: poi) {
                 poiItem.show()
