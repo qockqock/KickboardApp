@@ -352,6 +352,7 @@ extension MapViewController: SearchMapViewDelegate {
         }
         
         mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
+        resetPoiLayer()
         let pois = fetchPoisAround(latitude: latitude, longitude: longitude)
         print("POI 개수: \(pois.count)")
         createSearchedPoi(pois: pois)
@@ -501,6 +502,16 @@ extension MapViewController: KakaoMapEventDelegate {
         present(alert, animated: true, completion: nil)
     }
     
+    // poi layer 초기화하는 메서드 - sh
+    func resetPoiLayer() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            return
+        }
+        let labelManager = mapView.getLabelManager()
+        labelManager.removeLabelLayer(layerID: "poiLayer")
+        
+        createLabelLayer()
+    }
 }
 
 // MARK: - 사용자 위치 관련
