@@ -38,7 +38,8 @@ class LoginViewController: UIViewController {
         // 입력한 아이디와 패스워드 가져오기
         guard let email = loginView.idTextField.text, !email.isEmpty,
               let password = loginView.passwordTextField.text, !password.isEmpty else {
-            showAlert(title: "알림", message: "아이디와 패스워드를 모두 입력해주세요.")
+            // showAlert(title: "알림", message: "아이디와 패스워드를 모두 입력해주세요.")
+            self.alertManager(title: "알림", message: "아이디와 패스워드를 모두 입력해주세요.", confirmTitles: "확인")
             // 두 필드 중 하나라도 비어 있을 경우 알럿
             return
         }
@@ -66,11 +67,13 @@ class LoginViewController: UIViewController {
                 
             } else {
                 // 존재하지 않는 유저일 경우
-                showAlert(title: "알림", message: "등록되지 않은 사용자입니다. 회원가입 해주세요.")
+                // showAlert(title: "알림", message: "등록되지 않은 사용자입니다. 회원가입 해주세요.")
+                self.alertManager(title: "알림", message: "등록되지 않은 사용자입니다. 회원가입 후 이용해주세요.", confirmTitles: "확인")
             }
         } catch {
             print("데이터 조회 실패")
-            showAlert(title: "알림", message: "데이터 조회 실패")
+            //showAlert(title: "알림", message: "데이터 조회 실패")
+            self.alertManager(title: "알림", message: "데이터 조회 실패", confirmTitles: "확인")
         }
     }
     
@@ -82,12 +85,12 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - 알럿 메서드 - YJ
-    // 알림 표시 메서드
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
+//    // 알림 표시 메서드
+//    func showAlert(title: String, message: String) {
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+//        present(alert, animated: true, completion: nil)
+//    }
     
     // CoreData에서 모든 사용자 데이터 읽어오기 - 디버깅용
     func readAllData() {
