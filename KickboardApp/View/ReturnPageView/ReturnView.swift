@@ -36,7 +36,7 @@ class ReturnView: UIView {
         let button = UIButton()
         button.setTitle("결제수단", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = UIColor(red: 169/255, green: 126/255, blue: 179/255, alpha: 1)
+        button.backgroundColor = .twPurple.withAlphaComponent(0.5)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button
@@ -56,7 +56,7 @@ class ReturnView: UIView {
         let button = UIButton()
         button.setTitle("결제하기", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = .purple
+        button.backgroundColor = .twPurple
         button.layer.cornerRadius = 10
         return button
     }()

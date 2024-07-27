@@ -498,18 +498,32 @@ extension MapViewController: KakaoMapEventDelegate {
             return
         }
         let labelManager = mapView.getLabelManager()
-        let image = UIImage(named: "pin_blue.png")
+        let image = UIImage(named: "DefaultScooterPoi")
         let icon = PoiIconStyle(symbol: image, anchorPoint: CGPoint(x: 0.5, y: 1.0))
         let perLevelStyle = PerLevelPoiStyle(iconStyle: icon, level: 0)
         let poiStyle = PoiStyle(styleID: "blue", styles: [perLevelStyle])
         labelManager.addPoiStyle(poiStyle)
         
         // 클릭된 상태의 스타일 추가
-        let clickedImage = UIImage(named: "pin_red.png") // 클릭 시 변경될 이미지
+        let clickedImage = UIImage(named: "TouchedScooterPoi") // 클릭 시 변경될 이미지
         let clickedIcon = PoiIconStyle(symbol: clickedImage, anchorPoint: CGPoint(x: 0.5, y: 1.0))
         let clickedPerLevelStyle = PerLevelPoiStyle(iconStyle: clickedIcon, level: 0)
         let clickedPoiStyle = PoiStyle(styleID: "clicked", styles: [clickedPerLevelStyle])
         labelManager.addPoiStyle(clickedPoiStyle)
+        
+        // 출발지 스타일
+        let leaveImage = UIImage(named: "LeaveScooterPoi")
+        let leaveIcon = PoiIconStyle(symbol: leaveImage, anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        let leavePerLevelStyle = PerLevelPoiStyle(iconStyle: leaveIcon, level: 0)
+        let leavePoiStyle = PoiStyle(styleID: "leave", styles: [leavePerLevelStyle])
+        labelManager.addPoiStyle(leavePoiStyle)
+        
+        // 목적지 스타일
+        let arriveImage = UIImage(named: "ArriveScooterPoi")
+        let arriveIcon = PoiIconStyle(symbol: arriveImage, anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        let arrivePerLevelStyle = PerLevelPoiStyle(iconStyle: arriveIcon, level: 0)
+        let arrivePoiStyle = PoiStyle(styleID: "arrive", styles: [arrivePerLevelStyle])
+        labelManager.addPoiStyle(arrivePoiStyle)
     }
     
     func createLabelLayer() { // 레이어생성
