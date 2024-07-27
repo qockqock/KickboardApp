@@ -40,21 +40,31 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return userEmailTest.evaluate(with: email)
     }
     
-    // MARK: - 중복확인 얼럿
+    // MARK: - 중복확인 얼럿 (살짝 수정했어요) - DS
     @objc private func checkIdButtonTap() {
         print("중복확인 버튼이 클릭 되었습니다.")
         guard let email = signUpView.userIdText.text else { return }
-        // 이메일이 중복되었을때
-        if coreDataEmailCheck(email: email, context: context) {
-            self.alertManager(title: "중복된 이메일", message: "중복된 이메일입니다. 다른 이메일을 입력해주세요.", confirmTitles: "확인", confirmActions: {action in print("확인 버튼이 클릭되었습니다.")})
-        }
         
         if userEmailCheck(email) {
-            self.alertManager(title: "사용가능한 아이디", message: "해당 아이디로 가입하시겠습니까?", confirmTitles: "예", cancelTitles: "아니오", confirmActions: {action in self.checkIdButtonTapAlerts()})
+            if isEmailDuplicate(email) {
+                showAlert(title: "중복된 아이디", message: "이미 사용 중인 이메일입니다. 다른 이메일을 사용해주세요.")
+            } else {
+                showAlert(title: "사용가능한 아이디", message: "해당 아이디로 가입을 하시겠습니까?", actions: [
+                    UIAlertAction(title: "취소", style: .destructive) { action in
+                        print("취소 버튼이 클릭되었습니다")
+                    },
+                    UIAlertAction(title: "확인", style: .default) { action in
+                        print("확인 버튼이 클릭되었습니다")
+                        self.checkIdButtonTapAlerts()
+                    }
+                ])
+            }
         } else {
-            let isEmpty = signUpView.userIdText.text?.isEmpty ?? true
-            let message = isEmpty ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요."
-            self.alertManager(title: "아이디 확인", message: message, confirmTitles: "확인")
+            showAlert(title: "아이디 확인", message: (signUpView.userIdText.text?.isEmpty ?? true) ? "이메일 주소창이 비어 있습니다." : "이메일의 형식을 확인해주세요.", actions: [
+                UIAlertAction(title: "확인", style: .destructive) { action in
+                    print("확인 버튼이 클릭되었습니다")
+                }
+            ])
         }
             
             //            let checkingIdAlert = UIAlertController(title: "중복된 아이디", message: "해당 아이디는 중복된 아이디입니다 다른 이메일을 작성해 주세요.", preferredStyle: .alert)
@@ -106,12 +116,36 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
 //        self.present(checkDoubleAlert, animated: true, completion: nil)
     }
     
+    // MARK: - 이메일 중복 체크 - DS
+    private func isEmailDuplicate(_ email: String) -> Bool {
+        let fetchRequest: NSFetchRequest<Users> = Users.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            return !result.isEmpty
+        } catch {
+            print("메일이 확인 되지 않았음")
+            return false
+        }
+    }
+    
     // MARK: - 회원가입 얼럿
     @objc private func membershipJoinButtonTap() {
         print("회원가입 버튼이 클릭 되었습니다.")
         // 회원가입중 아이디랑 비밀번호들이 비어있을떄 확인해주는 얼럿
         guard let userId = signUpView.userIdText.text, !userId.isEmpty else {
             self.textFieldCheck(textField: signUpView.userIdText, type: "아이디")
+            return
+        }
+        
+        if !userEmailCheck(userId) { // 이메일 형식 확인 추가 - DS
+            showAlert(title: "아이디 오류", message: "이메일 형식이 잘못되었습니다. 올바른 이메일 형식을 입력해주세요.")
+            return
+        }
+        
+        if isEmailDuplicate(userId) { // 이메일 중복 확인 추가 -DS
+            showAlert(title: "중복된 아이디", message: "이미 사용 중인 이메일입니다. 다른 이메일을 사용해주세요.")
             return
         }
         
@@ -265,5 +299,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             print("Failed to fetch users: \(error)")
             return false
         }
+    }
+    
+    // MARK: - 얼럿창 새로 생성 (재사용성을 위함) - DS
+    private func showAlert(title: String, message: String, actions: [UIAlertAction] = [UIAlertAction(title: "확인", style: .default)]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        actions.forEach { alert.addAction($0) }
+        self.present(alert, animated: true, completion: nil)
     }
 }
