@@ -20,6 +20,11 @@ class SearchMapView: UIView {
     let textField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "도로명/지번 주소로 검색해주세요."
+        textfield.layer.cornerRadius = 20
+        textfield.layer.masksToBounds = true
+        textfield.layer.borderColor = UIColor(hex: "#864AEE").cgColor
+        textfield.setPadding(left: 10, right: 0)
+        textfield.layer.borderWidth = 2
         textfield.borderStyle = .roundedRect
         textfield.isEnabled = true
         return textfield
@@ -58,7 +63,7 @@ class SearchMapView: UIView {
         
         searchButton.snp.makeConstraints {
             $0.centerY.equalTo(textField)
-            $0.trailing.equalTo(textField.snp.trailing).inset(10)
+            $0.trailing.equalTo(textField.snp.trailing).inset(2)
             $0.width.height.equalTo(40)
         }
     }
@@ -73,5 +78,17 @@ class SearchMapView: UIView {
             $0.trailing.equalTo(superview.safeAreaLayoutGuide).offset(-20)
             $0.height.equalTo(60)
         }
+    }
+}
+
+extension UITextField {
+    func setPadding(left: CGFloat, right: CGFloat) {
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: left, height: self.frame.height))
+        self.leftView = leftView
+        self.leftViewMode = .always
+        
+        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: right, height: self.frame.height))
+        self.rightView = rightView
+        self.rightViewMode = .always
     }
 }
