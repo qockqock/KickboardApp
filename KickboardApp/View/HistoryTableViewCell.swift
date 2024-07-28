@@ -110,7 +110,7 @@ final class TableViewCell: UITableViewCell {
             return formatter.string(from: NSNumber(value: fae)) ?? "\(fae)"
         }
         
-        let fae = "\(formatNumber(Int(rideData.fee)))원"
+        // let fae = "\(formatNumber(Int(rideData.fee)))원"
         
         // UUID를 문자열로 변환하고 기본값 설정
         let formattedKickboardId = rideData.kickboardId?.uuidString ?? "킥보드 ID 없음"
@@ -118,7 +118,7 @@ final class TableViewCell: UITableViewCell {
         // 셀의 레이블에 값 설정
         rideDatelabel.text = "이용날짜:  \(formattedDate)"
         rideTimelabel.text = "이용시간:  \(rideData.distance ?? "시간 없음")"
-        ridePaymentlabel.text = "이용금액:  \(formatNumber(Int(rideData.fee)))원"
+        ridePaymentlabel.text = "이용금액:  \(rideData.fee)원"
         kickboardIdLabel.text = "내가 등록한 킥보드:  \(formattedKickboardId)"
     }
 }
