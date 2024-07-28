@@ -164,7 +164,7 @@ class HistoryView: UIView {
     
     let useKickboardLabel: UILabel = {
         let label = UILabel()
-        label.text = "\" 현재 킥보드를 이용하고 있지 않습니다. \""
+        label.text = "\" 킥보드를 이용하고 있지 않습니다. \""
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .gray
         label.textAlignment = .center
@@ -181,6 +181,15 @@ class HistoryView: UIView {
         return button
     }()
     
+    // 테이블 뷰 추가
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        tableView.backgroundColor = .systemGray6
+        tableView.alpha = 1.0 // 테이블 뷰의 투명도 설정 예시
+        return tableView
+    }()
+    
     // 이니셜라이저 지정
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -195,13 +204,14 @@ class HistoryView: UIView {
     
     // 오토 레이아웃
     func configureUI() {
+        self.backgroundColor = .systemGray6
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [mypageLabel, profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, loginOutButton, quitButton]
+        [mypageLabel, profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, tableView, loginOutButton, quitButton]
             .forEach { self.addSubview($0) }
         
         mypageLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(80)
+            $0.top.equalToSuperview().offset(70)
         }
         
         // 제약조건 수정 - sh
@@ -222,26 +232,33 @@ class HistoryView: UIView {
             $0.width.equalTo(100)
         }
         
+        useKickboardLabel.snp.makeConstraints {
+            $0.top.equalTo(imageButton.snp.bottom).offset(10)
+            $0.centerX.equalToSuperview()
+        }
+        
         userInfoStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(imageButton.snp.bottom).offset(15)
+            $0.top.equalTo(useKickboardLabel.snp.bottom).offset(15)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(180)
         }
         
         detailUse.snp.makeConstraints {
-            $0.top.equalTo(userInfoStackView.snp.bottom).offset(25)
-            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.top.equalTo(userInfoStackView.snp.bottom).offset(18)
             $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(40)
         }
         
-        useKickboardLabel.snp.makeConstraints {
-            $0.top.equalTo(detailUse.snp.bottom).offset(18)
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(detailUse.snp.bottom).offset(5)
             $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.height.equalTo(140)
         }
         
         loginOutButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(15)
             $0.leading.equalToSuperview().offset(75)
             $0.height.equalTo(35)
             $0.width.equalTo(75)
@@ -250,7 +267,7 @@ class HistoryView: UIView {
         
         // 회원탈퇴 버튼 추가하며 loginOutButton 제약조건 수정 - sh
         quitButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(30)
+            $0.bottom.equalToSuperview().inset(15)
             $0.trailing.equalToSuperview().offset(-75)
             $0.height.equalTo(35)
             $0.width.equalTo(75)

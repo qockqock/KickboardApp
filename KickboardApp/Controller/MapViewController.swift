@@ -13,13 +13,15 @@ import Alamofire
 import CoreData
 
 protocol MapViewControllerDelegate: AnyObject {
+    func didTapStoprentalButton()
     func didTapStopReturnButton()
 }
 
 class MapViewController: UIViewController, MapControllerDelegate  {
     
-    weak var delegate: MapViewControllerDelegate?
     var container: NSPersistentContainer!
+    
+    weak var delegate: MapViewControllerDelegate?
     
     let searchMapView = SearchMapView()
     let locationManager = CLLocationManager()
@@ -27,10 +29,14 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     var mapView: MapView?
     var mapContainer: KMViewContainer?
     var mapController: KMController?
-    var poiPositions: [MapPoint] = []
+    // var poiPositions: [MapPoint] = []
+    var pois = [Kickboards]()
+    var destinationPois = [MapPoint]()
+    let alertImageView = AlertImageView()
     
     private var isMapInit = false
-    private var isRenting: Bool = false
+    // private var isRenting: Bool = false
+    private var buttonState: MapButtonModel = .idle // 3개의 state 설정 필요하여 수정 - sh
     private let timerModel = TimerModel()
     
     override func loadView() {
@@ -63,12 +69,14 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         setupMyLocationButton()
         setupStopReturnButton()
         updateStopReturnButtonState()
-        generateRandomPoiPositions()
+        // generateRandomPoiPositions()
         searchButton()
         changeReturnButton()
-        
+
         searchMapView.setupConstraints(in: view)
         searchMapView.delegate = self
+        
+        setupAlertImageViewConstraints()
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
@@ -128,7 +136,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         print("OK") //추가 성공. 성공시 추가적으로 수행할 작업을 진행한다.
         createPoiStyle()
         createLabelLayer()
-        createPoi()
+        // createPoi()
+        updateMapView(latitude: 37.5491, longitude: 126.9137)
     }
     
     //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
@@ -185,15 +194,15 @@ class MapViewController: UIViewController, MapControllerDelegate  {
     }
     
     
-    //   좌표모델.
-    private func generateRandomPoiPositions() {
-        let numberOfPois = 50
-        poiPositions = (0..<numberOfPois).map { _ in
-            let longitude = Double.random(in: 126.910...126.916)
-            let latitude = Double.random(in: 37.545...37.551)
-            return MapPoint(longitude: longitude, latitude: latitude)
-        }
-    }
+//    //   좌표모델.
+//    private func generateRandomPoiPositions() {
+//        let numberOfPois = 50
+//        poiPositions = (0..<numberOfPois).map { _ in
+//            let longitude = Double.random(in: 126.910...126.916)
+//            let latitude = Double.random(in: 37.545...37.551)
+//            return MapPoint(longitude: longitude, latitude: latitude)
+//        }
+//    }
     
     //MARK: - 현재 위치 파악
     private func setupMyLocationButton() {
@@ -231,34 +240,77 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         }
     }
     
+    
+    // 버튼 상태가 3개가 되어야 할 것 같아서 switch-case 문으로 수정 - sh
     @objc func stopReturnButtonTapped() {
         guard selectedPoi != nil else { return }
         // 윤대성 여기에 타임스탑,모달팝업 등의 동작을 넣으세요
         print("마커가 선택되었당")
         
-        if isRenting == true {
-            // 반납 버튼 로직
+        switch buttonState {
+            // 반납버튼 누른 이후 처리
+        case .renting:
             print("반납 버튼 클릭됨")
+            // 알림을 먼저 띄우고 사용자의 응답에 따라 처리
+            self.alertManager(title: "반납 요청", message: "반납하고 결제창으로 이동하시겠습니까?", confirmTitles: "예", cancelTitles: "아니오", confirmActions: { [weak self] _ in
+                guard let self = self else { return }
+                // 반납 처리
+                self.mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
+                ReturnViewController.timer.stopTimer()
+                self.searchMapView.textField.isEnabled.toggle()
+                self.searchMapView.searchButton.isEnabled.toggle()
+                self.destinationPois = []
+                self.selectedPoi = nil
+                self.buttonState = .idle
+                if let searchText = self.searchMapView.textField.text {
+                    print("주소 검색어: \(searchText)")
+                    self.didSearchAddress(searchText)
+                }
+                if let tabBarController = self.tabBarController as? MainTabbarController {
+                    tabBarController.selectedIndex = 0
+                }
+                
+                // 반납 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+                delegate?.didTapStopReturnButton()
+            })
             
-            // 버튼 제목 변경
-            mapView?.stopReturnButton.setTitle("대여하기", for: .normal)
-            ReturnViewController.timer.stopTimer()
-            
-            selectedPoi = nil
-            isRenting = false
-        } else {
-            // 대여 버튼 로직
+            // 대여버튼 누른 이후 처리
+        case .idle:
             print("대여 버튼 클릭됨")
+            resetPoiLayer()
+            mapView?.stopReturnButton.setTitle("목적지로 설정", for: .normal) // 버튼 제목 변경
+            // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+            mapView?.returnPointLabel.isHidden.toggle()
+            delegate?.didTapStopReturnButton()
+            if let selectedPoi = selectedPoi {
+                destinationPois.append(selectedPoi.position)
+            }
+            buttonState = .designated
             
             mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
             ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
             
-            // 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
-            delegate?.didTapStopReturnButton()
+            // 대여 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
+            delegate?.didTapStoprentalButton()
             
-            isRenting = true
+            // 목적지 설정 이후 처리
+        case .designated:
+            print("목적지로 설정 버튼 클릭됨")
+            if destinationPois.count != 2 {
+                self.alertManager(title: "경고", message: "주소창에서 목적지를 검색해서 설정해주세요!", confirmTitles: "확인")
+                return
+            }
+            mapView?.returnPointLabel.isHidden.toggle()
+            mapView?.stopReturnButton.setTitle("반납하기", for: .normal)
+            createDestinationPoi(pois: destinationPois)
+            updateCameraToFitAllPois()
+            // showRideStartImage()
+            searchMapView.textField.isEnabled.toggle()
+            searchMapView.searchButton.isEnabled.toggle()
+            showUseAlertImage()
+            ReturnViewController.timer.startTimer()
+            buttonState = .renting
         }
-        
         deselectCurrentPoi()
     }
     
@@ -284,6 +336,18 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
+    
+    private func setupAlertImageViewConstraints() {
+        view.addSubview(alertImageView)
+        alertImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+    }
+
+    private func showUseAlertImage() {
+        alertImageView.showWithAnimation()
+    }
 }
     
     //MARK: - SearchMapView - sh
@@ -302,9 +366,10 @@ extension MapViewController: SearchMapViewDelegate {
                     self.updateMapView(latitude: latitude, longitude: longitude)
                 } else {
                     print("Address 데이터 오류")
+                    self.alertManager(title: "주소 오류", message: "올바른 도로명/지번 주소를 입력해주세요.", confirmTitles: "확인")
                 }
             case .failure(let error):
-                print("Error: \(error)")
+                self.alertManager(title: "검색 오류", message: "주소 검색 중 오류가 발생했습니다 - \(error)\n 다시 시도해주세요.", confirmTitles: "확인")
             }
         }
     }
@@ -350,29 +415,35 @@ extension MapViewController: SearchMapViewDelegate {
         }
         
         mapView.moveCamera(CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView))
-        let pois = fetchPoisAround(latitude: latitude, longitude: longitude)
-        print("POI 개수: \(pois.count)")
-        createSearchedPoi(pois: pois)
+        if buttonState == .designated {
+            if destinationPois.count == 1 {
+                self.destinationPois.append(position)
+            } else {
+                resetPoiLayer()
+                self.destinationPois[1] = position
+            }
+            createDestinationPoi(pois: [position])
+        } else {
+            resetPoiLayer()
+            let pois = fetchPoisAround(latitude: latitude, longitude: longitude)
+            print("POI 개수: \(pois.count)")
+            createSearchedPoi(pois: pois)
+        }
     }
     
     // 주변 반경 거리 계산 메서드
     private func calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
-        let earthRadius = 6371000.0
-        let dLat = (lat2 - lat1) * .pi / 180
-        let dLon = (lon2 - lon1) * .pi / 180
-        let a = sin(dLat/2) * sin(dLat/2) +
-        cos(lat1 * .pi / 180) * cos(lat2 * .pi / 180) *
-        sin(dLon/2) * sin(dLon/2)
-        let c = 2 * atan2(sqrt(a), sqrt(1-a))
-        return earthRadius * c
+        let latDiff = lat2 - lat1
+        let lonDiff = lon1 - lon2
+        return sqrt(latDiff * latDiff + lonDiff * lonDiff) * 111000
     }
     
-    // 가로세로 500미터 이내 poi
+    // 가로세로 1km 이내 poi 불러오기
     private func fetchPoisAround(latitude: Double, longitude: Double) -> [Kickboards] {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Kickboards> = Kickboards.fetchRequest()
 
-        let delta = 0.5
+        let delta = 0.01
 
         let minLat = latitude - delta
         let maxLat = latitude + delta
@@ -415,7 +486,46 @@ extension MapViewController: SearchMapViewDelegate {
             }
         }
     }
+
+    // DestinationPois 관리 (출발지 - 도착지)
+    private func createDestinationPoi(pois: [MapPoint]) {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            return
+        }
+        let labelManager = mapView.getLabelManager()
+        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
+            return
+        }
+        for (index, poi) in pois.enumerated() {
+            let styleID = index == 0 ? "leave" : "arrive"
+            let options = PoiOptions(styleID: styleID, poiID: "poi_\(UUID().uuidString)")
+            options.clickable = true
+            if let poiItem = layer.addPoi(option: options, at: poi) {
+                poiItem.show()
+                let _ = poiItem.addPoiTappedEventHandler(target: self) { [weak self] _ in
+                    return { param in
+                        self?.poiTapped(param)
+                    }
+                }
+            } else {
+                print("POI 찍기 실패")
+            }
+        }
+    }
+    
+    // 핀 두개를 한 화면에 다 보이게 하는 메서드
+    private func updateCameraToFitAllPois() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+
+        let points = destinationPois
+        if points.count < 2 { return }
+
+        let bounds = AreaRect(points: points)
+        let cameraUpdate = CameraUpdate.make(area: bounds)
+        mapView.moveCamera(cameraUpdate)
+    }
 }
+
 
 
 //MARK: - POI
@@ -425,18 +535,32 @@ extension MapViewController: KakaoMapEventDelegate {
             return
         }
         let labelManager = mapView.getLabelManager()
-        let image = UIImage(named: "pin_blue.png")
+        let image = UIImage(named: "DefaultScooterPoi")
         let icon = PoiIconStyle(symbol: image, anchorPoint: CGPoint(x: 0.5, y: 1.0))
         let perLevelStyle = PerLevelPoiStyle(iconStyle: icon, level: 0)
         let poiStyle = PoiStyle(styleID: "blue", styles: [perLevelStyle])
         labelManager.addPoiStyle(poiStyle)
         
         // 클릭된 상태의 스타일 추가
-        let clickedImage = UIImage(named: "pin_red.png") // 클릭 시 변경될 이미지
+        let clickedImage = UIImage(named: "TouchedScooterPoi") // 클릭 시 변경될 이미지
         let clickedIcon = PoiIconStyle(symbol: clickedImage, anchorPoint: CGPoint(x: 0.5, y: 1.0))
         let clickedPerLevelStyle = PerLevelPoiStyle(iconStyle: clickedIcon, level: 0)
         let clickedPoiStyle = PoiStyle(styleID: "clicked", styles: [clickedPerLevelStyle])
         labelManager.addPoiStyle(clickedPoiStyle)
+        
+        // 출발지 스타일
+        let leaveImage = UIImage(named: "LeaveScooterPoi")
+        let leaveIcon = PoiIconStyle(symbol: leaveImage, anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        let leavePerLevelStyle = PerLevelPoiStyle(iconStyle: leaveIcon, level: 0)
+        let leavePoiStyle = PoiStyle(styleID: "leave", styles: [leavePerLevelStyle])
+        labelManager.addPoiStyle(leavePoiStyle)
+        
+        // 목적지 스타일
+        let arriveImage = UIImage(named: "ArriveScooterPoi")
+        let arriveIcon = PoiIconStyle(symbol: arriveImage, anchorPoint: CGPoint(x: 0.5, y: 1.0))
+        let arrivePerLevelStyle = PerLevelPoiStyle(iconStyle: arriveIcon, level: 0)
+        let arrivePoiStyle = PoiStyle(styleID: "arrive", styles: [arrivePerLevelStyle])
+        labelManager.addPoiStyle(arrivePoiStyle)
     }
     
     func createLabelLayer() { // 레이어생성
@@ -446,28 +570,28 @@ extension MapViewController: KakaoMapEventDelegate {
         let _ = labelManager.addLabelLayer(option: layer)
     }
     
-    func createPoi() {
-        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-            return
-        }
-        let labelManager = mapView.getLabelManager()
-        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
-            return
-        }
-        for (index, position) in poiPositions.enumerated() {
-            let options = PoiOptions(styleID: "blue", poiID: "bluePoi_\(index)")
-            options.clickable = true
-            if let poi = layer.addPoi(option: options, at: position) {
-                poi.show()
-                // POI 클릭 이벤트 핸들러 추가
-                let _ = poi.addPoiTappedEventHandler(target: self) { [weak self] _ in
-                    return { param in
-                        self?.poiTapped(param)
-                    }
-                }
-            }
-        }
-    }
+//    func createPoi() {
+//        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+//            return
+//        }
+//        let labelManager = mapView.getLabelManager()
+//        guard let layer = labelManager.getLabelLayer(layerID: "poiLayer") else {
+//            return
+//        }
+//        for (index, position) in poiPositions.enumerated() {
+//            let options = PoiOptions(styleID: "blue", poiID: "bluePoi_\(index)")
+//            options.clickable = true
+//            if let poi = layer.addPoi(option: options, at: position) {
+//                poi.show()
+//                // POI 클릭 이벤트 핸들러 추가
+//                let _ = poi.addPoiTappedEventHandler(target: self) { [weak self] _ in
+//                    return { param in
+//                        self?.poiTapped(param)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func poiTapped(_ param: PoiInteractionEventParam) {
         guard let poi = param.poiItem as? Poi else { return }
@@ -482,12 +606,12 @@ extension MapViewController: KakaoMapEventDelegate {
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
         
-        // 현재 로그인한 유저의 ID 가져오기
-            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
-                  let currentUserId = UUID(uuidString: currentUserIdString) else {
-                print("로그인한 유저 ID를 가져올 수 없습니다.")
-                return
-            }
+//        // 현재 로그인한 유저의 ID 가져오기
+//            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
+//                  let currentUserId = UUID(uuidString: currentUserIdString) else {
+//                print("로그인한 유저 ID를 가져올 수 없습니다.")
+//                return
+//            }
             
         // 현재 로그인한 유저의 ID 가져오기
         guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
@@ -504,6 +628,16 @@ extension MapViewController: KakaoMapEventDelegate {
         present(alert, animated: true, completion: nil)
     }
     
+    // poi layer 초기화하는 메서드 - sh
+    func resetPoiLayer() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+            return
+        }
+        let labelManager = mapView.getLabelManager()
+        labelManager.removeLabelLayer(layerID: "poiLayer")
+        
+        createLabelLayer()
+    }
 }
 
 // MARK: - 사용자 위치 관련

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import CoreData
 
 class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfModalViewControllerDelegate {
     
@@ -14,6 +15,10 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
     
     private let returnView = ReturnView()
     private let timerModel = TimerModel()
+    
+    private let coreDataManager = CoreDataManager.shared
+    
+    var container: NSPersistentContainer!
     
     private init() {
         super.init(nibName: nil, bundle: nil)
@@ -31,6 +36,9 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.container = appDelegate.persistentContainer
         
         // 결제수단, 프로모션 addTarget
         returnView.paymentMethodDetailButton.addTarget(self, action: #selector(payHalfModal), for: .touchUpInside)
@@ -97,13 +105,42 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
     // 결제 버튼 클릭시 이벤트 - DS
     @objc
     private func payButtonTapped() {
-        let alert = UIAlertController(title: "결제완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+        self.alertManager(title: "결제완료", message: "결제가 완료되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
             self?.resetValues()
             self?.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
+            if let tabBarController = self?.tabBarController as? MainTabbarController {
+                tabBarController.selectedIndex = 1
+            }
+            
+            // MARK: - 현재 날짜와 이용시간, 이용금액, 킥보드ID, 현재 사용자 이메일 가져오기 - YJ
+            let currentDate = Date()
+            let useTime = self?.timerModel.formatTime() ?? "00:00:00"
+            let fee = self?.timerModel.calculateFare() ?? 0
+            let formattedFee = self?.timerModel.formatNumber(fee) ?? "0"
+            let kickboardId = UUID() // UUID 생성
+            let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") ?? "unknownUserEmail"
+            
+            // Core Data에 저장할 값 생성
+            let values: [String: Any] = [
+                RideData.Key.date: currentDate,
+                RideData.Key.distance: useTime,
+                RideData.Key.fee: formattedFee,
+                RideData.Key.kickboardId: kickboardId,
+                RideData.Key.email: currentUserEmail
+            ]
+            
+            // RideData 저장
+            self?.coreDataManager.create(entityType: RideData.self, values: values)
+            print("rideData 저장 완료")
+        })
+        
+//        let alert = UIAlertController(title: "결제완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+//            self?.resetValues()
+//            self?.dismiss(animated: true, completion: nil)
+//        }
+//        alert.addAction(okAction)
+//        present(alert, animated: true, completion: nil)
     }
     
     private func resetValues() {

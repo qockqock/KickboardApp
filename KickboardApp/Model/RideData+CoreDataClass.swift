@@ -20,5 +20,6 @@ public class RideData: NSManagedObject {
         static let fee = "fee"
         static let kickboardId = "kickboardId"
         static let userId = "userId"
+        static let email = "email"
     }
 }
