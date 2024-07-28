@@ -66,6 +66,7 @@ class PromotionHalfModalViewController: UIViewController {
     private let promotionHalfModalView = PromotionHalfModalView()
     weak var delegate: PromotionHalfModalViewControllerDelegate? // 델리게이트 추가
     private let timerModel = TimerModel()
+    private let returnView = ReturnView()
     
     // ReturnView를 초기화하는 생성자 추가
     init() {
@@ -102,17 +103,17 @@ class PromotionHalfModalViewController: UIViewController {
     // 쿠폰사용 버튼액션
     @objc
     private func promotionButtonTapped() {
+        // 프로모션 값이 0원인지 확인
+        guard let paymentAmountValueText = self.returnView.paymentAmountValueLabel.text, paymentAmountValueText != "0원" else {
+            return
+        }
+        
         self.alertManager(title: "사용완료", message: "쿠폰이 사용되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
             // 쿠폰 금액
             let promotionAmount = 1000
             self?.delegate?.didUseCoupon(amount: promotionAmount)
             self?.dismiss(animated: true, completion: nil)
         })
-        
-//        let alert = UIAlertController(title: "사용완료", message: "쿠폰이 사용되었습니다.", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "확인", style: .default, handler:
-//        alert.addAction(okAction)
-//        present(alert, animated: true, completion: nil)
     }
     
     @objc private func dismissModal() {

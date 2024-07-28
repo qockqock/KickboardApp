@@ -114,9 +114,9 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             }
             
             // MapViewController 인스턴스 참조 및 버튼 상태 초기화
-            if let mapVC = tabBarController!.viewControllers?.first(where: { $0 is MapViewController }) as? MapViewController {
-                mapVC.selectedPoi = nil
-                mapVC.updateStopReturnButtonState()
+            if let mapViewController = tabBarController!.viewControllers?.first(where: { $0 is MapViewController }) as? MapViewController {
+                mapViewController.selectedPoi = nil
+                mapViewController.updateStopReturnButtonState()
             }
             
             // MARK: - 현재 날짜와 이용시간, 이용금액, 킥보드ID, 현재 사용자 이메일 가져오기 - YJ
