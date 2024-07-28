@@ -18,15 +18,15 @@ class MainTabbarController: UITabBarController {
     func setupTabbar() {
         // 델리게이트를 위한 변수 설정 - YJ
         let mapviewController = MapViewController()
-        let historyController = HistoryViewController()
+        let myPageController = MyPageViewController()
         
-        mapviewController.delegate = historyController
+        mapviewController.delegate = myPageController
         
         let firstTab = ReturnViewController.timer
         let secondTab = mapviewController
         
         // 네비게이션 컨트롤러로 감싸기
-         let thirdTab = UINavigationController(rootViewController: historyController)
+         let thirdTab = UINavigationController(rootViewController: myPageController)
 
         firstTab.tabBarItem = UITabBarItem(title: "반납하기", image: UIImage(named: "tabBarScooter"), tag: 0)
         secondTab.tabBarItem = UITabBarItem(title: "지도", image: UIImage(named: "tabBarMap"), tag: 1)
