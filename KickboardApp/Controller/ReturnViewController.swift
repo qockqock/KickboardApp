@@ -116,7 +116,7 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             let currentDate = Date()
             let useTime = self?.timerModel.formatTime() ?? "00:00:00"
             let fee = self?.timerModel.calculateFare() ?? 0
-            let formattedFee = Int32(fee)
+            let formattedFee = self?.timerModel.formatNumber(fee) ?? "0"
             let kickboardId = UUID() // UUID 생성
             let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") ?? "unknownUserEmail"
             

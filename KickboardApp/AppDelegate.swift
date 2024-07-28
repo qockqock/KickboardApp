@@ -19,10 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Tabbar 배경색 전역적으로 설정
         UITabBar.appearance().backgroundColor = .white
         
-//        // 데이터 지울때 사용 - 필요시 주석처리/해제하여 사용
+//        // Kickboards 데이터 지울때 사용 - 필요시 주석처리/해제하여 사용
 //        CoreDataManager.shared.deleteAll(entityType: Kickboards.self)
-//        CoreDataManager.shared.deleteAll(entityType: RideData.self)
-//
+//        
 //        // Kickboards 난수데이터 2000개 생성 - 필요시 주석처리/해제하여 사용
 //        let dataGenerator = DataGenerator()
 //        dataGenerator.CreateRandomData()
