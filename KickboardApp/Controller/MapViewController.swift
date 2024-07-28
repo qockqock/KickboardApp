@@ -222,8 +222,13 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         updateStopReturnButtonState()
     }
     
-    private func updateStopReturnButtonState() { // poi버튼이 선택된 상황인지에 따른
+    func updateStopReturnButtonState() { // poi버튼이 선택된 상황인지에 따른
         mapView?.stopReturnButton.isEnabled = (selectedPoi != nil)
+        if selectedPoi != nil {
+            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#864aee")
+        } else {
+            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#676767")
+        }
     }
     private func deselectCurrentPoi() {
         if let poi = selectedPoi {
