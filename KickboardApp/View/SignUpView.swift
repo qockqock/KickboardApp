@@ -35,17 +35,25 @@ class SignUpView: UIView {
         userIdText.resignFirstResponder()
         userIdText.autocapitalizationType = .none
         userIdText.placeholder = "이메일주소를 입력하세요"
+
         return userIdText
     }()
     
     // MARK: - 중복확인 버튼
-    public lazy var checkIdButton: UIButton = {
-        let checkIdButton = UIButton()
-        checkIdButton.setTitle("중복확인", for: .normal)
-        checkIdButton.backgroundColor = .twPurple
-        checkIdButton.layer.cornerRadius = 15
-        return checkIdButton
+    public let checkIdLabel: UILabel = {
+        let checkIdLabel = UILabel()
+        checkIdLabel.text = ""
+        checkIdLabel.textColor = .black
+        checkIdLabel.font = .boldSystemFont(ofSize: 13)
+        return checkIdLabel
     }()
+//    public lazy var checkIdButton: UIButton = {
+//        let checkIdButton = UIButton()
+//        checkIdButton.setTitle("중복확인", for: .normal)
+//        checkIdButton.backgroundColor = .twPurple
+//        checkIdButton.layer.cornerRadius = 15
+//        return checkIdButton
+//    }()
     
     // MARK: - 비밀번호
     public let userPassWord: UILabel = {
@@ -79,6 +87,7 @@ class SignUpView: UIView {
     public let userPassWordCheck: UILabel = {
         let userPassWordCheck = UILabel()
         userPassWordCheck.text = "비밀번호 확인"
+        userPassWordCheck.font = .boldSystemFont(ofSize: 15)
         userPassWordCheck.textColor = .black
         return userPassWordCheck
     }()
@@ -107,7 +116,7 @@ class SignUpView: UIView {
         let userNickName = UILabel()
         userNickName.text = "닉네임"
         userNickName.textColor = .black
-        userNickName.layer.cornerRadius = 15
+        userNickName.font = .boldSystemFont(ofSize: 15)
         return userNickName
     }()
     
@@ -130,7 +139,7 @@ class SignUpView: UIView {
     // MARK: - 각종 레이블 및 버튼, 텍스트필드 오토레이아웃 구간
     private func signUpLayout() {
         
-        [userId, userIdText, checkIdButton, userPassWord, userPassWordText, checkLabel, userPassWordCheck, userPassWordCheckText, passWordCheck, userNickName, userNickNameText, membershipJoinButton].forEach{ self.addSubview($0) }
+        [userId, userIdText, userPassWord, checkIdLabel, userPassWordText, checkLabel, userPassWordCheck, userPassWordCheckText, passWordCheck, userNickName, userNickNameText, membershipJoinButton].forEach{ self.addSubview($0) }
         
         userId.snp.makeConstraints{
             $0.centerX.equalToSuperview()
@@ -144,14 +153,14 @@ class SignUpView: UIView {
             $0.width.equalTo(320)
         }
         
-        checkIdButton.snp.makeConstraints{
+        checkIdLabel.snp.makeConstraints{
             $0.top.equalTo(userIdText.snp.bottom).offset(10)
-            $0.width.equalTo(90)
+            $0.width.equalTo(200)
             $0.leading.equalTo(40)
         }
         
         userPassWord.snp.makeConstraints{
-            $0.top.equalTo(checkIdButton.snp.bottom).offset(40)
+            $0.top.equalTo(checkIdLabel.snp.bottom).offset(50)
             $0.leading.equalTo(40)
         }
         
@@ -168,7 +177,7 @@ class SignUpView: UIView {
         }
         
         userPassWordCheck.snp.makeConstraints{
-            $0.top.equalTo(checkLabel.snp.bottom).offset(40)
+            $0.top.equalTo(checkLabel.snp.bottom).offset(20)
             $0.leading.equalTo(40)
         }
         
@@ -184,7 +193,7 @@ class SignUpView: UIView {
         }
         
         userNickName.snp.makeConstraints{
-            $0.top.equalTo(passWordCheck.snp.bottom).offset(40)
+            $0.top.equalTo(passWordCheck.snp.bottom).offset(50)
             $0.leading.equalTo(40)
         }
         
@@ -196,7 +205,7 @@ class SignUpView: UIView {
         
         membershipJoinButton.snp.makeConstraints{
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(userNickNameText.snp.bottom).offset(70)
+            $0.top.equalTo(userNickNameText.snp.bottom).offset(90)
             $0.width.equalToSuperview().offset(-70)
             $0.height.equalTo(60)
         }
