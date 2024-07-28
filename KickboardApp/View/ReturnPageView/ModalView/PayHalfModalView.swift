@@ -78,6 +78,20 @@ class PayHalfModalView: UIView {
         benefitsLabel.textColor = .gray
         benefitsLabel.numberOfLines = 0
         stackView.addArrangedSubview(benefitsLabel)
+        
+        // 스파르타 배너 추가
+        let spartaBanner = UIImageView()
+        spartaBanner.image = UIImage(named: "spartaBanner")
+        spartaBanner.contentMode = .scaleAspectFit
+        addSubview(spartaBanner)
+        
+        // 스파르타 배너 레이아웃 설정
+        spartaBanner.snp.makeConstraints {
+            $0.top.equalTo(benefitsLabel.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(100) // 배너 높이는 적절히 조정
+        }
+        
     }
     
     // MARK: - 결제수단 뷰 생성 메서드
