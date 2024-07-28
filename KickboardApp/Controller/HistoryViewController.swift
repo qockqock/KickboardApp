@@ -114,8 +114,10 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         if let windowScene = view.window?.windowScene {
             for window in windowScene.windows {
                 if window.isKeyWindow {
-                    window.rootViewController = LoginViewController()
-                    UIView.transition(with: window, duration: 0.5, options: .allowAnimatedContent, animations: nil, completion: nil)
+                    let loginViewController = LoginViewController() // <- 요게 문제였음!
+                    let navigationController = UINavigationController(rootViewController: loginViewController)
+                    window.rootViewController = navigationController
+                    UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil)
                 }
             }
         }
