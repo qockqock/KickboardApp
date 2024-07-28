@@ -227,7 +227,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         if selectedPoi != nil {
             mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#864aee")
         } else {
-            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#676767")
+            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#787878")
         }
     }
     private func deselectCurrentPoi() {

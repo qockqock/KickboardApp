@@ -19,22 +19,19 @@ class MapView: UIView {
     lazy var stopReturnButton: UIButton = {
         let button = UIButton()
         button.setTitle("대여하기", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = .twPurple
         button.isEnabled = false // 처음에는 비활성화
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
         return button
     }()
     
     lazy var myLocationButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "myLocation"), for: .normal)
-//        button.backgroundColor = .black
-//        button.setTitle("위치", for: .normal)
-//        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowOpacity = 0.6
+//        button.layer.shadowColor = UIColor.black.cgColor
+//        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+//        button.layer.shadowOpacity = 0.3
         return button
     }()
     
@@ -47,7 +44,6 @@ class MapView: UIView {
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOffset = CGSize(width: 2, height: 2)
         label.layer.shadowOpacity = 0.6
-        
         label.isHidden = true
         return label
     }()
@@ -65,7 +61,7 @@ class MapView: UIView {
     func mapSetupUI() {
         backgroundColor = .white
         
-        [mapView, stopReturnButton, myLocationButton].forEach {
+        [mapView, stopReturnButton, myLocationButton, returnPointLabel].forEach {
             self.addSubview($0)
         }
         
@@ -83,11 +79,9 @@ class MapView: UIView {
         myLocationButton.snp.makeConstraints {
             $0.bottom.equalTo(stopReturnButton.snp.top).offset(-30)
             $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-20)
-            $0.width.equalTo(50)
-            $0.height.equalTo(50)
+            $0.width.equalTo(46)
+            $0.height.equalTo(46)
         }
-        
-        self.addSubview(returnPointLabel)
         
         returnPointLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(200)
