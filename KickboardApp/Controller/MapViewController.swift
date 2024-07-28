@@ -606,6 +606,9 @@ extension MapViewController: KakaoMapEventDelegate {
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
         
+        // poi 카메라 이동 - sh
+        moveCameraToPoi(poi)
+        
 //        // 현재 로그인한 유저의 ID 가져오기
 //            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
 //                  let currentUserId = UUID(uuidString: currentUserIdString) else {
@@ -637,6 +640,14 @@ extension MapViewController: KakaoMapEventDelegate {
         labelManager.removeLabelLayer(layerID: "poiLayer")
         
         createLabelLayer()
+    }
+    
+    // poi로 카메라 이동하는 메서드 - sh
+    private func moveCameraToPoi(_ poi: Poi) {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let position = poi.position
+        let cameraUpdate = CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView)
+        mapView.moveCamera(cameraUpdate)
     }
 }
 

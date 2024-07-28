@@ -28,15 +28,15 @@ class ReturnView: UIView {
     
     lazy var usageTimeValueLabel = createLabel("00:00:00", 16)
     lazy var paymentAmountValueLabel = createLabel("1,500원", 16)
-    lazy var promotionValueLabel = createLabel("-0원", 16)
-    lazy var totalAmountValueLabel = createLabel("", 24)
+    lazy var promotionValueLabel = createLabel("0원", 16)
+    lazy var totalAmountValueLabel = createLabel("500원", 24)
     
     // MARK: - 결제수단, 프로모션, 결제하기관련 버튼 관련
     public lazy var paymentMethodDetailButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제수단", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .twPurple.withAlphaComponent(0.5)
+        button.backgroundColor = .systemPurple.withAlphaComponent(0.5)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button
@@ -56,9 +56,17 @@ class ReturnView: UIView {
         let button = UIButton()
         button.setTitle("결제하기", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = .twPurple
+        button.backgroundColor = .systemPurple
         button.layer.cornerRadius = 10
         return button
+    }()
+    
+    // MARK: - 상단 이미지
+    private let topImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "kickKeyKick")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -73,9 +81,22 @@ class ReturnView: UIView {
     }
     
     private func configureUI() {
+        setupTopImageView()
         setupTopContainerView()
         setupBottomContainerView()
         setupPayButton()
+    }
+    
+    // MARK: - 상단 이미지 뷰 설정
+    private func setupTopImageView() {
+        self.addSubview(topImageView)
+        
+        topImageView.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(480)
+            $0.height.equalTo(56)
+        }
     }
 
     // MARK: - 상단 컨테이너 뷰 설정 (이용시간, 결제금액, 프로모션)
@@ -89,7 +110,7 @@ class ReturnView: UIView {
         self.addSubview(topContainerView)
         
         topContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(topImageView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(150)
         }
@@ -152,7 +173,7 @@ class ReturnView: UIView {
         self.addSubview(bottomContainerView)
         
         bottomContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.subviews[0].snp.bottom).offset(20)
+            $0.top.equalTo(self.subviews[1].snp.bottom).offset(20) // 상단 이미지뷰 추가 후 인덱스 변경
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
