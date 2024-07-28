@@ -65,7 +65,6 @@ class HistoryViewController: UIViewController {
 
 // MARK: - 테이블뷰 설정 - YJ
 extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rideDataArray.count
     }
@@ -81,4 +80,17 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 160 // 셀의 높이 설정
+        }
+        
+        func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { //수정하세요
+            let view = UIView()
+            view.backgroundColor = .clear
+            return view
+        }
+
+        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { //수정하세요
+            return 10
+        }
 }

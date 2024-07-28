@@ -38,10 +38,11 @@ final class TableViewCell: UITableViewCell {
         return label
     }()
 
-    // 테이블 뷰 셀 내에서 구분선 역할을 하는 UIView
-    private let separator: UIView = {
+    private let historyCellView: UIView = {
         let view = UIView()
-        view.backgroundColor = .gray
+        
+        view.layer.cornerRadius = 15
+        view.layer.masksToBounds = true
         return view
     }()
 
@@ -55,17 +56,24 @@ final class TableViewCell: UITableViewCell {
     }
 
     private func configureUI() {
+
+        [historyCellView].forEach { contentView.addSubview($0)}
+        
         [
             rideDatelabel,
             rideTimelabel,
             ridePaymentlabel,
             kickboardIdLabel,
-            separator
-        ].forEach { contentView.addSubview($0) }
-
+            
+        ].forEach { historyCellView.addSubview($0) }
+        
+        historyCellView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(10)
+        }
+        
         rideDatelabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(15)
-            $0.top.equalToSuperview().inset(10)
+            $0.top.equalTo(10)
             $0.trailing.equalToSuperview().inset(15)
         }
 
@@ -88,11 +96,6 @@ final class TableViewCell: UITableViewCell {
             $0.bottom.equalToSuperview().inset(10)
         }
 
-        separator.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1)
-            $0.bottom.equalToSuperview()
-        }
     }
     
     func configureCell(rideData: RideData) {
