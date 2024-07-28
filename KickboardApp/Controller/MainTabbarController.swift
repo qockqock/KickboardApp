@@ -24,9 +24,10 @@ class MainTabbarController: UITabBarController {
         
         let firstTab = ReturnViewController.timer
         let secondTab = mapviewController
-        let thirdTab = historyController
-
         
+        // 네비게이션 컨트롤러로 감싸기
+         let thirdTab = UINavigationController(rootViewController: historyController)
+
         firstTab.tabBarItem = UITabBarItem(title: "반납하기", image: UIImage(named: "tabBarScooter"), tag: 0)
         secondTab.tabBarItem = UITabBarItem(title: "지도", image: UIImage(named: "tabBarMap"), tag: 1)
         thirdTab.tabBarItem = UITabBarItem(title: "마이페이지", image: UIImage(named: "tabBarMyPage"), tag: 2)

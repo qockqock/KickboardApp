@@ -10,13 +10,13 @@ import SnapKit
 
 class HistoryView: UIView {
     
-    let mypageLabel: UILabel = {
-        let label = UILabel()
-        label.text = "마이페이지"
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
+//    let mypageLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "마이페이지"
+//        label.font = .boldSystemFont(ofSize: 18)
+//        label.textAlignment = .center
+//        return label
+//    }()
     
     let profileImage: UIImageView = {
         let image = UIImageView()
@@ -144,13 +144,13 @@ class HistoryView: UIView {
         return button
     }()
     
-    private let detailUse : UILabel = {
-        let label = UILabel()
-        label.text = "이용 내역"
-        label.font = .boldSystemFont(ofSize: 17)
-        label.textAlignment = .left
-        return label
-    }()
+//    private let detailUse : UILabel = {
+//        let label = UILabel()
+//        label.text = "이용 내역"
+//        label.font = .boldSystemFont(ofSize: 17)
+//        label.textAlignment = .left
+//        return label
+//    }()
     
     let loginOutButton: UIButton = {
         let button = UIButton()
@@ -166,28 +166,38 @@ class HistoryView: UIView {
         let label = UILabel()
         label.text = "\" 킥보드를 이용하고 있지 않습니다. \""
         label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .gray
+        label.textColor = .darkGray
         label.textAlignment = .center
         return label
     }()
     
     let quitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("회원탈퇴", for: .normal)
-        button.backgroundColor = .white
+        button.setTitle("| 회원탈퇴 |", for: .normal)
+        button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 15
         button.setTitleColor(.darkGray, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         return button
     }()
     
-    // 테이블 뷰 추가
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
-        tableView.backgroundColor = .systemGray6
-        tableView.alpha = 1.0 // 테이블 뷰의 투명도 설정 예시
-        return tableView
+//    // 테이블 뷰 추가
+//    let tableView: UITableView = {
+//        let tableView = UITableView()
+//        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+//        tableView.backgroundColor = .systemGray6
+//        tableView.alpha = 1.0 // 테이블 뷰의 투명도 설정 예시
+//        return tableView
+//    }()
+    
+    let detailUseButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("이용내역 보러가기 >", for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 15
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        return button
     }()
     
     // 이니셜라이저 지정
@@ -206,18 +216,18 @@ class HistoryView: UIView {
     func configureUI() {
         self.backgroundColor = .systemGray6
         // 리스트 열어서 위에 모든 클래스들 넣기
-        [mypageLabel, profileImage, imageButton, nicknameLabel, detailUse, userInfoStackView, useKickboardLabel, tableView, loginOutButton, quitButton]
+        [/*mypageLabel,*/ profileImage, imageButton, nicknameLabel, /*detailUse,*/ userInfoStackView, useKickboardLabel, /*tableView,*/ loginOutButton, quitButton, detailUseButton]
             .forEach { self.addSubview($0) }
         
-        mypageLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(70)
-        }
+//        mypageLabel.snp.makeConstraints {
+//            $0.centerX.equalToSuperview()
+//            $0.top.equalToSuperview().offset(70)
+//        }
         
         // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(mypageLabel.snp.bottom).offset(15)
+            $0.top.equalToSuperview().offset(105)
             $0.width.height.equalTo(120)
         }
         
@@ -232,34 +242,27 @@ class HistoryView: UIView {
             $0.width.equalTo(100)
         }
         
-        useKickboardLabel.snp.makeConstraints {
-            $0.top.equalTo(imageButton.snp.bottom).offset(10)
-            $0.centerX.equalToSuperview()
-        }
-        
         userInfoStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(useKickboardLabel.snp.bottom).offset(15)
+            $0.top.equalTo(imageButton.snp.bottom).offset(15)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(180)
         }
         
-        detailUse.snp.makeConstraints {
-            $0.top.equalTo(userInfoStackView.snp.bottom).offset(18)
-            $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(40)
+        detailUseButton.snp.makeConstraints {
+            $0.top.equalTo(userInfoStackView.snp.bottom).offset(5)
+            $0.height.equalTo(50)
+            $0.leading.equalToSuperview().inset(30)
         }
         
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(detailUse.snp.bottom).offset(5)
+        useKickboardLabel.snp.makeConstraints {
+            $0.top.equalTo(detailUseButton.snp.bottom).offset(52)
             $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(40)
-            $0.height.equalTo(140)
         }
         
         loginOutButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(15)
-            $0.leading.equalToSuperview().offset(75)
+            $0.top.equalTo(useKickboardLabel.snp.bottom).offset(70)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(35)
             $0.width.equalTo(75)
         }
@@ -267,8 +270,8 @@ class HistoryView: UIView {
         
         // 회원탈퇴 버튼 추가하며 loginOutButton 제약조건 수정 - sh
         quitButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(15)
-            $0.trailing.equalToSuperview().offset(-75)
+            $0.bottom.equalToSuperview().inset(6)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(35)
             $0.width.equalTo(75)
         }

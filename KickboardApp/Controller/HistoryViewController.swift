@@ -26,6 +26,9 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         
         view = historyView
         
+        // 네비게이션 바 타이틀 설정
+        self.title = "마이페이지"
+        
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
         historyView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
@@ -36,11 +39,11 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         let mapViewController = MapViewController()
         mapViewController.delegate = self
         
-        // Configure the table view
-        historyView.tableView.dataSource = self
-        historyView.tableView.delegate = self
-        
-        historyView.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+//        // Configure the table view
+//        historyView.tableView.dataSource = self
+//        historyView.tableView.delegate = self
+//        
+//        historyView.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,8 +67,8 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
             let rideData = try self.container.viewContext.fetch(fetchRequest)
             self.rideDataArray = rideData // rideDataArray를 업데이트
             
-            // 테이블 뷰를 갱신
-            historyView.tableView.reloadData()
+//            // 테이블 뷰를 갱신
+//            historyView.tableView.reloadData()
         } catch {
             print("RideData를 가져오는 데 오류가 발생했습니다.")
         }
