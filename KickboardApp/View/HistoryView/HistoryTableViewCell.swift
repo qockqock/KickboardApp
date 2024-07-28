@@ -13,7 +13,7 @@ final class TableViewCell: UITableViewCell {
     private let rideDatelabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
 
