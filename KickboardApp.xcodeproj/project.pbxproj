@@ -174,13 +174,11 @@
 		6B0716182C4E05AA00B1605D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6B07165A2C50D13200B1605D /* ReturnPageView */,
 				43C880BA2C4E46DC00985151 /* LoginView.swift */,
 				14EFB2152C4F46D60074E1ED /* SignUpView.swift */,
+				E77D47272C56705800D9347B /* HistoryView */,
+				6B07165A2C50D13200B1605D /* ReturnPageView */,
 				E77D47242C55347E00D9347B /* MapView */,
-				43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */,
-				E705A1362C51E3A40094BD55 /* SearchMapView.swift */,
-				43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -239,8 +237,18 @@
 			children = (
 				E51B40922C50C0BE005F223A /* MapView.swift */,
 				E77D47252C55349F00D9347B /* AlertImageView.swift */,
+				E705A1362C51E3A40094BD55 /* SearchMapView.swift */,
 			);
 			path = MapView;
+			sourceTree = "<group>";
+		};
+		E77D47272C56705800D9347B /* HistoryView */ = {
+			isa = PBXGroup;
+			children = (
+				43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */,
+				43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */,
+			);
+			path = HistoryView;
 			sourceTree = "<group>";
 		};
 		E7A692042C4F9E2F005DB1F0 /* Data */ = {
