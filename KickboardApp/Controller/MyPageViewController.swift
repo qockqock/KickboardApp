@@ -29,9 +29,13 @@ class MyPageViewController: UIViewController, MapViewControllerDelegate {
         // 네비게이션 바 타이틀 설정
         self.title = "마이페이지"
         
+        // 버튼 클릭 이벤트 핸들러 설정
         historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
         historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
         historyView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
+        historyView.detailUseButton.addTarget(self, action: #selector(detailUseButtonTapped), for: .touchUpInside)
+        historyView.phoneChangeButton.addTarget(self, action: #selector(phoneChangeButtonTapped), for: .touchUpInside)
+        historyView.dateChangeButton.addTarget(self, action: #selector(dateChangeButtonTapped), for: .touchUpInside)
         
         fetchCurrentUser()
         
@@ -39,39 +43,11 @@ class MyPageViewController: UIViewController, MapViewControllerDelegate {
         let mapViewController = MapViewController()
         mapViewController.delegate = self
         
-//        // Configure the table view
-//        historyView.tableView.dataSource = self
-//        historyView.tableView.delegate = self
-//        
-//        historyView.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchRideData()
-    }
-    
-    // MARK: - 코어데이터에서 데이터 조회하고 테이블뷰 업데이트 - YJ
-    func fetchRideData() {
-        guard let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else {
-            print("현재 사용자 이메일을 찾을 수 없습니다.")
-            return
-        }
-        
-        let fetchRequest: NSFetchRequest<RideData> = RideData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "email == %@", currentUserEmail)
-        
-        do {
-            // Core Data에서 RideData를 가져오기
-            let rideData = try self.container.viewContext.fetch(fetchRequest)
-            self.rideDataArray = rideData // rideDataArray를 업데이트
-            
-//            // 테이블 뷰를 갱신
-//            historyView.tableView.reloadData()
-        } catch {
-            print("RideData를 가져오는 데 오류가 발생했습니다.")
-        }
     }
     
     // MARK: - 랜덤 이미지 버튼 - YJ
@@ -131,11 +107,36 @@ class MyPageViewController: UIViewController, MapViewControllerDelegate {
         let predicate = NSPredicate(format: "email == %@", email)
         CoreDataManager.shared.delete(entityType: Users.self, predicate: predicate)
     }
+
+    @objc private func phoneChangeButtonTapped() {
+        showEditAlert(
+            title: "휴대폰 번호를 입력하세요.",
+            placeholder: "새로운 휴대폰 번호",
+            currentText: historyView.phoneNumberLabel.text ?? ""
+        ) { newText in
+            self.historyView.phoneNumberLabel.text = "휴대폰  \(newText)"
+        }
+    }
+
+    @objc private func dateChangeButtonTapped() {
+        showEditAlert(
+            title: "생년월일을 입력하세요.",
+            placeholder: "새로운 생년월일",
+            currentText: historyView.birthDateLabel.text ?? ""
+        ) { newText in
+            self.historyView.birthDateLabel.text = "생년월일  \(newText)"
+        }
+    }
     
     // MARK: - 로그아웃 버튼 - YJ
     @objc private func loginOutButtonTapped() {
         UserDefaults.standard.removeObject(forKey: "currentUserEmail")
         loginOutButtonTapAlert()
+    }
+    
+    // MARK: - 로그아웃 버튼 - YJ
+    @objc private func detailUseButtonTapped() {
+        self.navigationController?.pushViewController(HistoryViewController(), animated: true)
     }
     
     private func loginOutButtonTapAlert() {
@@ -165,5 +166,29 @@ class MyPageViewController: UIViewController, MapViewControllerDelegate {
         historyView.useKickboardLabel.text = "\"킥보드를 이용하고 있지 않습니다.\""
     }
     
+}
+
+extension MyPageViewController {
+    private func showEditAlert(title: String, placeholder: String, currentText: String, completion: @escaping (String) -> Void) {
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        
+        alertController.addTextField { textField in
+             // 기본값을 설정하지 않고 빈 상태로 만듭니다.
+             textField.text = ""
+             textField.placeholder = placeholder
+        }
+        
+        let confirmAction = UIAlertAction(title: "변경", style: .default) { _ in
+            if let newText = alertController.textFields?.first?.text {
+                completion(newText)
+            }
+        }
+        alertController.addAction(confirmAction)
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 }
 

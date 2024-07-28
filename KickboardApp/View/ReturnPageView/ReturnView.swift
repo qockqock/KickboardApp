@@ -24,8 +24,8 @@ class ReturnView: UIView {
     private lazy var usageTimeLabel = createLabel("이용시간:", 16)
     private lazy var paymentAmountLabel = createLabel("결제금액:", 16)
     private lazy var promotionLabel = createLabel("프로모션:", 16)
-    private lazy var totalAmountLabel = createLabel("최종금액", 24)
-    
+
+    lazy var totalAmountLabel = createLabel("최종금액", 24)
     lazy var usageTimeValueLabel = createLabel("00:00:00", 16)
     lazy var paymentAmountValueLabel = createLabel("1,500원", 16)
     lazy var promotionValueLabel = createLabel("0원", 16)

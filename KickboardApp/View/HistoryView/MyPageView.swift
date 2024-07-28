@@ -10,14 +10,6 @@ import SnapKit
 
 class MyPageView: UIView {
     
-//    let mypageLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "마이페이지"
-//        label.font = .boldSystemFont(ofSize: 18)
-//        label.textAlignment = .center
-//        return label
-//    }()
-    
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "DefaultProfileImage")
@@ -110,13 +102,19 @@ class MyPageView: UIView {
         return label
     }()
     
-    private let phoneNumberLabel : UILabel = {
+    let phoneNumberLabel : UILabel = {
         let button = UILabel()
         button.text = "휴대폰"
         button.textColor = .gray
         button.font = .systemFont(ofSize: 14)
         button.textAlignment = .left
         return button
+    }()
+    
+    // 텍스트 필드 추가
+    let phoneNumberTextField: UITextField = {
+        let textField = UITextField()
+        return textField
     }()
     
     var phoneChangeButton : UIButton = {
@@ -127,13 +125,18 @@ class MyPageView: UIView {
         return button
     }()
     
-    private let birthDateLabel : UILabel = {
+    let birthDateLabel : UILabel = {
         let button = UILabel()
         button.text = "생년월일"
         button.textColor = .gray
         button.font = .systemFont(ofSize: 14)
         button.textAlignment = .left
         return button
+    }()
+    
+    let birthDateTextField: UITextField = {
+        let textField = UITextField()
+        return textField
     }()
     
     var dateChangeButton : UIButton = {
@@ -143,14 +146,6 @@ class MyPageView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         return button
     }()
-    
-//    private let detailUse : UILabel = {
-//        let label = UILabel()
-//        label.text = "이용 내역"
-//        label.font = .boldSystemFont(ofSize: 17)
-//        label.textAlignment = .left
-//        return label
-//    }()
     
     let loginOutButton: UIButton = {
         let button = UIButton()
@@ -181,15 +176,6 @@ class MyPageView: UIView {
         return button
     }()
     
-//    // 테이블 뷰 추가
-//    let tableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
-//        tableView.backgroundColor = .systemGray6
-//        tableView.alpha = 1.0 // 테이블 뷰의 투명도 설정 예시
-//        return tableView
-//    }()
-    
     let detailUseButton: UIButton = {
         let button = UIButton()
         button.setTitle("이용내역 보러가기 >", for: .normal)
@@ -219,12 +205,6 @@ class MyPageView: UIView {
         [/*mypageLabel,*/ profileImage, imageButton, nicknameLabel, /*detailUse,*/ userInfoStackView, useKickboardLabel, /*tableView,*/ loginOutButton, quitButton, detailUseButton]
             .forEach { self.addSubview($0) }
         
-//        mypageLabel.snp.makeConstraints {
-//            $0.centerX.equalToSuperview()
-//            $0.top.equalToSuperview().offset(70)
-//        }
-        
-        // 제약조건 수정 - sh
         profileImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(105)
