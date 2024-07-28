@@ -18,7 +18,7 @@ class MainTabbarController: UITabBarController {
     func setupTabbar() {
         // 델리게이트를 위한 변수 설정 - YJ
         let mapviewController = MapViewController()
-        let historyController = HistoryViewController()
+        let historyController = MyPageViewController()
         
         mapviewController.delegate = historyController
         

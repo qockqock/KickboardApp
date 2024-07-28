@@ -1,5 +1,5 @@
 //
-//  HistoryViewController.swift
+//  MyPageViewController.swift
 //  KickboardApp
 //
 //  Created by 강유정 on 7/23/24.
@@ -8,13 +8,12 @@
 import UIKit
 import CoreData
 
-class HistoryViewController: UIViewController, MapViewControllerDelegate {
+class MyPageViewController: UIViewController, MapViewControllerDelegate {
     
-    private let historyView = HistoryView()
-    
+    private let myPageView = MyPageView()
     private var rideDataArray: [RideData] = []
-    
     var container: NSPersistentContainer!
+    
     
     let imageNames = ["RandomImg1", "RandomImg2", "RandomImg3", "RandomImg4", "RandomImg5"]
     
@@ -23,12 +22,12 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
+ 
+        view = myPageView
         
-        view = historyView
-        
-        historyView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
-        historyView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
-        historyView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
+        myPageView.imageButton.addTarget(self, action: #selector(imageButtonTapped), for: .touchUpInside)
+        myPageView.loginOutButton.addTarget(self, action: #selector(loginOutButtonTapped), for: .touchUpInside)
+        myPageView.quitButton.addTarget(self, action: #selector(quitButtonTapped), for: .touchUpInside)
         
         fetchCurrentUser()
         
@@ -36,11 +35,7 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         let mapViewController = MapViewController()
         mapViewController.delegate = self
         
-        // Configure the table view
-        historyView.tableView.dataSource = self
-        historyView.tableView.delegate = self
         
-        historyView.tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +60,7 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
             self.rideDataArray = rideData // rideDataArray를 업데이트
             
             // 테이블 뷰를 갱신
-            historyView.tableView.reloadData()
+//            myPageView.tableView.reloadData()
         } catch {
             print("RideData를 가져오는 데 오류가 발생했습니다.")
         }
@@ -76,7 +71,7 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
         let randomIndex = Int.random(in: 0..<imageNames.count)
         let randomImageName = imageNames[randomIndex]
         
-        historyView.profileImage.image = UIImage(named: randomImageName)
+        myPageView.profileImage.image = UIImage(named: randomImageName)
     }
     
     // MARK: - 현재 유저 정보 마이페이지에 띄우기 - YJ
@@ -93,13 +88,13 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
             let users = try self.container.viewContext.fetch(fetchRequest)
             if let currentUser = users.first {
                 if let nickname = currentUser.nickname {
-                    historyView.nicknameLabel.text = "\(nickname)  님"
+                    myPageView.nicknameLabel.text = "\(nickname)  님"
                 }
                 if let id = currentUser.id {
-                    historyView.idLabel.text = "회원번호   \(id)"
+                    myPageView.idLabel.text = "회원번호   \(id)"
                 }
                 if let email = currentUser.email {
-                    historyView.emailLabel.text = "이메일   \(email)"
+                    myPageView.emailLabel.text = "이메일   \(email)"
                 }
             } else {
                 print("해당 사용자의 데이터를 찾을 수 없습니다.")
@@ -156,30 +151,12 @@ class HistoryViewController: UIViewController, MapViewControllerDelegate {
     
     // MARK: - stopReturnButton 버튼 클릭 액션 - YJ
     func didTapStoprentalButton() {
-           historyView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
+        myPageView.useKickboardLabel.text = "\"킥보드를 이용중 입니다.\""
        }
     func didTapStopReturnButton() {
-        historyView.useKickboardLabel.text = "\"킥보드를 이용하고 있지 않습니다.\""
+        myPageView.useKickboardLabel.text = "\"킥보드를 이용하고 있지 않습니다.\""
     }
     
 }
 
-// MARK: - 테이블뷰 설정 - YJ
-extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rideDataArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        let rideData = rideDataArray[indexPath.row]
-        cell.configureCell(rideData: rideData)
-        cell.backgroundColor = .systemGray6
-        
-        // 선택해도 색이 바뀌지 않도록 설정
-        cell.selectionStyle = .none
-        
-        return cell
-    }
-}
+

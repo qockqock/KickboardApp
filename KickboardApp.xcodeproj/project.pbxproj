@@ -11,8 +11,8 @@
 		43C880BB2C4E46DC00985151 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C880BA2C4E46DC00985151 /* LoginView.swift */; };
 		43C880BF2C4E7BE300985151 /* BagelFatOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */; };
 		43C880C02C4E7BE300985151 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 43C880BD2C4E7BE300985151 /* OFL.txt */; };
-		43DF1A782C4F923500E6C7C1 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A772C4F923500E6C7C1 /* HistoryViewController.swift */; };
-		43DF1A7A2C4F92AF00E6C7C1 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */; };
+		43DF1A782C4F923500E6C7C1 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A772C4F923500E6C7C1 /* MyPageViewController.swift */; };
+		43DF1A7A2C4F92AF00E6C7C1 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A792C4F92AF00E6C7C1 /* MyPageView.swift */; };
 		43DF1A7E2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */; };
 		6B0715FE2C4E051A00B1605D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FD2C4E051A00B1605D /* AppDelegate.swift */; };
 		6B0716002C4E051A00B1605D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0715FF2C4E051A00B1605D /* SceneDelegate.swift */; };
@@ -29,6 +29,8 @@
 		E51B40932C50C0BE005F223A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51B40922C50C0BE005F223A /* MapView.swift */; };
 		E550BACB2C4E4BF8000285BD /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = E550BACA2C4E4BF8000285BD /* KakaoMapsSDK-SPM */; };
 		E5AD93832C520C940080FB16 /* ReturnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AD93822C520C940080FB16 /* ReturnView.swift */; };
+		E5D672C02C5687BC00E6CF26 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D672BF2C5687BC00E6CF26 /* HistoryViewController.swift */; };
+		E5D672C22C56913F00E6CF26 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D672C12C56913F00E6CF26 /* HistoryView.swift */; };
 		E705A1322C51E3470094BD55 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E705A1312C51E3470094BD55 /* Alamofire */; };
 		E705A1352C51E38A0094BD55 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E705A1342C51E38A0094BD55 /* NetworkManager.swift */; };
 		E705A1372C51E3A40094BD55 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E705A1362C51E3A40094BD55 /* SearchMapView.swift */; };
@@ -56,8 +58,8 @@
 		43C880BA2C4E46DC00985151 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		43C880BC2C4E7BE300985151 /* BagelFatOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BagelFatOne-Regular.ttf"; sourceTree = "<group>"; };
 		43C880BD2C4E7BE300985151 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
-		43DF1A772C4F923500E6C7C1 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
-		43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		43DF1A772C4F923500E6C7C1 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		43DF1A792C4F92AF00E6C7C1 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		6B0715FA2C4E051A00B1605D /* KickboardApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickboardApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B0715FD2C4E051A00B1605D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,8 @@
 		E519AC472C5197E6009D6A54 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
 		E51B40922C50C0BE005F223A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = KickboardApp/View/MapView/MapView.swift; sourceTree = SOURCE_ROOT; };
 		E5AD93822C520C940080FB16 /* ReturnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnView.swift; sourceTree = "<group>"; };
+		E5D672BF2C5687BC00E6CF26 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryViewController.swift; path = KickboardApp/View/HistoryView/HistoryViewController.swift; sourceTree = SOURCE_ROOT; };
+		E5D672C12C56913F00E6CF26 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		E705A1342C51E38A0094BD55 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E705A1362C51E3A40094BD55 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		E705A1382C51E3DB0094BD55 /* SearchedAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedAddressModel.swift; sourceTree = "<group>"; };
@@ -191,7 +195,8 @@
 				E72182FB2C4E33100050A6F0 /* LoginViewController.swift */,
 				E72182FD2C4E33600050A6F0 /* SignUpViewController.swift */,
 				E72182FF2C4E336F0050A6F0 /* ReturnViewController.swift */,
-				43DF1A772C4F923500E6C7C1 /* HistoryViewController.swift */,
+				43DF1A772C4F923500E6C7C1 /* MyPageViewController.swift */,
+				E5D672BF2C5687BC00E6CF26 /* HistoryViewController.swift */,
 				6B0716532C4FF57400B1605D /* ModalViewController.swift */,
 			);
 			path = Controller;
@@ -245,7 +250,8 @@
 		E77D47272C56705800D9347B /* HistoryView */ = {
 			isa = PBXGroup;
 			children = (
-				43DF1A792C4F92AF00E6C7C1 /* HistoryView.swift */,
+				E5D672C12C56913F00E6CF26 /* HistoryView.swift */,
+				43DF1A792C4F92AF00E6C7C1 /* MyPageView.swift */,
 				43DF1A7D2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift */,
 			);
 			path = HistoryView;
@@ -345,6 +351,7 @@
 				E77D471F2C54B68D00D9347B /* UIViewControllerExtension.swift in Sources */,
 				E705A1352C51E38A0094BD55 /* NetworkManager.swift in Sources */,
 				6B0716592C500DD200B1605D /* PromotionHalfModalView.swift in Sources */,
+				E5D672C22C56913F00E6CF26 /* HistoryView.swift in Sources */,
 				E51B40932C50C0BE005F223A /* MapView.swift in Sources */,
 				6B0716562C4FFBC800B1605D /* PayHalfModalView.swift in Sources */,
 				E72182FE2C4E33600050A6F0 /* SignUpViewController.swift in Sources */,
@@ -357,6 +364,7 @@
 				E72183502C4F77080050A6F0 /* MainTabbarController.swift in Sources */,
 				E77D47262C55349F00D9347B /* AlertImageView.swift in Sources */,
 				E721831C2C4E3BB20050A6F0 /* Kickboards+CoreDataProperties.swift in Sources */,
+				E5D672C02C5687BC00E6CF26 /* HistoryViewController.swift in Sources */,
 				E721831D2C4E3BB20050A6F0 /* Users+CoreDataClass.swift in Sources */,
 				E705A1372C51E3A40094BD55 /* SearchMapView.swift in Sources */,
 				43DF1A7E2C4F9C0900E6C7C1 /* HistoryTableViewCell.swift in Sources */,
@@ -374,8 +382,8 @@
 				E77D47212C54EBFF00D9347B /* MapButtonModel.swift in Sources */,
 				E705A1392C51E3DB0094BD55 /* SearchedAddressModel.swift in Sources */,
 				E72182FC2C4E33100050A6F0 /* LoginViewController.swift in Sources */,
-				43DF1A782C4F923500E6C7C1 /* HistoryViewController.swift in Sources */,
-				43DF1A7A2C4F92AF00E6C7C1 /* HistoryView.swift in Sources */,
+				43DF1A782C4F923500E6C7C1 /* MyPageViewController.swift in Sources */,
+				43DF1A7A2C4F92AF00E6C7C1 /* MyPageView.swift in Sources */,
 				6B0716002C4E051A00B1605D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

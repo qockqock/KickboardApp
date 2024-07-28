@@ -17,13 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         // UserDefaults에 데이터가 있을 경우 자동로그인
-        if UserDefaults.standard.string(forKey: "currentUserEmail") != nil {
-            window.rootViewController = MainTabbarController()
-        } else {
-            window.rootViewController = UINavigationController(rootViewController: LoginViewController())
-        }
+//        if UserDefaults.standard.string(forKey: "currentUserEmail") != nil {
+//            window.rootViewController = MainTabbarController()
+//        } else {
+//            window.rootViewController = UINavigationController(rootViewController: LoginViewController())
+//        }
         
-//        window.rootViewController = MainTabbarController()
+        window.rootViewController = HistoryViewController()
         window.makeKeyAndVisible()
         
         self.window = window
