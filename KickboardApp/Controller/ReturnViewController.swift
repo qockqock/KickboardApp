@@ -116,7 +116,7 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             let currentDate = Date()
             let useTime = self?.timerModel.formatTime() ?? "00:00:00"
             let fee = self?.timerModel.calculateFare() ?? 0
-            let formattedFee = self?.timerModel.formatNumber(fee) ?? "0"
+//            let formattedFee = self?.timerModel.formatNumber(fee) ?? "0" - DS
             let kickboardId = UUID() // UUID 생성
             let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") ?? "unknownUserEmail"
             
@@ -124,7 +124,8 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             let values: [String: Any] = [
                 RideData.Key.date: currentDate,
                 RideData.Key.distance: useTime,
-                RideData.Key.fee: formattedFee,
+//                RideData.Key.fee: formattedFee, - DS
+                RideData.Key.fee: fee,
                 RideData.Key.kickboardId: kickboardId,
                 RideData.Key.email: currentUserEmail
             ]
@@ -133,14 +134,6 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             self?.coreDataManager.create(entityType: RideData.self, values: values)
             print("rideData 저장 완료")
         })
-        
-//        let alert = UIAlertController(title: "결제완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-//            self?.resetValues()
-//            self?.dismiss(animated: true, completion: nil)
-//        }
-//        alert.addAction(okAction)
-//        present(alert, animated: true, completion: nil)
     }
     
     private func resetValues() {
