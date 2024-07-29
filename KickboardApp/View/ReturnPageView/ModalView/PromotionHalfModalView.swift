@@ -12,6 +12,25 @@ import SwiftUI
 class PromotionHalfModalView: UIView {
     
     // MARK: -  쿠폰 뷰 내 요소들 선언 (사용 전) - DS
+    private let couponBoxLabel: UILabel = {
+        let label = UILabel()
+        label.text = "쿠폰함"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.black
+        return label
+    }()
+    
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 10
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 10
+        return view
+    }()
+    
     private let discountLabel: UILabel = {
         let label = UILabel()
         label.text = "1,000원 할인"
@@ -52,7 +71,7 @@ class PromotionHalfModalView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = .clear
         configureUI()
     }
     
@@ -61,15 +80,23 @@ class PromotionHalfModalView: UIView {
     }
     
     private func configureUI() {
-        // 테두리 생성
-        layer.cornerRadius = 10
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.1
-        layer.shadowOffset = CGSize(width: 0, height: 2)
-        layer.shadowRadius = 10
+        addSubview(couponBoxLabel)
+        addSubview(containerView)
+        
+        // SnapKit을 사용하여 couponBoxLabel 제약 조건 설정
+        couponBoxLabel.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(-40)
+            $0.leading.equalToSuperview().offset(16)
+        }
+        
+        // SnapKit을 사용하여 containerView 제약 조건 설정
+        containerView.snp.makeConstraints {
+            $0.top.equalTo(couponBoxLabel.snp.bottom).offset(10)
+            $0.leading.trailing.bottom.equalToSuperview().inset(10)
+        }
         
         [discountLabel, tagsLabel, descriptionLabel, getCouponsButton].forEach {
-            self.addSubview($0)
+            containerView.addSubview($0)
         }
         
         // SnapKit을 사용하여 제약 조건 설정

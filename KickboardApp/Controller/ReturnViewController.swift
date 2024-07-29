@@ -9,14 +9,19 @@ import UIKit
 import SnapKit
 import CoreData
 
+protocol ReturnViewControllerDelegate: AnyObject {
+    func didUseCoupon(amount: Int)
+}
+
 class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfModalViewControllerDelegate {
     
     static let timer = ReturnViewController()
     
-    private let returnView = ReturnView()
+    let returnView = ReturnView()
     private let timerModel = TimerModel()
     
     private let coreDataManager = CoreDataManager.shared
+    weak var delegate: ReturnViewControllerDelegate?
     
     var container: NSPersistentContainer!
     
@@ -106,16 +111,23 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
     @objc
     private func payButtonTapped() {
         self.alertManager(title: "결제완료", message: "결제가 완료되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
-            self?.resetValues()
-            self?.dismiss(animated: true, completion: nil)
-            if let tabBarController = self?.tabBarController as? MainTabbarController {
+            guard let self = self else { return }
+            self.resetValues()
+            self.dismiss(animated: true, completion: nil)
+            if let tabBarController = self.tabBarController as? MainTabbarController {
                 tabBarController.selectedIndex = 1
+            }
+            
+            // MapViewController 인스턴스 참조 및 버튼 상태 초기화
+            if let mapViewController = tabBarController!.viewControllers?.first(where: { $0 is MapViewController }) as? MapViewController {
+                mapViewController.selectedPoi = nil
+                mapViewController.updateStopReturnButtonState()
             }
             
             // MARK: - 현재 날짜와 이용시간, 이용금액, 킥보드ID, 현재 사용자 이메일 가져오기 - YJ
             let currentDate = Date()
-            let useTime = self?.timerModel.formatTime() ?? "00:00:00"
-            let fee = self?.timerModel.calculateFare() ?? 0
+            let useTime = self.timerModel.formatTime() ?? "00:00:00"
+            let fee = self.timerModel.calculateFare() ?? 0
 //            let formattedFee = self?.timerModel.formatNumber(fee) ?? "0" - DS
             let kickboardId = UUID() // UUID 생성
             let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") ?? "unknownUserEmail"
@@ -131,7 +143,7 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             ]
             
             // RideData 저장
-            self?.coreDataManager.create(entityType: RideData.self, values: values)
+            self.coreDataManager.create(entityType: RideData.self, values: values)
             print("rideData 저장 완료")
         })
     }

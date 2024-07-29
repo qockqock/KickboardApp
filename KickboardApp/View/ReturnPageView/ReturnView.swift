@@ -21,22 +21,22 @@ class ReturnView: UIView {
     }
     
     // MARK: - 이용시간, 결제금액, 프로모션, 최종 금액 관련 레이블 선언
-    private lazy var usageTimeLabel = createLabel("이용시간:", 16)
-    private lazy var paymentAmountLabel = createLabel("결제금액:", 16)
-    private lazy var promotionLabel = createLabel("프로모션:", 16)
+    private lazy var usageTimeLabel = createLabel("이용시간", 16)
+    private lazy var paymentAmountLabel = createLabel("결제금액", 16)
+    private lazy var promotionLabel = createLabel("프로모션", 16)
     private lazy var totalAmountLabel = createLabel("최종금액", 24)
     
     lazy var usageTimeValueLabel = createLabel("00:00:00", 16)
-    lazy var paymentAmountValueLabel = createLabel("1,500원", 16)
-    lazy var promotionValueLabel = createLabel("-0원", 16)
-    lazy var totalAmountValueLabel = createLabel("", 24)
+    lazy var paymentAmountValueLabel = createLabel("0원", 16)
+    lazy var promotionValueLabel = createLabel("0원", 16)
+    lazy var totalAmountValueLabel = createLabel("0원", 24)
     
     // MARK: - 결제수단, 프로모션, 결제하기관련 버튼 관련
     public lazy var paymentMethodDetailButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제수단", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .twPurple.withAlphaComponent(0.5)
+        button.backgroundColor = .systemPurple
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button
@@ -55,10 +55,19 @@ class ReturnView: UIView {
     public lazy var payButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제하기", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = .twPurple
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
+        button.isEnabled = false // 처음에는 비활성화
         return button
+    }()
+    
+    // MARK: - 상단 이미지
+    private let topImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "kickKeyKick")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -73,9 +82,23 @@ class ReturnView: UIView {
     }
     
     private func configureUI() {
+        setupTopImageView()
         setupTopContainerView()
         setupBottomContainerView()
         setupPayButton()
+    }
+    
+    // MARK: - 상단 이미지 뷰 설정
+    private func setupTopImageView() {
+        self.addSubview(topImageView)
+        
+        topImageView.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(20)
+//            $0.width.equalTo(496)
+//            $0.height.equalTo(56)
+        }
     }
 
     // MARK: - 상단 컨테이너 뷰 설정 (이용시간, 결제금액, 프로모션)
@@ -89,7 +112,7 @@ class ReturnView: UIView {
         self.addSubview(topContainerView)
         
         topContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(topImageView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(150)
         }
@@ -152,7 +175,7 @@ class ReturnView: UIView {
         self.addSubview(bottomContainerView)
         
         bottomContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.subviews[0].snp.bottom).offset(20)
+            $0.top.equalTo(self.subviews[1].snp.bottom).offset(20) // 상단 이미지뷰 추가 후 인덱스 변경
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -163,16 +186,16 @@ class ReturnView: UIView {
     private func setupBottomContainerViewConstraints(container: UIView) {
         paymentMethodDetailButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(80)
-            $0.width.equalTo(340)
+            $0.width.equalTo(356)
         }
         
         promotionDetailButton.snp.makeConstraints {
             $0.top.equalTo(paymentMethodDetailButton.snp.bottom).offset(15)
-            $0.trailing.equalTo(paymentMethodDetailButton)
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(80)
-            $0.width.equalTo(340)
+            $0.width.equalTo(356)
         }
         
         totalAmountLabel.snp.makeConstraints {
@@ -195,9 +218,10 @@ class ReturnView: UIView {
         self.addSubview(payButton)
         
         payButton.snp.makeConstraints {
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(64)
-            $0.bottom.equalToSuperview().inset(20)
+            $0.width.equalTo(180)
+            $0.height.equalTo(50)
         }
     }
 

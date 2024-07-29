@@ -65,7 +65,9 @@ class PromotionHalfModalViewController: UIViewController {
     
     private let promotionHalfModalView = PromotionHalfModalView()
     weak var delegate: PromotionHalfModalViewControllerDelegate? // 델리게이트 추가
+    weak var delegate2: ReturnViewControllerDelegate?
     private let timerModel = TimerModel()
+    private let returnView = ReturnView()
     
     // ReturnView를 초기화하는 생성자 추가
     init() {
@@ -79,7 +81,7 @@ class PromotionHalfModalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
+        delegate = ReturnViewController.timer
         promotionHalfModalView.getCouponsButton.addTarget(self, action: #selector(promotionButtonTapped), for: .touchUpInside)
     }
     
@@ -102,18 +104,23 @@ class PromotionHalfModalViewController: UIViewController {
     // 쿠폰사용 버튼액션
     @objc
     private func promotionButtonTapped() {
-        self.alertManager(title: "사용완료", message: "쿠폰이 사용되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
-            // 쿠폰 금액
-            let promotionAmount = 1000
-            self?.delegate?.didUseCoupon(amount: promotionAmount)
-            self?.dismiss(animated: true, completion: nil)
-        })
-        
-//        let alert = UIAlertController(title: "사용완료", message: "쿠폰이 사용되었습니다.", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "확인", style: .default, handler:
-//        alert.addAction(okAction)
-//        present(alert, animated: true, completion: nil)
+        // 쿠폰사용 버튼액션
+        // payButton의 활성화 상태 확인
+        if ReturnViewController.timer.returnView.payButton.isEnabled == true {
+            // payButton이 활성화된 경우, 프로모션 및 결제수단 창 활성화
+            self.alertManager(title: "사용완료", message: "쿠폰이 사용되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
+                // 쿠폰 금액
+                let promotionAmount = 1000
+                self?.delegate?.didUseCoupon(amount: promotionAmount)
+                self?.dismiss(animated: true, completion: nil)
+            })
+        } else {
+            // payButton이 비활성화된 경우, 프로모션 및 결제수단 창 비활성화
+            self.alertManager(title: "알림", message: "쿠폰 사용이 불가능합니다.", confirmTitles: "확인", confirmActions: { _ in
+            })
+        }
     }
+    
     
     @objc private func dismissModal() {
         self.dismiss(animated: true, completion: nil)

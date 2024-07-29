@@ -193,17 +193,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         })
     }
     
-    
-//    //   좌표모델.
-//    private func generateRandomPoiPositions() {
-//        let numberOfPois = 50
-//        poiPositions = (0..<numberOfPois).map { _ in
-//            let longitude = Double.random(in: 126.910...126.916)
-//            let latitude = Double.random(in: 37.545...37.551)
-//            return MapPoint(longitude: longitude, latitude: latitude)
-//        }
-//    }
-    
     //MARK: - 현재 위치 파악
     private func setupMyLocationButton() {
         guard let myLocationButton = mapView?.myLocationButton else {
@@ -222,8 +211,13 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         updateStopReturnButtonState()
     }
     
-    private func updateStopReturnButtonState() { // poi버튼이 선택된 상황인지에 따른
+    func updateStopReturnButtonState() { // poi버튼이 선택된 상황인지에 따른
         mapView?.stopReturnButton.isEnabled = (selectedPoi != nil)
+        if selectedPoi != nil {
+            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#864aee")
+        } else {
+            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#454545")
+        }
     }
     private func deselectCurrentPoi() {
         if let poi = selectedPoi {
@@ -287,7 +281,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             }
             buttonState = .designated
             
-            mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
             ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
             
             // 대여 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ
@@ -606,6 +599,9 @@ extension MapViewController: KakaoMapEventDelegate {
         // Stop/Return 버튼 상태 업데이트
         updateStopReturnButtonState()
         
+        // poi 카메라 이동 - sh
+        moveCameraToPoi(poi)
+        
 //        // 현재 로그인한 유저의 ID 가져오기
 //            guard let currentUserIdString = UserDefaults.standard.string(forKey: "currentUserId"),
 //                  let currentUserId = UUID(uuidString: currentUserIdString) else {
@@ -637,6 +633,14 @@ extension MapViewController: KakaoMapEventDelegate {
         labelManager.removeLabelLayer(layerID: "poiLayer")
         
         createLabelLayer()
+    }
+    
+    // poi로 카메라 이동하는 메서드 - sh
+    private func moveCameraToPoi(_ poi: Poi) {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let position = poi.position
+        let cameraUpdate = CameraUpdate.make(target: position, zoomLevel: 15, mapView: mapView)
+        mapView.moveCamera(cameraUpdate)
     }
 }
 
