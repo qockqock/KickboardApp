@@ -292,7 +292,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
             }
             buttonState = .designated
             
-            mapView?.stopReturnButton.setTitle("반납하기", for: .normal) // 버튼 제목 변경
             ReturnViewController.timer.startTimer() // ReturnViewController의 타이머 시작
             
             // 대여 버튼이 클릭되면 마이페이지 레이블 텍스트 변경 - YJ

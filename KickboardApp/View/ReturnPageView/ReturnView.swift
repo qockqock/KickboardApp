@@ -36,7 +36,7 @@ class ReturnView: UIView {
         let button = UIButton()
         button.setTitle("결제수단", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .systemPurple.withAlphaComponent(0.5)
+        button.backgroundColor = .systemPurple
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button
@@ -55,8 +55,8 @@ class ReturnView: UIView {
     public lazy var payButton: UIButton = {
         let button = UIButton()
         button.setTitle("결제하기", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = .systemPurple
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        button.backgroundColor = .twPurple
         button.layer.cornerRadius = 10
         button.isEnabled = false // 처음에는 비활성화
         return button
