@@ -193,17 +193,6 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         })
     }
     
-    
-//    //   좌표모델.
-//    private func generateRandomPoiPositions() {
-//        let numberOfPois = 50
-//        poiPositions = (0..<numberOfPois).map { _ in
-//            let longitude = Double.random(in: 126.910...126.916)
-//            let latitude = Double.random(in: 37.545...37.551)
-//            return MapPoint(longitude: longitude, latitude: latitude)
-//        }
-//    }
-    
     //MARK: - 현재 위치 파악
     private func setupMyLocationButton() {
         guard let myLocationButton = mapView?.myLocationButton else {
@@ -227,7 +216,7 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         if selectedPoi != nil {
             mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#864aee")
         } else {
-            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#787878")
+            mapView?.stopReturnButton.backgroundColor = UIColor(hex: "#454545")
         }
     }
     private func deselectCurrentPoi() {

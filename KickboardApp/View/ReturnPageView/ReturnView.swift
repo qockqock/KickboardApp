@@ -57,7 +57,7 @@ class ReturnView: UIView {
         button.setTitle("결제하기", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = .twPurple
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
         button.isEnabled = false // 처음에는 비활성화
         return button
     }()
