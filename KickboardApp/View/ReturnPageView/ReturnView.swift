@@ -95,8 +95,9 @@ class ReturnView: UIView {
         topImageView.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).offset(20)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(480)
-            $0.height.equalTo(56)
+            $0.leading.trailing.equalToSuperview().inset(20)
+//            $0.width.equalTo(496)
+//            $0.height.equalTo(56)
         }
     }
 
@@ -185,16 +186,16 @@ class ReturnView: UIView {
     private func setupBottomContainerViewConstraints(container: UIView) {
         paymentMethodDetailButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(80)
-            $0.width.equalTo(340)
+            $0.width.equalTo(356)
         }
         
         promotionDetailButton.snp.makeConstraints {
             $0.top.equalTo(paymentMethodDetailButton.snp.bottom).offset(15)
-            $0.trailing.equalTo(paymentMethodDetailButton)
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(80)
-            $0.width.equalTo(340)
+            $0.width.equalTo(356)
         }
         
         totalAmountLabel.snp.makeConstraints {
