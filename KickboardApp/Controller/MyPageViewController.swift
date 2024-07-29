@@ -108,6 +108,7 @@ class MyPageViewController: UIViewController, MapViewControllerDelegate {
         CoreDataManager.shared.delete(entityType: Users.self, predicate: predicate)
     }
 
+    // MARK: - 부가정보 수정 버튼 - YJ
     @objc private func phoneChangeButtonTapped() {
         showEditAlert(
             title: "휴대폰 번호를 입력하세요.",
@@ -173,7 +174,6 @@ extension MyPageViewController {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         
         alertController.addTextField { textField in
-             // 기본값을 설정하지 않고 빈 상태로 만듭니다.
              textField.text = ""
              textField.placeholder = placeholder
         }
@@ -191,4 +191,3 @@ extension MyPageViewController {
         present(alertController, animated: true, completion: nil)
     }
 }
-

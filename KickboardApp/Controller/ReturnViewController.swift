@@ -105,6 +105,18 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
     // 결제 버튼 클릭시 이벤트 - DS
     @objc
     private func payButtonTapped() {
+        // 총 금액 업데이트
+        updateTotalAmount()
+        
+        // 최종 금액 계산
+        let paymentText = returnView.paymentAmountValueLabel.text ?? "0원"
+        let promotionText = returnView.promotionValueLabel.text ?? "-0원"
+        
+        let paymentAmount = Int(paymentText.replacingOccurrences(of: "원", with: "").replacingOccurrences(of: ",", with: "")) ?? 0
+        let promotionAmount = Int(promotionText.replacingOccurrences(of: "원", with: "").replacingOccurrences(of: "-", with: "").replacingOccurrences(of: ",", with: "")) ?? 0
+        
+        let finalAmount = paymentAmount - promotionAmount
+        
         self.alertManager(title: "결제완료", message: "결제가 완료되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
             guard let self = self else { return }
             self.resetValues()
@@ -121,9 +133,7 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             
             // MARK: - 현재 날짜와 이용시간, 이용금액, 킥보드ID, 현재 사용자 이메일 가져오기 - YJ
             let currentDate = Date()
-            let useTime = self.timerModel.formatTime() ?? "00:00:00"
-            let fee = self.timerModel.calculateFare() ?? 0
-//            let formattedFee = self?.timerModel.formatNumber(fee) ?? "0" - DS
+            let useTime = self.timerModel.formatTime()
             let kickboardId = UUID() // UUID 생성
             let currentUserEmail = UserDefaults.standard.string(forKey: "currentUserEmail") ?? "unknownUserEmail"
             
@@ -131,8 +141,7 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
             let values: [String: Any] = [
                 RideData.Key.date: currentDate,
                 RideData.Key.distance: useTime,
-//                RideData.Key.fee: formattedFee, - DS
-                RideData.Key.fee: fee,
+                RideData.Key.fee: NSNumber(value: finalAmount),
                 RideData.Key.kickboardId: kickboardId,
                 RideData.Key.email: currentUserEmail
             ]

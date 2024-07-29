@@ -30,6 +30,7 @@ class HistoryView: UIView {
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         tableView.backgroundColor = .systemGray6
         tableView.alpha = 1.0 // 테이블 뷰의 투명도 설정 예시
+        tableView.layer.cornerRadius = 20
         return tableView
     }()
     
