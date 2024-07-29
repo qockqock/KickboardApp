@@ -9,14 +9,19 @@ import UIKit
 import SnapKit
 import CoreData
 
+protocol ReturnViewControllerDelegate: AnyObject {
+    func didUseCoupon(amount: Int)
+}
+
 class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfModalViewControllerDelegate {
     
     static let timer = ReturnViewController()
     
-    private let returnView = ReturnView()
+    let returnView = ReturnView()
     private let timerModel = TimerModel()
     
     private let coreDataManager = CoreDataManager.shared
+    weak var delegate: ReturnViewControllerDelegate?
     
     var container: NSPersistentContainer!
     
