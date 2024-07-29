@@ -103,10 +103,10 @@ class PromotionHalfModalViewController: UIViewController {
     // 쿠폰사용 버튼액션
     @objc
     private func promotionButtonTapped() {
-        // 프로모션 값이 0원인지 확인
-        guard let paymentAmountValueText = self.returnView.paymentAmountValueLabel.text, paymentAmountValueText != "0원" else {
-            return
-        }
+//        // 프로모션 값이 0원인지 확인
+//        guard let paymentAmountValueText = self.returnView.paymentAmountValueLabel.text, paymentAmountValueText != "0원" else {
+//            return
+//        }
         
         self.alertManager(title: "사용완료", message: "쿠폰이 사용되었습니다.", confirmTitles: "확인", confirmActions: { [weak self] _ in
             // 쿠폰 금액
