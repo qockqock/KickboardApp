@@ -80,6 +80,8 @@ class MapViewController: UIViewController, MapControllerDelegate  {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
+        // 키보드 숨기기 설정
+        self.hideKeyboard()
     }
     
     

@@ -31,6 +31,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         signUpView.userPassWordText.delegate = self
         signUpView.userPassWordCheckText.delegate = self
         printAllUsers()
+        // 키보드 숨기기 설정
+        self.hideKeyboard()
     }
     
     // MARK: - 유저의 이메일을 확인하는란

@@ -53,6 +53,9 @@ class ReturnViewController: UIViewController, TimerModelDelegate, PromotionHalfM
         // 타이머 관련 추가 - DS ( 앱 상태 변화 감지 )
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        // 키보드 숨기기 설정
+        self.hideKeyboard()
     }
     
     // 타이머 시작 코드
