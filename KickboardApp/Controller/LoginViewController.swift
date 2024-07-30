@@ -26,6 +26,9 @@ class LoginViewController: UIViewController {
         
         loginView.loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         loginView.signUpButton.addTarget(self, action: #selector(signUpbuttonTapped), for: .touchUpInside)
+        
+        // 키보드 숨기기 설정
+        self.hideKeyboard()
     }
     
     // 디버깅용
@@ -110,3 +113,12 @@ class LoginViewController: UIViewController {
     }
 }
 
+extension UIViewController {
+  func hideKeyboard() {
+    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+    view.addGestureRecognizer(tap)
+  }
+  @objc func dismissKeyboard() {
+    view.endEditing(true)
+  }
+}
